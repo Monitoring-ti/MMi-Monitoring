@@ -1,0 +1,131 @@
+Manual de Diseño Técnico: Pipeline de Ingesta Programática y Motor RAG MMI
+
+1. Resumen de la Capa de Inteligencia MMI
+
+La capa de inteligencia MMI (Monitoring Maintenance Intelligence) se posiciona como una "Memoria Técnica" de grado industrial, diseñada para orquestar conocimiento sobre sistemas EAM/CMMS existentes sin desplazarlos. Su función estratégica no es transaccional, sino analítica: actúa como un puente que desbloquea el valor de la información histórica sepultada en silos documentales. Bajo el pilar de asistencia no autónoma, el motor RAG MMI está diseñado para proporcionar recomendaciones basadas estrictamente en evidencia documental y técnica, mitigando el riesgo operativo al prohibir la ejecución autónoma de cambios en los activos. Cada sugerencia generada es un "Insight Accionable" que requiere la validación de un experto humano. Esta arquitectura garantiza que la toma de decisiones críticas en sectores como minería y energía se fundamente en una trazabilidad absoluta y una integridad de datos inquebrantable, comenzando por una ingesta técnica rigurosa.
+
+2. Fuentes de Datos y Protocolos de Extracción Programática
+
+Para evitar el "impuesto cognitivo" —la ineficiencia derivada de la fragmentación de datos y la pérdida de contexto estructural—, la extracción debe ser fiel a la jerarquía original del documento.
+
+2.1. Gestión de Hojas de Cálculo (XLSX/XLS)
+
+Las hojas de cálculo industriales contienen relaciones semánticas críticas entre filas y columnas.
+
+* Extracción Fila por Fila: Se debe implementar una lógica que convierta los datos a formato Markdown tabular estricto.
+* Preservación de Estructura: Es imperativo mantener las celdas vacías (null) y repetir las cabeceras en cada chunk.
+* Ejemplo de Formato: | Component_ID | Failure_Code | Last_Service_Date | Status | | COMP-101     | F-204         | 2023-10-12        | null   |
+* Impacto: Mantener esta estructura es vital para que el motor de búsqueda recupere con exactitud identificadores de parte y códigos de falla sin ambigüedades.
+
+2.2. Procesamiento de PDF y PowerPoint (PPTX)
+
+* PDF Estructurado: Se ordena la extracción segmentada por página y sección técnica. Si el motor de extracción no detecta una capa de texto digital, el pipeline debe invocar automáticamente el API de OCR para garantizar que no se pierda información de documentos escaneados o planos técnicos.
+* PPTX (Slides): Se procesará slide por slide, priorizando el título de la diapositiva como encabezado de contexto y las "speaker notes" como fuente secundaria de contexto técnico enriquecido.
+
+2.3. Integración de API OCR y Metadatos de Origen
+
+* Trazabilidad de Visión: Cualquier fragmento extraído mediante visión artificial debe registrar obligatoriamente el metadato extraction_method = ocr.
+* Registro Forense: Cada unidad de información debe vincularse a su source_file_id, asegurando que el técnico pueda saltar del fragmento de texto al binario original en milisegundos.
+
+3. Pipeline de Procesamiento, Concurrencia y Versionado Lógico
+
+La integridad histórica de la memoria técnica industrial depende de un control de cambios exhaustivo y una ejecución eficiente.
+
+* Detección de Cambios (SHA-256): El sistema debe generar un hash sobre el binario del archivo. Si el binario es idéntico, se aborta el procesamiento para evitar redundancia de embeddings.
+* Control de Concurrencia Asíncrona: El pipeline debe gestionar colas de procesamiento para respetar los rate limits de los modelos de embeddings, garantizando que ingestas masivas no degraden la latencia de consulta del sistema en producción.
+* Versionado Lógico: Se prohíbe el borrado físico de registros por ID de archivo. Se implementará un versionado basado en el flag is_current y el campo modified_at. Al detectar una actualización, la versión anterior se marca como obsoleta pero se conserva para auditorías forenses, permitiendo reconstruir el estado de conocimiento del sistema en una fecha específica.
+
+4. Estrategia de Chunking Adaptativo por Dominio
+
+El chunking genérico compromete la seguridad operativa. La segmentación debe respetar la unidad lógica del contenido técnico para evitar recomendaciones peligrosas.
+
+Tipo de Documento	Tamaño del Chunk (Tokens)	Overlap (Tokens)	Regla Crítica
+Manuales OEM	800 - 1200	100	Preservar secciones técnicas completas y especificaciones de tolerancia.
+SOP / Procedimientos	500 - 800	120	Prohibido fragmentar advertencias de seguridad o precondiciones.
+Tablas y Slides	Entidad Única	N/A	Un chunk por tabla/slide, repitiendo metadatos en el vector.
+
+Análisis de Valor: Fragmentar un procedimiento de mantenimiento separando una advertencia de seguridad de su paso operativo correspondiente puede inducir a errores fatales. La preservación de la unidad operativa es un requisito de seguridad industrial, no una preferencia técnica.
+
+5. Modelo de Datos en Supabase (Postgres + pgvector)
+
+Se requiere aislamiento total de datos mediante Row Level Security (RLS) basado en tenant_id y una separación física de la memoria documental y conversacional.
+
+Esquema DDL de Grado Industrial
+
+-- Habilitar extensión necesaria para UUID y vectores
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS vector;
+
+-- Tabla de Documentos con Versionado Forense
+CREATE TABLE documents (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL,
+    file_name TEXT NOT NULL,
+    file_hash TEXT UNIQUE NOT NULL, -- SHA-256
+    version_number INT DEFAULT 1,
+    is_current BOOLEAN DEFAULT true,
+    modified_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    metadata_raw JSONB
+);
+
+-- Tabla de Fragmentos (Chunks)
+CREATE TABLE document_chunks (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    document_id UUID REFERENCES documents(id),
+    content TEXT NOT NULL,
+    embedding vector(1536), -- Dimensión para text-embedding-3-small
+    extraction_method TEXT DEFAULT 'text', -- 'text' o 'ocr'
+    chunk_metadata JSONB
+);
+
+-- Tabla de Activos con Nivel de Criticidad (AC)
+CREATE TABLE assets (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL,
+    asset_code TEXT NOT NULL,
+    criticality_level TEXT CHECK (criticality_level IN ('Crítico Alto', 'Medio', 'Bajo')),
+    description TEXT
+);
+
+-- Separación de Memoria Conversacional
+CREATE TABLE chat_sessions (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    tenant_id UUID NOT NULL,
+    user_id UUID,
+    started_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+CREATE TABLE chat_messages (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    session_id UUID REFERENCES chat_sessions(id),
+    tenant_id UUID NOT NULL,
+    role TEXT CHECK (role IN ('user', 'assistant')),
+    content TEXT NOT NULL,
+    evidence_links JSONB, -- Referencias a chunks específicos
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+
+6. Motor de Consulta (Retrieval) y Protocolo de Seguridad CoVe
+
+El motor de consulta debe priorizar la precisión absoluta sobre la fluidez creativa. Una alucinación en un diagnóstico de activos críticos puede derivar en pérdidas millonarias o riesgos de vida.
+
+* Búsqueda Híbrida (Vector + Full-Text): Se debe implementar la combinación de búsqueda semántica (pgvector) con tsvector y tsquery de PostgreSQL. Esto asegura que la recuperación de códigos de parte exactos sea infalible, mientras que la semántica captura la intención del diagnóstico.
+* Priorización por Criticidad: Las consultas deben ponderar los resultados basándose en el criticality_level del activo involucrado, priorizando evidencia de activos "Crítico Alto" en el contexto de recuperación.
+* Niveles de Evidencia: El LLM debe etiquetar cada respuesta:
+  1. supported: Evidencia directa en documentos vigentes.
+  2. partial: Información relacionada pero requiere inferencia.
+  3. not_found: Sin soporte documental.
+  4. conflict: Estado crítico. Si hay contradicción entre documentos, el sistema debe bloquear cualquier "Insight" y disparar una solicitud automática de revisión técnica.
+* Filtro CoVe (Validación Humana): Obligatorio. Ninguna recomendación es accionable sin la aprobación explícita de un supervisor en el panel operativo.
+
+Métricas de Éxito del MVP
+
+Métrica	Objetivo
+Recuperación de Términos Exactos (Códigos)	>= 95%
+Trazabilidad de Citas (Chunks correctos)	100%
+Error de Aislamiento Tenant (RLS)	0%
+Rechazo correcto ante falta de evidencia	>= 90%
+
+Este manual establece la base para transformar silos de información estática en una inteligencia operativa robusta, garantizando seguridad, trazabilidad y precisión industrial en cada consulta.

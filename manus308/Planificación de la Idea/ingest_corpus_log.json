@@ -1,0 +1,449 @@
+[
+  {
+    "archivo": "20180430 Documento SOMA (1).pdf",
+    "estado": "indexado",
+    "document_id": "624dfa1f-d261-49a7-8acb-9c724ef7c0fe",
+    "chunks": 103,
+    "tokens": 74242,
+    "sha256": "ec44f3d6f8be"
+  },
+  {
+    "archivo": "Anexo C Check List SGP-07MYC-GUIGS-00001.xlsx",
+    "estado": "duplicado",
+    "document_id": "fee4f9dc-73b9-4406-80b9-c3ecec216d68",
+    "chunks": 0,
+    "sha256": "24c4a9d7dcca"
+  },
+  {
+    "archivo": "Anexos SGP-07MYC-GUIGS-00001 rev 4.docx",
+    "estado": "indexado",
+    "document_id": "27264af9-d995-488a-9894-e8ff9f13f3d8",
+    "chunks": 46,
+    "tokens": 40224,
+    "sha256": "f111d39cc1d6"
+  },
+  {
+    "archivo": "Capacitación NCC-30 2023 rev Interna 5.pptx",
+    "estado": "indexado",
+    "document_id": "34e09aaf-672a-4c2c-a229-f46dc16a3043",
+    "chunks": 37,
+    "tokens": 6813,
+    "sha256": "e87e5e8b02e3"
+  },
+  {
+    "archivo": "Etapa de Ejecucion.pdf",
+    "estado": "indexado",
+    "document_id": "daa78bd1-5d40-43dd-8244-aa6979954dbc",
+    "chunks": 1,
+    "tokens": 375,
+    "sha256": "7ef45d71a4f3"
+  },
+  {
+    "archivo": "Etapa de Ejecucion.pptx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "3b399c125c76"
+  },
+  {
+    "archivo": "FMECA MONITORING 092021 rev 1.pptx",
+    "estado": "duplicado",
+    "document_id": "c16a47dc-a563-4339-b29c-279d7dc5166a",
+    "chunks": 0,
+    "sha256": "d118ec308129"
+  },
+  {
+    "archivo": "GCM-M-001_REV00.pdf",
+    "estado": "indexado",
+    "document_id": "ee09aea1-afb8-4ec1-80cb-f0405246718d",
+    "chunks": 56,
+    "tokens": 39839,
+    "sha256": "dd4ba38cefa1"
+  },
+  {
+    "archivo": "IFC 078_REV15 28122020 (1).pdf",
+    "estado": "indexado",
+    "document_id": "c40edec2-4e63-4d62-909e-59a280042a84",
+    "chunks": 67,
+    "tokens": 42098,
+    "sha256": "281d859671be"
+  },
+  {
+    "archivo": "IMAGENES INFORME (V1).pptx",
+    "estado": "indexado",
+    "document_id": "c2491a69-4340-40ae-8a25-6a5c5adf71f4",
+    "chunks": 1,
+    "tokens": 361,
+    "sha256": "097a91b8f1b4"
+  },
+  {
+    "archivo": "LIBRO SOMA DIGITAL FINAL.pdf",
+    "estado": "error",
+    "detalle": "Unexpected EOF"
+  },
+  {
+    "archivo": "Monitoring_ Taller Capacitación FMECA.pdf",
+    "estado": "indexado",
+    "document_id": "204549c2-8536-4f80-91e0-8fddb5f29423",
+    "chunks": 13,
+    "tokens": 4254,
+    "sha256": "0db3ceba4d03"
+  },
+  {
+    "archivo": "N.I. Draft Adenda NCC30 (rev. 2.2).pdf",
+    "estado": "indexado",
+    "document_id": "6f53adce-3b2e-43ba-9ac1-c003850d22ba",
+    "chunks": 7,
+    "tokens": 4385,
+    "sha256": "162ce5d07030"
+  },
+  {
+    "archivo": "NCC-030_REV02.pdf",
+    "estado": "duplicado",
+    "document_id": "94c92653-1029-4bed-b327-d0c7b023c741",
+    "chunks": 0,
+    "sha256": "1a0d551b20e1"
+  },
+  {
+    "archivo": "Presentacion formato Entregables Rev5.pptx",
+    "estado": "indexado",
+    "document_id": "5097dc01-0a94-4e6b-a4f5-87c20605b1ef",
+    "chunks": 21,
+    "tokens": 4131,
+    "sha256": "bd0dfefec3aa"
+  },
+  {
+    "archivo": "RCM MONITORING 072021 rev 4_TE (1) (1).pptx",
+    "estado": "duplicado",
+    "document_id": "d4a4deaf-959e-4a96-b428-17e243157b0a",
+    "chunks": 0,
+    "sha256": "97ebaf6e65c8"
+  },
+  {
+    "archivo": "SGP-07MYC-CRTTC-00002 REV1.pdf",
+    "estado": "indexado",
+    "document_id": "933e8762-4e16-4614-b7e4-1b6226632361",
+    "chunks": 38,
+    "tokens": 24065,
+    "sha256": "064bce76c8b4"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001 GUIA MANTENIBILIDAD Y CONFIABILIDAD EN PROYECTOS Rev 6.pdf",
+    "estado": "duplicado",
+    "document_id": "cfa69d57-b10c-401a-b507-de536508b2f9",
+    "chunks": 0,
+    "sha256": "6dbee7dd5e23"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001 Rev 5.pdf",
+    "estado": "duplicado",
+    "document_id": "67b49edd-216e-4f78-a021-2f2b08e3495e",
+    "chunks": 0,
+    "sha256": "b0b7ed995d5f"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001_REV4.pdf",
+    "estado": "indexado",
+    "document_id": "f044c998-ffe1-486e-ac45-587a68659c4c",
+    "chunks": 89,
+    "tokens": 58963,
+    "sha256": "961ac266cc0c"
+  },
+  {
+    "archivo": "SGP-07MYC-PROGS-00009 TALLER M@C.pdf",
+    "estado": "indexado",
+    "document_id": "ca6f4ede-82cb-4643-8ae9-8be57832a40e",
+    "chunks": 6,
+    "tokens": 2229,
+    "sha256": "8b6ce0e1bd04"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0001.xlsx",
+    "estado": "indexado",
+    "document_id": "65a441e8-eb19-4254-a438-f4e0662838a7",
+    "chunks": 1,
+    "tokens": 213,
+    "sha256": "3e0011e1c77d"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0002.xlsx",
+    "estado": "indexado",
+    "document_id": "9daf1aea-3dc4-4f9d-8c4b-2127c366606c",
+    "chunks": 1,
+    "tokens": 178,
+    "sha256": "ea029f15ce95"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0003.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "99d74f04f175"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0004.xlsx",
+    "estado": "indexado",
+    "document_id": "458a6393-1900-49d5-a2e3-bb2fea308173",
+    "chunks": 2,
+    "tokens": 426,
+    "sha256": "e91970cc6721"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0005.xlsx",
+    "estado": "indexado",
+    "document_id": "ad011bf0-754b-479d-81ba-c9f4a938ac46",
+    "chunks": 1,
+    "tokens": 202,
+    "sha256": "726598c3ced3"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0006.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "a02bd2b52f45"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0007.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "c9f7a48ce612"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0008.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "093898da3dc6"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0009.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "5892c364b7d0"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0010.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "af20636c55e0"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0011.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "973543c32fe2"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0012.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "d6529e261962"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0013.docx",
+    "estado": "indexado",
+    "document_id": "02444534-9c0e-400c-8c95-3d3da48448cf",
+    "chunks": 9,
+    "tokens": 2845,
+    "sha256": "7817fcf5f731"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0014.docx",
+    "estado": "indexado",
+    "document_id": "0d2e0c2b-8460-46cf-b46e-6597450b493b",
+    "chunks": 3,
+    "tokens": 929,
+    "sha256": "9e24dfca9ee1"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0015.docx",
+    "estado": "indexado",
+    "document_id": "2d55b249-c532-4c55-9f5e-d54e9e0a4863",
+    "chunks": 8,
+    "tokens": 2588,
+    "sha256": "1dd9132f26c9"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0016.docx",
+    "estado": "indexado",
+    "document_id": "7310b519-e37d-4d44-9197-a4073bf1ee65",
+    "chunks": 4,
+    "tokens": 1172,
+    "sha256": "4a6717454049"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0017.docx",
+    "estado": "indexado",
+    "document_id": "04d8ae8e-451b-4c8d-8e56-4dec3d7ca9b8",
+    "chunks": 4,
+    "tokens": 1010,
+    "sha256": "0a29338ac06e"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0018.docx",
+    "estado": "indexado",
+    "document_id": "f14c60aa-fc91-4976-8063-e999b0477550",
+    "chunks": 3,
+    "tokens": 800,
+    "sha256": "fd8b0e1f0001"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0019.docx",
+    "estado": "indexado",
+    "document_id": "525f7652-203f-40cb-85e0-7053e9796c7d",
+    "chunks": 3,
+    "tokens": 780,
+    "sha256": "f45f8025b76e"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0020.docx",
+    "estado": "indexado",
+    "document_id": "306a066b-fcc5-47af-a9d1-355c1e69e423",
+    "chunks": 3,
+    "tokens": 787,
+    "sha256": "5bd3b8d5bc76"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0021.docx",
+    "estado": "indexado",
+    "document_id": "530ea56f-994b-41b9-bacc-5b6e413ec906",
+    "chunks": 3,
+    "tokens": 800,
+    "sha256": "46c4ffac3dd9"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0022.docx",
+    "estado": "indexado",
+    "document_id": "6a73cdf4-8c45-4697-bb9b-cfc286538bc2",
+    "chunks": 3,
+    "tokens": 802,
+    "sha256": "1e5d27955496"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0023.docx",
+    "estado": "indexado",
+    "document_id": "2f12c770-dd15-46b1-abf1-ccc4711d8daf",
+    "chunks": 3,
+    "tokens": 823,
+    "sha256": "b4fa75077704"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0024.docx",
+    "estado": "indexado",
+    "document_id": "cc08cfad-097a-4892-9049-c3a3072bb0cc",
+    "chunks": 4,
+    "tokens": 1289,
+    "sha256": "35e91912fd59"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0025.docx",
+    "estado": "indexado",
+    "document_id": "3f99ccaa-60f4-4e5d-9a70-514938f927e1",
+    "chunks": 15,
+    "tokens": 4650,
+    "sha256": "45a8ff88ae61"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0026.docx",
+    "estado": "indexado",
+    "document_id": "b25bdec0-3989-44cf-ac55-a03957a327ef",
+    "chunks": 1,
+    "tokens": 6,
+    "sha256": "8e4a7a0e26a9"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0027.docx",
+    "estado": "indexado",
+    "document_id": "efa4446d-0425-4592-a240-23381c85acf5",
+    "chunks": 1,
+    "tokens": 7,
+    "sha256": "b6d47fd799f1"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0028.docx",
+    "estado": "indexado",
+    "document_id": "f53dd8d3-00e1-4548-b611-f03088ca6fb5",
+    "chunks": 1,
+    "tokens": 14,
+    "sha256": "514ee5126697"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0029.docx",
+    "estado": "indexado",
+    "document_id": "af6124e9-7197-4c5e-9754-bd5869525853",
+    "chunks": 1,
+    "tokens": 6,
+    "sha256": "400678807537"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0030.docx",
+    "estado": "indexado",
+    "document_id": "ced28a67-d971-4e7e-ab23-851304bcb4e8",
+    "chunks": 1,
+    "tokens": 10,
+    "sha256": "14a92ca0186c"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0031.docx",
+    "estado": "indexado",
+    "document_id": "b00cbb58-603c-4311-adb0-b0f011b5f491",
+    "chunks": 1,
+    "tokens": 6,
+    "sha256": "59c5a8816712"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0032.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "39e84223eb9e"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0033.xlsx",
+    "estado": "indexado",
+    "document_id": "867756fd-2406-4868-9110-dca0ebca2474",
+    "chunks": 94,
+    "tokens": 20997,
+    "sha256": "c8eb89a94277"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0034.xlsx",
+    "estado": "indexado",
+    "document_id": "824793b9-6a4f-4d46-ab1a-984aa628d2d6",
+    "chunks": 5,
+    "tokens": 1755,
+    "sha256": "ff780d4af02c"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0035 FMECA.xlsx",
+    "estado": "sin_contenido",
+    "chunks": 0,
+    "sha256": "de2db5b188c1"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0036 RCM.xlsx",
+    "estado": "indexado",
+    "document_id": "40304977-38d8-4795-bd95-6a2e8d50eb04",
+    "chunks": 1,
+    "tokens": 200,
+    "sha256": "6efca4d359a1"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0037 ANALISIS TAREA.xlsx",
+    "estado": "indexado",
+    "document_id": "5bd85666-17d6-4edb-9220-c341847c950a",
+    "chunks": 14,
+    "tokens": 4494,
+    "sha256": "3c30b8e77a7c"
+  },
+  {
+    "archivo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos BCK.pdf",
+    "estado": "duplicado",
+    "document_id": "2711bd37-ece7-4316-9bd7-ad5a7ec4f6bb",
+    "chunks": 0,
+    "sha256": "9744b4a26204"
+  },
+  {
+    "archivo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+    "estado": "duplicado",
+    "document_id": "2711bd37-ece7-4316-9bd7-ad5a7ec4f6bb",
+    "chunks": 0,
+    "sha256": "9744b4a26204"
+  }
+]

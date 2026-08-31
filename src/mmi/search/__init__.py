@@ -1,0 +1,1 @@
+"""Búsqueda híbrida con citas."""

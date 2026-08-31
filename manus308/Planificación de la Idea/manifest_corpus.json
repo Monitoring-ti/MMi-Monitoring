@@ -1,0 +1,422 @@
+[
+  {
+    "archivo": "20180430 Documento SOMA (1).pdf",
+    "tipo": "otro",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "Anexo C Check List SGP-07MYC-GUIGS-00001.xlsx",
+    "tipo": "guia",
+    "dominio": "mantenibilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "Anexos SGP-07MYC-GUIGS-00001 rev 4.docx",
+    "tipo": "guia",
+    "dominio": "mantenibilidad",
+    "version": "Rev 4",
+    "ext": ".docx"
+  },
+  {
+    "archivo": "Capacitación NCC-30 2023 rev Interna 5.pptx",
+    "tipo": "presentacion",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "Etapa de Ejecucion.pdf",
+    "tipo": "presentacion",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "Etapa de Ejecucion.pptx",
+    "tipo": "presentacion",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "FMECA MONITORING 092021 rev 1.pptx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": "Rev 1",
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "GCM-M-001_REV00.pdf",
+    "tipo": "norma",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "IFC 078_REV15 28122020 (1).pdf",
+    "tipo": "otro",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "IMAGENES INFORME (V1).pptx",
+    "tipo": "otro",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "LIBRO SOMA DIGITAL FINAL.pdf",
+    "tipo": "otro",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "Monitoring_ Taller Capacitación FMECA.pdf",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "N.I. Draft Adenda NCC30 (rev. 2.2).pdf",
+    "tipo": "otro",
+    "dominio": "criticidad",
+    "version": "Rev 2.2",
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "NCC-030_REV02.pdf",
+    "tipo": "norma",
+    "dominio": "criticidad",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "Presentacion formato Entregables Rev5.pptx",
+    "tipo": "presentacion",
+    "dominio": "otro",
+    "version": "Rev 5",
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "RCM MONITORING 072021 rev 4_TE (1) (1).pptx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".pptx"
+  },
+  {
+    "archivo": "SGP-07MYC-CRTTC-00002 REV1.pdf",
+    "tipo": "otro",
+    "dominio": "otro",
+    "version": "Rev 1",
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001 GUIA MANTENIBILIDAD Y CONFIABILIDAD EN PROYECTOS Rev 6.pdf",
+    "tipo": "guia",
+    "dominio": "mantenibilidad",
+    "version": "Rev 6",
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001 Rev 5.pdf",
+    "tipo": "guia",
+    "dominio": "mantenibilidad",
+    "version": "Rev 5",
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGP-07MYC-GUIGS-00001_REV4.pdf",
+    "tipo": "guia",
+    "dominio": "mantenibilidad",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGP-07MYC-PROGS-00009 TALLER M@C.pdf",
+    "tipo": "sop",
+    "dominio": "otro",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0001.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0002.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0003.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0004.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0005.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0006.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0007.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0008.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0009.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0010.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0011.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0012.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0013.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0014.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0015.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0016.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0017.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0018.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0019.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0020.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0021.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0022.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0023.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0024.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0025.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0026.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0027.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0028.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0029.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0030.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0031.docx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".docx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0032.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0033.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0034.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0035 FMECA.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0036 RCM.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-FRMGS-0037 ANALISIS TAREA.xlsx",
+    "tipo": "tabla",
+    "dominio": "confiabilidad",
+    "version": null,
+    "ext": ".xlsx"
+  },
+  {
+    "archivo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos BCK.pdf",
+    "tipo": "sop",
+    "dominio": "mantenibilidad",
+    "version": null,
+    "ext": ".pdf"
+  },
+  {
+    "archivo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+    "tipo": "sop",
+    "dominio": "mantenibilidad",
+    "version": null,
+    "ext": ".pdf"
+  }
+]

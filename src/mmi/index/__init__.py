@@ -1,0 +1,1 @@
+"""Indexación del pipeline."""

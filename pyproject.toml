@@ -1,0 +1,36 @@
+[project]
+name = "mmi-by-monitoring"
+version = "0.1.0"
+description = "MMi by Monitoring — memoria técnica de activos (RAG con citas)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "openpyxl>=3.1",
+  "pdfplumber>=0.11",
+  "pydantic>=2.0",
+  "pydantic-settings>=2.0",
+  "python-dotenv>=1.0",
+  "requests>=2.31",
+  "openai>=1.40",
+  "qdrant-client>=1.14",
+  "fastembed>=0.4",
+  "onnxruntime>=1.19",
+  "tiktoken>=0.7",
+  "python-pptx>=1.0",
+  "python-docx>=1.1",
+  "azure-ai-documentintelligence>=1.0",
+  "azure-core>=1.29",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+mmi-preview-excel = "mmi.tools.preview_excel:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
