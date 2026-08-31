@@ -21,7 +21,7 @@ const results = [
 ];
 
 function Brand() {
-  return <span className="brand"><span className="brand-mark"><i/><i/><i/></span><span className="brand-copy"><strong>MMI</strong><small>by Monitoring</small></span></span>;
+  return <span className="brand"><span className="brand-mark"><i/><i/><i/></span><span className="brand-copy"><strong>MONITORING</strong><small>GESTIÓN DE ACTIVOS · MMI</small></span></span>;
 }
 
 export default function Home() {
