@@ -157,7 +157,7 @@ const valueCards = [
 export default function Home(){
   return <main className="commercial-site">
     <header className="commercial-nav">
-      <a href="#inicio" className="commercial-brand"><img src="/monitoring-logo-horizontal.svg" alt="Monitoring Gestión de Activos"/><span>MMI</span></a>
+      <a href="#inicio" className="commercial-brand" aria-label="MMI by Monitoring"><img src="/monitoring-logo-circular.svg" alt="Símbolo Monitoring"/><span className="brand-word"><strong>MMI</strong><small>by Monitoring</small></span></a>
       <nav><a href="#solucion">Solución</a><a href="#proceso">Proceso</a><a href="#demo">Demo operativa</a><a className="nav-demo" href="#demo">Probar MMI <ArrowRight/></a></nav>
     </header>
 
