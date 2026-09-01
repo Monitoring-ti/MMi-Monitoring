@@ -214,7 +214,7 @@ Ver [`plan-mapa-conocimiento.md`](plan-mapa-conocimiento.md): grafo estilo Obsid
 | **E1** | Grafo MVP (`mapa.html` + `/api/graph/*`) | ✅ |
 | **E2** | Filtros + vistas Global/Documentos/Conceptos | ✅ |
 | **E3** | Asistente contextual sobre selección | ✅ |
-| **E4** | Conceptos FMECA + conflictos C2 en grafo | ⏳ |
+| **E4** | Conceptos FMECA + conflictos C2 en grafo | ✅ |
 
 **Prerequisito:** Fase D alimenta aristas `co_occurs` y priorización de nodos.
 

@@ -59,6 +59,7 @@ class GraphPayload:
     query: str = ""
     view: ViewMode = "global"
     min_similarity: float = 0.72
+    conflicts: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -67,4 +68,5 @@ class GraphPayload:
             "min_similarity": self.min_similarity,
             "nodes": [n.to_dict() for n in self.nodes],
             "edges": [e.to_dict() for e in self.edges],
+            "conflicts": self.conflicts,
         }

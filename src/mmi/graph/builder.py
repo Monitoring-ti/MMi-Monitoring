@@ -6,6 +6,7 @@ from typing import Any
 
 from qdrant_client.models import FieldCondition, Filter, MatchValue
 
+from mmi.graph.concepts import attach_conflict_edges, attach_concepts
 from mmi.graph.models import GraphEdge, GraphNode, GraphPayload, ViewMode
 from mmi.search.engine import HybridSearchEngine, SearchResult, _chunk_meta, _doc_meta, format_citation
 
@@ -390,6 +391,9 @@ class GraphBuilder:
                         weight=0.85,
                     )
 
+        attach_concepts(hits, nodes, edges, chunk_id_for=_chunk_node_id)
+        conflicts = attach_conflict_edges(hits, nodes, edges, chunk_id_for=_chunk_node_id)
+
         filtered_nodes, filtered_edges = self._apply_view(nodes, edges, view)
         return GraphPayload(
             nodes=list(filtered_nodes.values()),
@@ -397,6 +401,7 @@ class GraphBuilder:
             query=query,
             view=view,
             min_similarity=min_similarity,
+            conflicts=conflicts,
         )
 
     def _apply_view(

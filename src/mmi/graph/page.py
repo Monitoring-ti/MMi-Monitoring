@@ -70,6 +70,8 @@ def render_mapa_html(out_dir: Path | None = None) -> str:
   .banner {{ margin-top: 8px; padding: 8px 10px; border-radius: 6px; background: #3a2020; border: 1px solid #6a3030; color: #f0b0b0; font-size: 0.8rem; }}
   .motor-link {{ display: inline-block; margin-top: 10px; color: #8ab4ff; font-size: 0.82rem; }}
   .sel-count {{ font-size: 0.78rem; color: #9a94aa; margin-top: 6px; }}
+  .fav-row {{ display:flex; gap:6px; margin-top:12px; }}
+  .fav-row button {{ flex:1; font-size:0.75rem; padding:6px; }}
   @media (max-width: 960px) {{
     .main {{ grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; }}
     .filters {{ border-right: none; border-bottom: 1px solid var(--border); }}
@@ -104,6 +106,10 @@ def render_mapa_html(out_dir: Path | None = None) -> str:
       <label>Versión / vigencia</label>
       <select id="fVersion"><option value="">—</option></select>
       <button type="button" id="btnApplyFilters" style="width:100%;margin-top:12px">Aplicar filtros</button>
+      <div class="fav-row">
+        <button type="button" id="btnSaveFav">Guardar vista</button>
+        <button type="button" id="btnLoadFav">Restaurar</button>
+      </div>
       <div class="view-tabs" style="margin-top:14px">
         <button type="button" class="view-btn active" data-view="global">Global</button>
         <button type="button" class="view-btn" data-view="documents">Docs</button>
@@ -195,23 +201,29 @@ async function api(path, body) {{
 
 function renderGraph(payload) {{
   state.lastPayload = payload;
-  const nodes = new vis.DataSet(payload.nodes.map(n => ({{
+  const nodes = new vis.DataSet(payload.nodes.map(n => {{
+    const conflict = n.meta && n.meta.has_conflict;
+    const base = kindColor[n.kind] || '#aaa';
+    return {{
     id: n.id,
     label: n.label.length > 36 ? n.label.slice(0, 34) + '…' : n.label,
-    title: n.citation || n.label,
-    color: kindColor[n.kind] || '#aaa',
+    title: (conflict ? '⚠ Conflicto\\n' : '') + (n.citation || n.label),
+    color: {{ background: base, border: conflict ? '#f85149' : base }},
     font: {{ color: '#f0eef8', size: 12 }},
-    borderWidth: state.selected.has(n.id) ? 3 : 1,
+    borderWidth: state.selected.has(n.id) ? 3 : (conflict ? 2 : 1),
     borderWidthSelected: 3,
-  }})));
-  const edges = new vis.DataSet(payload.edges.map(e => ({{
+  }};}}));
+  const edges = new vis.DataSet(payload.edges.map(e => {{
+    const conflict = e.kind === 'conflicts_with';
+    return {{
     id: e.id,
     from: e.source,
     to: e.target,
-    width: Math.max(1, e.weight * 2),
-    color: {{ color: e.kind === 'similar_to' ? '#6a5acd' : '#444', opacity: 0.7 }},
+    width: conflict ? 2 : Math.max(1, e.weight * 2),
+    dashes: conflict,
+    color: {{ color: conflict ? '#f85149' : (e.kind === 'similar_to' ? '#6a5acd' : '#444'), opacity: 0.8 }},
     title: e.kind + ' (' + e.weight + ')',
-  }})));
+  }};}}));
   const container = document.getElementById('graph');
   const data = {{ nodes, edges }};
   const options = {{
@@ -269,7 +281,9 @@ async function runSearch() {{
     state.selected.clear();
     updateSelectionUi(data);
     renderGraph(data);
-    setStatus(`${{data.count.nodes}} nodos · ${{data.count.edges}} aristas · ${{data.elapsed_ms}} ms`, true);
+    let msg = `${{data.count.nodes}} nodos · ${{data.count.edges}} aristas · ${{data.elapsed_ms}} ms`;
+    if (data.conflict_count) msg += ` · ⚠ ${{data.conflict_count}} conflicto(s)`;
+    setStatus(msg, true);
     history.replaceState(null, '', 'mapa.html?q=' + encodeURIComponent(query));
   }} catch (e) {{
     setStatus('Error: ' + e.message);
@@ -341,6 +355,27 @@ async function loadFilters() {{
 
 document.getElementById('btnApplyFilters').onclick = () => {{
   if (document.getElementById('query').value.trim()) runSearch();
+}};
+document.getElementById('btnSaveFav').onclick = () => {{
+  if (!state.lastPayload) return;
+  localStorage.setItem('mmi-mapa-fav', JSON.stringify({{
+  query: document.getElementById('query').value,
+  payload: state.lastPayload,
+  selected: Array.from(state.selected),
+  }}));
+  setStatus('Vista guardada en este navegador.', true);
+}};
+document.getElementById('btnLoadFav').onclick = () => {{
+  const raw = localStorage.getItem('mmi-mapa-fav');
+  if (!raw) {{ setStatus('No hay vista guardada.'); return; }}
+  try {{
+    const saved = JSON.parse(raw);
+    if (saved.query) document.getElementById('query').value = saved.query;
+    state.selected = new Set(saved.selected || []);
+    renderGraph(saved.payload);
+    updateSelectionUi(saved.payload);
+    setStatus('Vista restaurada.', true);
+  }} catch (e) {{ setStatus('Error al restaurar vista.'); }}
 }};
 document.getElementById('btnSearch').onclick = runSearch;
 document.getElementById('btnExpand').onclick = runExpand;

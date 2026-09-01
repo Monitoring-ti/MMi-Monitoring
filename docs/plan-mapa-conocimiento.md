@@ -148,14 +148,14 @@ El Mapa de Conocimiento **no reemplaza** las pantallas actuales; las complementa
 | E3.3 | Referencias + banner conflictos C2 | ✅ |
 | E3.4 | Enlace Motor MMI si hay activo | ✅ |
 
-### E4 — Conceptos y enriquecimiento (opcional)
+### E4 — Conceptos y enriquecimiento ✅ (básico)
 
-| # | Tarea |
-|---|-------|
-| E4.1 | Nodos `concept` desde FMECA/RCM (modo falla, RPN) |
-| E4.2 | Aristas `co_occurs` desde Fase D |
-| E4.3 | Destacar conflictos multi-versión en grafo (borde rojo C2) |
-| E4.4 | Persistencia subgrafo favorito (localStorage → Supabase) |
+| # | Tarea | Estado |
+|---|-------|--------|
+| E4.1 | Nodos `concept` desde FMECA (modo falla, RPN) | ✅ |
+| E4.2 | Aristas `co_occurs` chunk→concepto | ✅ |
+| E4.3 | Aristas `conflicts_with` + nodos rojos (C2) | ✅ |
+| E4.4 | Persistencia subgrafo favorito (`localStorage`) | ✅ |
 
 ---
 

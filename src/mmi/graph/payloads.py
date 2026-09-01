@@ -12,6 +12,7 @@ from mmi.search.engine import SearchResult
 def graph_payload_dict(payload: GraphPayload, *, elapsed_ms: int = 0) -> dict[str, Any]:
     data = payload.to_dict()
     data["count"] = {"nodes": len(payload.nodes), "edges": len(payload.edges)}
+    data["conflict_count"] = len(payload.conflicts)
     data["elapsed_ms"] = elapsed_ms
     return data
 
