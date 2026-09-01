@@ -187,7 +187,12 @@ export default function Home(){
 
     <section className="process-block" id="proceso">
       <div><span className="commercial-kicker light">02 · Cómo funciona</span><h2>Información dispersa.<br/>Una respuesta defendible.</h2></div>
-      <div className="commercial-process"><article><b>01</b><strong>Recupera</strong><span>Consulta fuentes técnicas y registros por activo.</span></article><article><b>02</b><strong>Relaciona</strong><span>Contrasta síntomas, fallas, repuestos y contexto.</span></article><article><b>03</b><strong>Evidencia</strong><span>Cita documento, sección y antecedente utilizado.</span></article><article><b>04</b><strong>Valida</strong><span>El especialista conserva la decisión final.</span></article></div>
+      <div className="commercial-process">
+        <article><div className="process-image"><img src="/process-recover.webp" alt="Ingeniero recuperando información técnica de mantenimiento"/><b>01</b></div><div className="process-copy"><strong>Recupera</strong><span>Consulta SAP PM, manuales OEM, RCA y registros históricos por activo.</span></div></article>
+        <article><div className="process-image"><img src="/process-connect.webp" alt="Especialistas relacionando datos de confiabilidad"/><b>02</b></div><div className="process-copy"><strong>Relaciona</strong><span>Contrasta síntomas, modos de falla, repuestos y contexto operacional.</span></div></article>
+        <article><div className="process-image"><img src="/process-evidence.webp" alt="Especialista revisando evidencia documental trazable"/><b>03</b></div><div className="process-copy"><strong>Evidencia</strong><span>Presenta cada conclusión con el documento y antecedente utilizado.</span></div></article>
+        <article><div className="process-image"><img src="/process-validate.webp" alt="Supervisor realizando la validación humana del diagnóstico"/><b>04</b></div><div className="process-copy"><strong>Valida</strong><span>El especialista revisa la evidencia y conserva la decisión final.</span></div></article>
+      </div>
     </section>
 
     <section className="demo-section" id="demo">
