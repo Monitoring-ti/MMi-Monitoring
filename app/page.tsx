@@ -201,5 +201,6 @@ export default function Home(){
     </section>
 
     <section className="commercial-close"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><div><span>MMI by Monitoring</span><h2>El conocimiento técnico disponible cuando la operación lo necesita.</h2></div><a href="mailto:contacto@monitoring.cl?subject=Demostración%20MMI">Solicitar demostración <ArrowRight/></a></section>
+    <footer className="corporate-footer"><a href="https://www.monitoring.lat" target="_blank" rel="noreferrer">www.monitoring.lat</a><span>v0.0.1</span><span>Desarrollado por <a href="mailto:ti.soporte@monitoring.cl">ti.soporte@monitoring.cl</a></span></footer>
   </main>
 }
