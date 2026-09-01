@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import {
   Activity, AlertTriangle, ArrowRight, BookOpen, Boxes, Check, CheckCircle2,
-  ChevronRight, ClipboardCheck, Database, FileClock, FileSearch, Gauge, History,
+  BrainCircuit, ChevronRight, ClipboardCheck, Database, FileClock, FileSearch, Gauge, History,
   LayoutDashboard, Library, ListChecks, LoaderCircle, Menu, Network, PanelLeftClose,
-  Search, Settings, ShieldCheck, Terminal, Upload, UserCircle2, Wrench, X
+  Search, Settings, ShieldCheck, Terminal, Upload, UserCircle2, Wrench, X, Layers3
 } from "lucide-react";
 
 type View = "overview" | "loading" | "diagnostic" | "final";
@@ -141,9 +141,56 @@ function FinalView({ back }: { back:()=>void }) {
   </div>;
 }
 
-export default function Home(){
+function DemoApp(){
   const [view,setView]=useState<View>("overview"); const [menu,setMenu]=useState(false);
   const analyze=()=>{setView("loading");window.setTimeout(()=>setView("diagnostic"),1800)};
   const select=(id:string)=>{setMenu(false);if(id==="overview")setView("overview");else if(id==="diagnostic")setView("diagnostic")};
-  return <main className="app-shell"><Header onMenu={()=>setMenu(true)}/><Sidebar view={view} open={menu} close={()=>setMenu(false)} select={select}/><section className="app-content">{view==="overview"&&<Overview analyze={analyze}/>} {view==="loading"&&<LoadingView/>} {view==="diagnostic"&&<Diagnostic rerun={analyze} validate={()=>setView("final")}/>} {view==="final"&&<FinalView back={()=>setView("overview")}/>}</section>{menu&&<button className="overlay" onClick={()=>setMenu(false)} aria-label="Cerrar menú"/>}</main>
+  return <div className="app-shell demo-app"><Header onMenu={()=>setMenu(true)}/><Sidebar view={view} open={menu} close={()=>setMenu(false)} select={select}/><section className="app-content">{view==="overview"&&<Overview analyze={analyze}/>} {view==="loading"&&<LoadingView/>} {view==="diagnostic"&&<Diagnostic rerun={analyze} validate={()=>setView("final")}/>} {view==="final"&&<FinalView back={()=>setView("overview")}/>}</section>{menu&&<button className="overlay" onClick={()=>setMenu(false)} aria-label="Cerrar menú"/>}</div>
+}
+
+const valueCards = [
+  {icon: Gauge, title:"Reducción", text:"Disminuye el tiempo dedicado a buscar, comparar y reconstruir antecedentes técnicos antes de actuar."},
+  {icon: Layers3, title:"Orden", text:"Conecta SAP PM, FMECA, manuales OEM, RCA y registros históricos alrededor de cada activo."},
+  {icon: BrainCircuit, title:"Conocimiento", text:"Convierte la experiencia dispersa en una memoria técnica viva, consultable y trazable."}
+];
+
+export default function Home(){
+  return <main className="commercial-site">
+    <header className="commercial-nav">
+      <a href="#inicio" className="commercial-brand"><img src="/monitoring-logo-horizontal.svg" alt="Monitoring Gestión de Activos"/><span>MMI</span></a>
+      <nav><a href="#solucion">Solución</a><a href="#proceso">Proceso</a><a href="#demo">Demo operativa</a><a className="nav-demo" href="#demo">Probar MMI <ArrowRight/></a></nav>
+    </header>
+
+    <section className="commercial-hero" id="inicio">
+      <div className="hero-grid-bg"/>
+      <div className="commercial-hero-copy">
+        <span className="commercial-kicker"><i/> Monitoring Maintenance Intelligence</span>
+        <h1>De la arqueología de datos a la <em>ingeniería de confiabilidad.</em></h1>
+        <p>MMI conecta la información técnica de mantenimiento y la convierte en respuestas confiables, con evidencia verificable y validación humana.</p>
+        <div className="commercial-actions"><a href="#demo" className="primary-commercial">Ver la aplicación operativa <ArrowRight/></a><a href="#solucion" className="secondary-commercial">Conocer la solución</a></div>
+        <div className="commercial-proof"><span><ShieldCheck/> No reemplaza SAP</span><span><Database/> Fuentes conectadas</span><span><ClipboardCheck/> Evidencia trazable</span></div>
+      </div>
+      <div className="hero-system" aria-label="MMI conecta las fuentes técnicas de mantenimiento">
+        <div className="system-core"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><strong>MMI</strong><small>Memoria técnica viva</small></div>
+        <span className="system-source s1">SAP PM</span><span className="system-source s2">FMECA</span><span className="system-source s3">Manuales OEM</span><span className="system-source s4">RCA + Historial</span>
+      </div>
+    </section>
+
+    <section className="solution-block" id="solucion">
+      <div className="solution-intro"><span className="commercial-kicker">01 · La solución</span><h2>Su planta ya tiene los datos.<br/><em>MMI los convierte en conocimiento.</em></h2><p>Una capa de inteligencia operacional que trabaja sobre la información existente. Recupera, relaciona y presenta antecedentes técnicos sin modificar órdenes de trabajo ni reemplazar el CMMS/EAM.</p></div>
+      <div className="value-grid">{valueCards.map(v=><article key={v.title}><v.icon/><h3>{v.title}</h3><p>{v.text}</p></article>)}</div>
+    </section>
+
+    <section className="process-block" id="proceso">
+      <div><span className="commercial-kicker light">02 · Cómo funciona</span><h2>Información dispersa.<br/>Una respuesta defendible.</h2></div>
+      <div className="commercial-process"><article><b>01</b><strong>Recupera</strong><span>Consulta fuentes técnicas y registros por activo.</span></article><article><b>02</b><strong>Relaciona</strong><span>Contrasta síntomas, fallas, repuestos y contexto.</span></article><article><b>03</b><strong>Evidencia</strong><span>Cita documento, sección y antecedente utilizado.</span></article><article><b>04</b><strong>Valida</strong><span>El especialista conserva la decisión final.</span></article></div>
+    </section>
+
+    <section className="demo-section" id="demo">
+      <div className="demo-heading"><span className="commercial-kicker">03 · Aplicación operativa</span><h2>Vea MMI en acción.</h2><p>Use el panel: seleccione un activo o escriba una consulta, ejecute el análisis y recorra el diagnóstico hasta su validación final.</p><div className="demo-instruction"><i/> Demo interactiva — los datos presentados son ilustrativos</div></div>
+      <div className="demo-frame"><DemoApp/></div>
+    </section>
+
+    <section className="commercial-close"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><div><span>MMI by Monitoring</span><h2>El conocimiento técnico disponible cuando la operación lo necesita.</h2></div><a href="mailto:contacto@monitoring.cl?subject=Demostración%20MMI">Solicitar demostración <ArrowRight/></a></section>
+  </main>
 }
