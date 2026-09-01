@@ -7,6 +7,10 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
+from urllib.parse import unquote
+
+from mmi.graph.builder import GraphBuilder
+from mmi.graph.payloads import ask_on_hits, graph_ask_payload, graph_payload_dict, node_payload_dict
 from mmi.motor.analyze import analyze_motor
 from mmi.motor.payloads import motor_analyze_payload, motor_details_payload
 from mmi.motor.session import MotorSession, MotorSessionStore
@@ -42,14 +46,98 @@ def motor_health_payload() -> dict[str, Any]:
     return {"ok": True, "motor_api": True, "version": MOTOR_API_VERSION}
 
 
+def _graph_builder(ctx: ApiContext) -> GraphBuilder:
+    return GraphBuilder(ctx.engine)
+
+
 def handle_get_api(path: str, handler: JsonHandler, ctx: ApiContext) -> bool:
     if path == "/api/motor/health":
         handler._send_json(motor_health_payload())
         return True
+    if path == "/api/graph/filters":
+        handler._send_json(_graph_builder(ctx).filter_options())
+        return True
+    if path.startswith("/api/graph/node/"):
+        node_id = unquote(path.removeprefix("/api/graph/node/"))
+        node = _graph_builder(ctx).get_node(node_id)
+        if node is None:
+            handler._send_json({"error": "Nodo no encontrado"}, status=404)
+            return True
+        handler._send_json(node_payload_dict(node))
+        return True
+    return False
+
+
+def _handle_graph_api(
+    path: str,
+    data: dict[str, Any],
+    handler: JsonHandler,
+    ctx: ApiContext,
+    t0: float,
+) -> bool:
+    builder = _graph_builder(ctx)
+    view = (data.get("view") or "global").strip()
+    if view not in {"global", "documents", "concepts"}:
+        view = "global"
+    min_sim = float(data.get("min_similarity") or 0.72)
+    filters = data.get("filters") if isinstance(data.get("filters"), dict) else {}
+
+    if path == "/api/graph/search":
+        query = (data.get("query") or "").strip()
+        if not query:
+            handler._send_json({"error": "Se requiere query"}, status=400)
+            return True
+        limit = int(data.get("limit") or 8)
+        payload = builder.search_seed(
+            query,
+            limit=limit,
+            min_similarity=min_sim,
+            view=view,  # type: ignore[arg-type]
+            filters=filters,
+        )
+        handler._send_json(graph_payload_dict(payload, elapsed_ms=int((time.perf_counter() - t0) * 1000)))
+        return True
+
+    if path == "/api/graph/expand":
+        node_ids = [str(n) for n in (data.get("node_ids") or [])]
+        if not node_ids:
+            handler._send_json({"error": "Se requiere node_ids"}, status=400)
+            return True
+        limit = int(data.get("limit") or 12)
+        payload = builder.expand(
+            node_ids,
+            limit=limit,
+            min_similarity=min_sim,
+            view=view,  # type: ignore[arg-type]
+            filters=filters,
+        )
+        handler._send_json(graph_payload_dict(payload, elapsed_ms=int((time.perf_counter() - t0) * 1000)))
+        return True
+
+    if path == "/api/graph/ask":
+        query = (data.get("query") or "").strip()
+        node_ids = [str(n) for n in (data.get("node_ids") or [])]
+        if not query or not node_ids:
+            handler._send_json({"error": "Se requiere query y node_ids"}, status=400)
+            return True
+        limit = int(data.get("limit") or 8)
+        hits = builder.hits_for_nodes(node_ids)
+        if not hits:
+            handler._send_json({"error": "Sin evidencia en nodos seleccionados"}, status=404)
+            return True
+        result = ask_on_hits(query, hits, limit=limit)
+        handler._send_json(graph_ask_payload(result, elapsed_ms=int((time.perf_counter() - t0) * 1000)))
+        return True
+
     return False
 
 
 def handle_post_api(path: str, data: dict[str, Any], handler: JsonHandler, ctx: ApiContext) -> bool:
+    graph_paths = {"/api/graph/search", "/api/graph/expand", "/api/graph/ask"}
+    t0 = time.perf_counter()
+    if path in graph_paths:
+        return _handle_graph_api(path, data, handler, ctx, t0)
+
     if path not in {
         "/api/search",
         "/api/ask",
@@ -58,8 +146,6 @@ def handle_post_api(path: str, data: dict[str, Any], handler: JsonHandler, ctx: 
         "/api/motor/details",
     }:
         return False
-
-    t0 = time.perf_counter()
 
     if path == "/api/motor/details":
         motor_id = (data.get("motor_id") or "").strip()

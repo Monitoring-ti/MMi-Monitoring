@@ -15,6 +15,7 @@ _NAV_ITEMS: tuple[tuple[str, str, str], ...] = (
     ("hub", REVIEW_HUB, "Revisión"),
     ("search", "search.html", "Búsqueda"),
     ("rag", "rag.html", "Consulta RAG"),
+    ("mapa", "mapa.html", "Mapa"),
     ("motor", "motor.html", "Motor MMI"),
     ("corpus", "corpus-picker.html", "Corpus"),
     ("cloud", "source-review.html", "Enlace nube"),

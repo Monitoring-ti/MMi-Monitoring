@@ -45,6 +45,7 @@ Principios: trazabilidad, solo versiones vigentes en el lote inicial, no inventa
 | RAG respuestas | OpenRouter (`gpt-4o-mini` por defecto) | `src/mmi/search/answer.py` |
 | UI búsqueda | Ejemplos corpus + fragmentos | `out/search.html` |
 | **UI Consulta RAG** | Respuesta + refs + evidencia | `out/rag.html` |
+| **UI Mapa Conocimiento** | Grafo relacional + filtros + asistente (Fase E) | `out/mapa.html` · [`plan-mapa-conocimiento.md`](plan-mapa-conocimiento.md) |
 | **UI revisión unificada** | Hub Fase 0 + índice | `out/review.html` |
 | Servidor local | Estáticos + API | `serve_local` puerto **8773** |
 | Git | Repo remoto creado; commit inicial local | GitHub `Monitoring-ti/MMi-Monitoring` |
@@ -73,11 +74,15 @@ Principios: trazabilidad, solo versiones vigentes en el lote inicial, no inventa
 | GET | `/search.html` | Búsqueda fragmentos |
 | GET | `/rag.html` | Consulta RAG con citas |
 | GET | `/motor.html` | Motor MMI — activo + síntoma |
+| GET | `/mapa.html` | Mapa de Conocimiento — grafo relacional (Fase E) |
 | GET | `/review.html` | Dashboard revisión (canónico) |
 | POST | `/api/search` | Fragmentos sin redactar |
 | POST | `/api/ask` | Respuesta + `ask_id` |
 | POST | `/api/motor/analyze` | Análisis activo + síntoma |
 | POST | `/api/motor/details` | Fuentes / evidencia motor |
+| POST | `/api/graph/search` | Semilla grafo desde query (Fase E) |
+| POST | `/api/graph/expand` | Expandir relaciones 1-hop (Fase E) |
+| POST | `/api/graph/ask` | RAG sobre nodos seleccionados (Fase E) |
 | GET/POST | `/api/ingestion-action` | Excluir, no relevante, re-extraer, IA |
 | GET | `/api/ingestion-live` | Snapshot en vivo dashboard |
 | GET/POST | `/api/remote-source` | Enlace carpeta SharePoint/OneDrive |
@@ -94,7 +99,7 @@ Corpus local (ODS1 TORR ENF DCH — 1582 indexables en manifest)
     → review.html (dashboard Fase 0 + índice)
         → Qdrant (vectores)
         → Supabase (documents, chunks, metadatos)
-    → search.html / rag.html / motor.html (consulta)
+    → search.html / rag.html / motor.html / mapa.html (consulta + exploración)
     → corpus_picker (selección sí/no por lote futuro)
     → HybridSearchEngine (dense + BM25/RRF)
     → /api/ask → OpenRouter
@@ -199,6 +204,19 @@ Definido en `src/mmi/corpus/lote1.py`:
 ### Fase D — Análisis de datos (rama `analisis-datos`)
 
 Ver [`plan-analisis-datos.md`](plan-analisis-datos.md): cobertura corpus, calidad Fase 0, métricas golden set, inventario planos.
+
+### Fase E — Mapa de Conocimiento MMI
+
+Ver [`plan-mapa-conocimiento.md`](plan-mapa-conocimiento.md): grafo estilo Obsidian, búsqueda semántica superior, filtros (activo, área, falla, fecha, documento), panel de metadatos, expansión de relaciones y asistente sobre nodos seleccionados.
+
+| Bloque | Entregable | Estado |
+|--------|------------|--------|
+| **E1** | Grafo MVP (`mapa.html` + `/api/graph/*`) | ✅ |
+| **E2** | Filtros + vistas Global/Documentos/Conceptos | 🔄 (básico en E1) |
+| **E3** | Asistente contextual sobre selección | ⏳ |
+| **E4** | Conceptos FMECA + conflictos C2 en grafo | ⏳ |
+
+**Prerequisito:** Fase D alimenta aristas `co_occurs` y priorización de nodos.
 
 ### Fase 3 — Producto
 

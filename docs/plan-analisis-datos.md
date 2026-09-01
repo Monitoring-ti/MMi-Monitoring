@@ -64,6 +64,17 @@ Corpus en disco: `ODS1 TORR ENF DCH/` · extracciones: `out/ods1-extract/`, `out
 | C2 | Estimación costo/tiempo OCR 50 planos INF TEC | proyección |
 | C3 | Tags EAM detectados en OCR vs catálogo | tasa validación |
 
+### Sprint D — Entradas al Mapa de Conocimiento (Fase E)
+
+| # | Tarea | Salida |
+|---|-------|--------|
+| D1 | Matriz co-ocurrencia `asset_codes` × `document_key` | aristas `co_occurs` |
+| D2 | Top pares chunk similares (Qdrant, muestra 500) | umbral similitud recomendado |
+| D3 | Nodos concepto candidatos (FMECA modos falla, tags EAM) | `out/data-analysis/concepts.json` |
+| D4 | Informe gaps por activo/área | prioridad expansión grafo |
+
+Ver especificación completa: [`plan-mapa-conocimiento.md`](plan-mapa-conocimiento.md)
+
 ---
 
 ## 4. Comandos
@@ -98,3 +109,4 @@ cd mmi-by-monitoring
 - Fase C: `docs/plan-fase-c.md`
 - Golden set: `fixtures/golden-set-retrieval.json`
 - Planos: `out/plan-scan.json`
+- Mapa Conocimiento: `docs/plan-mapa-conocimiento.md`

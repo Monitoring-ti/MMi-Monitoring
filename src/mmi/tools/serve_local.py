@@ -11,6 +11,7 @@ from urllib.parse import unquote, urlparse
 
 from dotenv import load_dotenv
 
+from mmi.graph.page import render_mapa_html
 from mmi.motor.page import render_motor_html
 from mmi.search.rag_page import render_rag_html
 from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api
@@ -222,9 +223,11 @@ def main(argv: list[str] | None = None) -> int:
     search_html = render_search_html(out_dir)
     rag_html = render_rag_html(out_dir)
     motor_html = render_motor_html(out_dir)
+    mapa_html = render_mapa_html(out_dir)
     (out_dir / "search.html").write_text(search_html, encoding="utf-8")
     (out_dir / "rag.html").write_text(rag_html, encoding="utf-8")
     (out_dir / "motor.html").write_text(motor_html, encoding="utf-8")
+    (out_dir / "mapa.html").write_text(mapa_html, encoding="utf-8")
 
     from mmi.search.engine import HybridSearchEngine
 
@@ -234,6 +237,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"MMI local → http://127.0.0.1:{args.port}/")
     print(f"  Búsqueda     http://127.0.0.1:{args.port}/search.html")
     print(f"  Consulta RAG http://127.0.0.1:{args.port}/rag.html")
+    print(f"  Mapa         http://127.0.0.1:{args.port}/mapa.html")
     print(f"  Motor MMI  http://127.0.0.1:{args.port}/motor.html")
     print(f"  Health     http://127.0.0.1:{args.port}/api/motor/health")
     print(f"  Revisión     http://127.0.0.1:{args.port}/review.html")
