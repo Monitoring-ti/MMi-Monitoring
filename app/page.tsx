@@ -170,11 +170,15 @@ export default function Home(){
         <div className="commercial-actions"><a href="#demo" className="primary-commercial">Ver la aplicación operativa <ArrowRight/></a><a href="#solucion" className="secondary-commercial">Conocer la solución</a></div>
         <div className="commercial-proof"><span><ShieldCheck/> No reemplaza SAP</span><span><Database/> Fuentes conectadas</span><span><ClipboardCheck/> Evidencia trazable</span></div>
       </div>
-      <div className="hero-system" aria-label="MMI conecta las fuentes técnicas de mantenimiento">
-        <div className="system-core"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><strong>MMI</strong><small>Memoria técnica viva</small></div>
-        <span className="system-source s1">SAP PM</span><span className="system-source s2">FMECA</span><span className="system-source s3">Manuales OEM</span><span className="system-source s4">RCA + Historial</span>
+      <div className="hero-photo" aria-label="Ingenieros Monitoring en planta minera">
+        <img src="https://www.monitoring.lat/images/hero-faena-mineria.jpg" alt="Ingenieros Monitoring en planta concentradora minera"/>
+        <div className="photo-shade"/>
+        <div className="photo-badge"><span>MMI</span><strong>Inteligencia aplicada en terreno</strong><small>Conocimiento técnico conectado a la operación</small></div>
+        <div className="photo-status"><i/> Evidencia disponible</div>
       </div>
     </section>
+
+    <section className="experience-strip" aria-label="Experiencia y capacidades de Monitoring"><div><strong>+20</strong><span>Años de experiencia</span></div><div><strong>+150</strong><span>Proyectos ejecutados</span></div><div><strong>+40</strong><span>Profesionales senior</span></div><div><strong>4</strong><span>Fuentes técnicas conectadas</span></div></section>
 
     <section className="solution-block" id="solucion">
       <div className="solution-intro"><span className="commercial-kicker">01 · La solución</span><h2>Su planta ya tiene los datos.<br/><em>MMI los convierte en conocimiento.</em></h2><p>Una capa de inteligencia operacional que trabaja sobre la información existente. Recupera, relaciona y presenta antecedentes técnicos sin modificar órdenes de trabajo ni reemplazar el CMMS/EAM.</p></div>
