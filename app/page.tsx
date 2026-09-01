@@ -1,90 +1,149 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, BookOpenCheck, BrainCircuit, ChevronRight, Database, FileSearch, Gauge, Link2, Menu, Network, Pickaxe, Quote, SearchCheck, ShieldCheck, Target, Users, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Activity, AlertTriangle, ArrowRight, BookOpen, Boxes, Check, CheckCircle2,
+  ChevronRight, ClipboardCheck, Database, FileClock, FileSearch, Gauge, History,
+  LayoutDashboard, Library, ListChecks, LoaderCircle, Menu, Network, PanelLeftClose,
+  Search, Settings, ShieldCheck, Terminal, Upload, UserCircle2, Wrench, X
+} from "lucide-react";
 
-const audiences = [
-  { label: "Mantenimiento", title: "Menos tiempo buscando. Más tiempo resolviendo.", text: "Acceda rápidamente a antecedentes de fallas, intervenciones, repuestos y recomendaciones técnicas vinculadas a cada activo.", outcome: "Agiliza el diagnóstico y la preparación de intervenciones.", icon: Gauge },
-  { label: "Operaciones", title: "Conocimiento disponible cuando la continuidad lo exige.", text: "Transforme la historia del activo en información accesible para responder mejor ante eventos que afectan la producción.", outcome: "Apoya decisiones orientadas a disponibilidad y continuidad operacional.", icon: Pickaxe },
-  { label: "Confiabilidad", title: "Una base común para RCA, FMECA y mejora continua.", text: "Relacione modos de falla, causas, intervenciones y documentación técnica en una memoria trazable y auditable.", outcome: "Acelera análisis y conserva las lecciones aprendidas.", icon: Target },
-];
-const process = [
-  { n: "01", title: "Reunir", text: "SAP PM, FMECA, manuales OEM, RCA, procedimientos e históricos.", icon: Database },
-  { n: "02", title: "Organizar", text: "Clasificar la información por activo, componente, falla, repuesto y contexto.", icon: Network },
-  { n: "03", title: "Conectar", text: "Relacionar antecedentes dispersos y conocimiento técnico relevante.", icon: Link2 },
-  { n: "04", title: "Validar", text: "Entregar respuestas con fuentes verificables y revisión del especialista.", icon: ShieldCheck },
-];
-const results = [
-  { title: "Reducción", subtitle: "del tiempo de análisis", text: "Menos horas reconstruyendo antecedentes antes de diagnosticar o intervenir.", icon: Gauge },
-  { title: "Orden", subtitle: "de la información técnica", text: "Una consulta común para fuentes que hoy viven en sistemas, documentos y planillas.", icon: SearchCheck },
-  { title: "Conocimiento", subtitle: "que permanece", text: "Las experiencias y lecciones de especialistas quedan disponibles para la organización.", icon: BrainCircuit },
+type View = "overview" | "loading" | "diagnostic" | "final";
+
+const navItems = [
+  { id: "diagnostic", label: "Diagnóstico", icon: Activity },
+  { id: "overview", label: "Activos", icon: Boxes },
+  { id: "documents", label: "Documentos", icon: FileSearch },
+  { id: "trace", label: "Trazabilidad", icon: Network },
+  { id: "logs", label: "Registros", icon: Terminal },
 ];
 
-function Brand() {
-  return <span className="brand"><img className="brand-logo" src="/monitoring-logo-horizontal.svg" alt="Monitoring Gestión de Activos"/><span className="product-tag">MMI</span></span>;
+const facts = [
+  ["Temperatura del cojinete de empuje TE-401A alcanzó 98 °C (límite: 95 °C)", "Manual OEM GE · Vol. 2 · p. 112"],
+  ["Vibración radial VE-402X registró 5,2 mm/s RMS, con 1X RPM dominante", "Manual OEM GE · Vol. 3 · p. 45"],
+  ["Flujo de aceite lubricante FT-405 cayó a 120 L/min (nominal: 150)", "P&ID Lubricación · Rev. 4"],
+];
+
+const hypotheses = [
+  { code: "H1", title: "Desalineamiento térmico rotor–estator", confidence: "92%", tone: "good", text: "La firma vibratoria 1X RPM y el aumento térmico del cojinete sugieren expansión asimétrica y pérdida de alineamiento." },
+  { code: "H2", title: "Falla en suministro de aceite lubricante", confidence: "68%", tone: "warn", text: "La reducción de caudal explica la temperatura elevada; la vibración podría ser una consecuencia secundaria del aumento de fricción." },
+];
+
+const checklist = [
+  "Verificar nivel y presión en el tanque de lubricación principal LSH-400.",
+  "Tomar muestra de aceite para análisis tribológico urgente, código ISO 4406.",
+  "Inspeccionar termocupla TE-401A por falsos contactos o degradación de vaina.",
+];
+
+const assets = [
+  { name: "Molino SAG-01", code: "ML-SAG-01", health: 94, state: "Normal", tone: "good", metric: "Disponibilidad", value: "97,8%", trend: "+1,2%" },
+  { name: "Chancador primario", code: "CH-PRI-02", health: 72, state: "Atención", tone: "warn", metric: "Vibración", value: "4,8 mm/s", trend: "+14%" },
+  { name: "Turbina de servicio", code: "STG-01-X", health: 61, state: "Diagnóstico", tone: "danger", metric: "Temperatura", value: "98 °C", trend: "+8 °C" },
+];
+
+function Header({ onMenu }: { onMenu: () => void }) {
+  return <header className="topbar">
+    <div className="top-left">
+      <button className="mobile-menu" onClick={onMenu} aria-label="Abrir menú"><Menu /></button>
+      <img src="/monitoring-logo-horizontal.svg" className="corp-logo" alt="Monitoring Gestión de Activos" />
+      <span className="mmi-label">MMI</span>
+      <span className="top-divider" />
+      <span className="layer-label">Capa de inteligencia operacional</span>
+    </div>
+    <div className="top-right">
+      <span className="security-chip"><i /> RLS activo</span>
+      <span className="security-chip wide"><i /> Zero-data retention</span>
+      <span className="site-name">Faena Minera Centinela</span>
+      <button aria-label="Configuración"><Settings /></button><button aria-label="Perfil"><UserCircle2 /></button>
+    </div>
+  </header>;
 }
 
-export default function Home() {
-  const [activeAudience, setActiveAudience] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const active = audiences[activeAudience];
-  const ActiveIcon = active.icon;
-  return (
-    <main>
-      <header className="site-header">
-        <a href="#inicio" aria-label="MMI by Monitoring, inicio"><Brand /></a>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Abrir navegación" aria-expanded={menuOpen}>{menuOpen ? <X/> : <Menu/>}</button>
-        <nav className={menuOpen ? "nav open" : "nav"} aria-label="Navegación principal">
-          <a href="#solucion" onClick={() => setMenuOpen(false)}>Solución</a><a href="#proceso" onClick={() => setMenuOpen(false)}>Proceso</a><a href="#impacto" onClick={() => setMenuOpen(false)}>Resultados</a>
-          <a href="#demostracion" className="nav-cta" onClick={() => setMenuOpen(false)}>Solicitar demostración <ArrowRight size={16}/></a>
-        </nav>
-      </header>
+function Sidebar({ view, open, close, select }: { view: View; open: boolean; close: () => void; select: (id: string) => void }) {
+  return <aside className={`sidebar ${open ? "open" : ""}`}>
+    <button className="sidebar-close" onClick={close}><X /></button>
+    <div className="profile"><div className="profile-mark"><Wrench /></div><div><strong>Plant Manager</strong><span>Centinela Site</span></div></div>
+    <nav>{navItems.map(item => <button key={item.id} className={(item.id === view || (item.id === "diagnostic" && ["loading","final"].includes(view))) ? "active" : ""} onClick={() => select(item.id)}><item.icon /> <span>{item.label}</span>{item.id === "diagnostic" && <i className="live-dot"/>}</button>)}</nav>
+    <div className="side-status"><span>Estado del sistema</span><strong><i/> Todos los servicios operativos</strong></div>
+    <div className="side-foot"><ShieldCheck/><span>Validación humana obligatoria</span></div>
+  </aside>;
+}
 
-      <section className="hero" id="inicio">
-        <div className="hero-grid" aria-hidden="true"/>
-        <div className="hero-content">
-          <div className="eyebrow"><span/> Inteligencia para mantenimiento minero</div>
-          <h1>La memoria técnica<br/>inteligente de <em>sus activos.</em></h1>
-          <p className="hero-lead">Conecte SAP PM, FMECA, manuales e historial de mantenimiento para transformar información dispersa en conocimiento operativo respaldado por evidencia.</p>
-          <div className="hero-actions"><a className="button primary" href="#demostracion">Ver cómo funciona <ArrowRight size={18}/></a><a className="button secondary" href="#solucion">Explorar la solución</a></div>
-          <div className="hero-proof"><span><ShieldCheck/> No reemplaza SAP</span><span><Users/> Validación humana</span><span><BookOpenCheck/> Evidencia trazable</span></div>
-        </div>
-        <div className="hero-visual" aria-label="Fuentes técnicas conectadas por MMI">
-          <div className="orbit orbit-one"/><div className="orbit orbit-two"/>
-          <div className="core"><img src="/monitoring-logo-circular.svg" alt="Símbolo original de Monitoring"/><strong>MMI</strong><span>Memoria técnica viva</span></div>
-          <div className="source source-a"><Database/><span>SAP PM</span></div><div className="source source-b"><FileSearch/><span>FMECA</span></div><div className="source source-c"><BookOpenCheck/><span>Manuales OEM</span></div><div className="source source-d"><Users/><span>Experiencia</span></div>
-        </div>
-      </section>
+function SearchBar({ query, setQuery, analyze }: { query: string; setQuery: (v:string)=>void; analyze:()=>void }) {
+  return <section className="search-panel">
+    <div className="search-main"><label>Consultar motor MMI</label><div className="search-input"><Search/><input value={query} onChange={e=>setQuery(e.target.value)} onKeyDown={e=>e.key==="Enter"&&analyze()} placeholder="Escribe una falla, código, síntoma o activo..." /></div></div>
+    <div className="select-field"><label>Activo</label><select><option>STG-01-X</option><option>ML-SAG-01</option></select></div>
+    <div className="select-field"><label>Vigencia</label><select><option>Últimas 24 h</option><option>7 días</option></select></div>
+    <button className="analyze-btn" onClick={analyze}>Analizar <ArrowRight /></button>
+  </section>;
+}
 
-      <section className="problem section" id="solucion">
-        <div className="section-label">01 · El desafío</div>
-        <div className="problem-layout"><h2>Su planta ya tiene los datos.<br/><span>MMI los convierte en conocimiento.</span></h2><div className="problem-copy"><p>La información crítica de un activo suele estar distribuida entre sistemas, documentos y personas. El desafío no es solo encontrar un archivo: es relacionar su contenido, validar el origen y convertirlo en una respuesta útil.</p><blockquote><Quote/> ¿Cuánto conocimiento de sus activos está almacenado, pero no realmente disponible cuando se necesita?</blockquote></div></div>
-      </section>
+function Overview({ analyze }: { analyze: (q?:string)=>void }) {
+  const [q,setQ]=useState("");
+  return <div className="view">
+    <div className="page-head"><div><span className="eyebrow">Resumen operacional</span><h1>Estado de la planta</h1><p>Visión consolidada del comportamiento y riesgo de activos críticos.</p></div><div className="updated"><i/> Datos actualizados hace 2 min</div></div>
+    <SearchBar query={q} setQuery={setQ} analyze={()=>analyze(q)} />
+    <div className="kpi-grid">
+      <article><div className="kpi-icon blue"><Gauge/></div><span>Disponibilidad global</span><strong>96,4%</strong><small className="positive">+0,8% vs. mes anterior</small></article>
+      <article><div className="kpi-icon green"><CheckCircle2/></div><span>Activos saludables</span><strong>42 / 48</strong><small>87,5% de la flota crítica</small></article>
+      <article><div className="kpi-icon orange"><AlertTriangle/></div><span>Alertas activas</span><strong>6</strong><small className="attention">2 requieren evaluación</small></article>
+      <article><div className="kpi-icon violet"><Database/></div><span>Fuentes conectadas</span><strong>1.284</strong><small>SAP · OEM · RCA · FMECA</small></article>
+    </div>
+    <div className="section-row"><div><span className="eyebrow">Activos priorizados</span><h2>Condición y señales relevantes</h2></div><button>Ver todos <ChevronRight/></button></div>
+    <div className="asset-grid">{assets.map(a=><article className="asset-card" key={a.code}>
+      <div className="asset-top"><div className="asset-symbol"><Activity/></div><div><strong>{a.name}</strong><span>{a.code}</span></div><em className={a.tone}>{a.state}</em></div>
+      <div className="health"><div><span>Índice de salud</span><b>{a.health}%</b></div><div className="health-bar"><i className={a.tone} style={{width:`${a.health}%`}}/></div></div>
+      <div className="asset-metric"><span>{a.metric}</span><strong>{a.value}</strong><small className={a.tone}>{a.trend}</small></div>
+      <button onClick={()=>analyze(`Analizar ${a.name} ${a.code}`)}>Abrir diagnóstico <ArrowRight/></button>
+    </article>)}</div>
+  </div>;
+}
 
-      <section className="audience section">
-        <div className="section-heading"><div className="section-label">02 · Valor para cada área</div><h2>Una solución. Tres perspectivas críticas.</h2></div>
-        <div className="audience-tabs" role="tablist">{audiences.map((item,index)=><button key={item.label} role="tab" aria-selected={activeAudience===index} className={activeAudience===index?"active":""} onClick={()=>setActiveAudience(index)}><item.icon/> {item.label}</button>)}</div>
-        <div className="audience-panel" role="tabpanel"><div className="panel-icon"><ActiveIcon/></div><div><span className="panel-kicker">Para gerencia de {active.label.toLowerCase()}</span><h3>{active.title}</h3><p>{active.text}</p></div><div className="panel-result"><span>Resultado esperado</span><strong>{active.outcome}</strong></div></div>
-      </section>
+function LoadingView() {
+  const [progress,setProgress]=useState(12);
+  useEffect(()=>{const t=setInterval(()=>setProgress(p=>Math.min(94,p+7)),140);return()=>clearInterval(t)},[]);
+  const phases=[["01","Normalización de datos","completed"],["02","Recuperación híbrida RAG","completed"],["03","Contraste de evidencia","active"],["04","Síntesis prescriptiva","pending"]];
+  return <div className="loading-view"><div className="loading-grid"/><div className="loading-content">
+    <div className="loader-orb"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><LoaderCircle/></div>
+    <span className="eyebrow">MMI · Motor de análisis</span><h1>Construyendo diagnóstico asistido</h1><p>Conectando historial del activo, manuales OEM y análisis de confiabilidad.</p>
+    <div className="phase-grid">{phases.map(p=><article className={p[2]} key={p[0]}><span>{p[0]}</span><div><strong>{p[1]}</strong><small>{p[2]==="completed"?"Completado":p[2]==="active"?"Procesando fuentes y conflictos":"En espera"}</small></div>{p[2]==="completed"?<Check/>:p[2]==="active"?<LoaderCircle className="spin"/>:<i/>}</article>)}</div>
+    <div className="progress"><div><span>Progreso general</span><b>{progress}%</b></div><div className="progress-bar"><i style={{width:`${progress}%`}}/></div></div>
+    <div className="terminal-line"><Terminal/><code>RAG/HYBRID · evidence_validation=true · human_gate=required</code></div>
+  </div></div>;
+}
 
-      <section className="process-section" id="proceso"><div className="section process-inner">
-        <div className="section-heading light"><div className="section-label">03 · El proceso</div><h2>Del dato disperso a una respuesta confiable.</h2><p>Un proceso progresivo, desacoplado y enfocado en el conocimiento que genera valor para la operación.</p></div>
-        <div className="process-grid">{process.map((step,i)=><article className="process-card" key={step.n}><div className="process-top"><span>{step.n}</span><step.icon/></div><h3>{step.title}</h3><p>{step.text}</p>{i<3&&<ChevronRight className="process-arrow"/>}</article>)}</div>
-        <div className="process-note"><ShieldCheck/><div><strong>Seguridad operacional primero</strong><span>MMI recomienda y entrega evidencia. La evaluación y autorización final permanece en manos del especialista.</span></div></div>
-      </div></section>
+function Diagnostic({ validate, rerun }: { validate:()=>void; rerun:()=>void }) {
+  const [checked,setChecked]=useState<boolean[]>([false,false,false]);
+  return <div className="view diagnostic-view">
+    <SearchBar query="Alta temperatura y vibración en turbina STG-01-X" setQuery={()=>{}} analyze={rerun}/>
+    <div className="result-head"><div><span className="eyebrow">Análisis generado</span><h1>Diagnóstico del síntoma</h1></div><div className="result-badges"><span className="supported"><i/> Evidencia soportada</span><span><ShieldCheck/> Confianza alta · 92%</span></div></div>
+    <div className="workspace-grid"><div className="workspace-main">
+      <section className="tech-card success"><header><div><ClipboardCheck/><h2>Hechos verificados</h2></div><span>Datos + documentos</span></header><div className="fact-list">{facts.map((f,i)=><div key={i}><p>{f[0]}</p><code>{f[1]}</code></div>)}</div></section>
+      <section className="tech-card hypothesis"><header><div><Activity/><h2>Hipótesis del sistema</h2></div></header><div className="ai-warning"><AlertTriangle/> Inferencia IA: requiere criterio del especialista</div><div className="hypothesis-list">{hypotheses.map(h=><article key={h.code}><b>{h.code}</b><div><h3>{h.title}</h3><p>{h.text}</p></div><strong className={h.tone}>{h.confidence}</strong></article>)}</div></section>
+      <section className="tech-card checklist"><header><div><ListChecks/><h2>Verificación física</h2></div><button>Exportar PDF</button></header><div>{checklist.map((item,i)=><label key={item}><input type="checkbox" checked={checked[i]} onChange={()=>setChecked(c=>c.map((v,j)=>j===i?!v:v))}/><span>{item}</span></label>)}</div></section>
+    </div><aside className="evidence-panel"><header><Library/><h2>Fuentes y evidencia</h2></header>
+      <article><div><BookOpen/><strong>Manual OEM GE Frame 6B</strong><small>Vol. 2 · p. 112</small></div><code>SECCIÓN 4.2.1 COJINETES<br/>MAX TEMP: 90 °C<br/>ALARMA: 95 °C<br/><em>Acción: inspeccionar flujo si supera 95 °C.</em></code></article>
+      <article><div><History/><strong>Histórico EAM / CMMS</strong><small>WO-88912</small></div><code>FECHA: 2023-04-12<br/>Reemplazo de rodamiento similar.<br/>CAUSA: contaminación de aceite.<br/><em>MTBF: 8.400 h / esperado: 12.000 h.</em></code></article>
+      <div className="conflict"><AlertTriangle/><div><strong>Discrepancia detectada</strong><p>El sensor PT-882 fue calibrado hace más de 365 días. La lectura podría variar ±5%.</p></div></div>
+    </aside></div>
+    <div className="action-bar"><button onClick={rerun}>Descartar</button><button className="preload"><Upload/> Precargar EAM/CMMS</button><button className="validate" onClick={validate}><CheckCircle2/> Validar diagnóstico</button></div>
+  </div>;
+}
 
-      <section className="results section" id="impacto">
-        <div className="section-heading centered"><div className="section-label">04 · El impacto</div><h2>Resultados que la operación puede comprobar.</h2><p>El valor no se mide por instalar tecnología, sino por mejorar la forma en que el equipo accede, conecta y utiliza su conocimiento.</p></div>
-        <div className="results-grid">{results.map(result=><article className="result-card" key={result.title}><div className="result-icon"><result.icon/></div><h3>{result.title}</h3><span>{result.subtitle}</span><p>{result.text}</p></article>)}</div>
-        <div className="metrics-strip"><div><strong>Tiempo</strong><span>para localizar antecedentes</span></div><div><strong>Fuentes</strong><span>conectadas por activo</span></div><div><strong>Evidencia</strong><span>en cada respuesta</span></div><div><strong>Conocimiento</strong><span>experto capturado</span></div></div>
-      </section>
+function FinalView({ back }: { back:()=>void }) {
+  return <div className="view final-view">
+    <div className="page-head"><div><span className="eyebrow">Diagnóstico validado</span><h1>Resultado técnico final</h1><p>La recomendación fue revisada y autorizada por el responsable técnico.</p></div><span className="certificate-status"><ShieldCheck/> Validación humana completada</span></div>
+    <div className="final-grid"><article className="certificate"><img src="/monitoring-logo-circular.svg" alt="Monitoring"/><span>Certificado de evidencia</span><strong>MMI-2026-00928</strong><div><b>92%</b><small>Confianza consolidada</small></div><p>Emitido para STG-01-X<br/>01 septiembre 2026 · 00:15 UTC</p></article>
+      <section className="validated-findings"><header><CheckCircle2/><div><span>Conclusión validada</span><h2>Desalineamiento térmico con degradación del sistema de lubricación</h2></div></header><p>La evidencia documental y operacional sostiene una relación entre el bajo caudal de lubricación, el aumento térmico y la firma vibratoria 1X RPM.</p><div className="recommendation"><Wrench/><div><strong>Acción recomendada</strong><p>Inspeccionar el circuito de lubricación, verificar alineamiento en condición térmica y ejecutar análisis de aceite antes del próximo ciclo.</p></div></div><div className="signoff"><div><span>Validado por</span><strong>Supervisor de Confiabilidad</strong></div><div><span>Estado</span><strong className="good">Autorizado para planificación</strong></div></div></section>
+    </div>
+    <section className="trace-log"><header><FileClock/><h2>Registro de trazabilidad</h2></header><code>00:12:14 · consulta registrada · STG-01-X<br/>00:12:18 · 1.284 fuentes indexadas · 7 fuentes recuperadas<br/>00:12:21 · evidencia CoVe: SUPPORTED · confianza 0.92<br/>00:15:03 · validación humana registrada · estado FINAL</code></section>
+    <button className="back-overview" onClick={back}>Volver al panel <ArrowRight/></button>
+  </div>;
+}
 
-      <section className="demo section" id="demostracion"><div className="demo-card">
-        <div className="demo-copy"><div className="eyebrow"><span/> Demostración con un caso real</div><h2>Active la memoria técnica de un activo crítico.</h2><p>Seleccione un equipo y una problemática de su operación. Mostraremos cómo MMI puede recuperar, relacionar y presentar el conocimiento disponible con evidencia trazable.</p><a className="button primary" href="mailto:contacto@monitoring.cl?subject=Demostración%20MMI%20by%20Monitoring">Solicitar una demostración <ArrowRight size={18}/></a></div>
-        <div className="demo-example"><div className="example-label"><span/> Ejemplo de consulta</div><p>“¿Qué modos de falla se han repetido en esta bomba y qué acciones recomienda el FMECA vigente?”</p><div className="example-response"><SearchCheck/><span>MMI conecta el historial, el FMECA y la documentación técnica para responder con fuentes verificables.</span></div></div>
-      </div></section>
-
-      <footer><Brand/><p>Monitoring Maintenance Intelligence</p><a href="https://www.monitoring.cl">monitoring.cl <ArrowRight size={15}/></a></footer>
-    </main>
-  );
+export default function Home(){
+  const [view,setView]=useState<View>("overview"); const [menu,setMenu]=useState(false);
+  const analyze=()=>{setView("loading");window.setTimeout(()=>setView("diagnostic"),1800)};
+  const select=(id:string)=>{setMenu(false);if(id==="overview")setView("overview");else if(id==="diagnostic")setView("diagnostic")};
+  return <main className="app-shell"><Header onMenu={()=>setMenu(true)}/><Sidebar view={view} open={menu} close={()=>setMenu(false)} select={select}/><section className="app-content">{view==="overview"&&<Overview analyze={analyze}/>} {view==="loading"&&<LoadingView/>} {view==="diagnostic"&&<Diagnostic rerun={analyze} validate={()=>setView("final")}/>} {view==="final"&&<FinalView back={()=>setView("overview")}/>}</section>{menu&&<button className="overlay" onClick={()=>setMenu(false)} aria-label="Cerrar menú"/>}</main>
 }
