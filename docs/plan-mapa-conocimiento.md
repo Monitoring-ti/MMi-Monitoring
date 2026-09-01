@@ -130,23 +130,23 @@ El Mapa de Conocimiento **no reemplaza** las pantallas actuales; las complementa
 
 **DoD E1:** buscar “FMECA enfriamiento” → grafo con ≥5 nodos; clic → panel con cita; expandir 1-hop.
 
-### E2 — Filtros y vistas (1 semana)
+### E2 — Filtros y vistas ✅ (básico)
 
-| # | Tarea |
-|---|-------|
-| E2.1 | Filtros activo, área (`dominio`), documento (`tipo`, `document_key`) |
-| E2.2 | Filtro fecha (`version_label`, `indexed_at`) |
-| E2.3 | Filtro falla / síntoma (texto en chunk + conceptos FMECA) |
-| E2.4 | Toggle Global / Documentos / Conceptos |
+| # | Tarea | Estado |
+|---|-------|--------|
+| E2.1 | Filtros activo, área, documento | ✅ |
+| E2.2 | Filtro versión / vigencia | ✅ |
+| E2.3 | Filtro falla / síntoma | ✅ |
+| E2.4 | Toggle Global / Documentos / Conceptos | ✅ |
 
-### E3 — Asistente contextual (1 semana)
+### E3 — Asistente contextual ✅ (básico)
 
-| # | Tarea |
-|---|-------|
-| E3.1 | Selección múltiple de nodos |
-| E3.2 | `/api/graph/ask` — contexto = chunks de nodos seleccionados |
-| E3.3 | Panel “Preguntar sobre selección” (reusa prompt RAG + conflictos C2) |
-| E3.4 | Enlace “Abrir en Motor MMI” si hay activo en selección |
+| # | Tarea | Estado |
+|---|-------|--------|
+| E3.1 | Selección múltiple (Shift+clic) | ✅ |
+| E3.2 | `/api/graph/ask` sobre nodos | ✅ |
+| E3.3 | Referencias + banner conflictos C2 | ✅ |
+| E3.4 | Enlace Motor MMI si hay activo | ✅ |
 
 ### E4 — Conceptos y enriquecimiento (opcional)
 

@@ -259,6 +259,7 @@ class GraphBuilder:
         return {
             "dominios": ["mantenibilidad", "confiabilidad", "seguridad", "ingenieria"],
             "tipos": ["norma", "guia", "sop", "manual_oem", "tabla", "presentacion", "plano", "otro"],
+            "version_labels": ["vigente", "Rev 6", "REV02", "Rev 15"],
             "views": ["global", "documents", "concepts"],
         }
 
@@ -284,6 +285,7 @@ class GraphBuilder:
         dominio = (filters.get("dominio") or "").strip().lower()
         tipo = (filters.get("tipo") or "").strip().lower()
         document_key = (filters.get("document_key") or "").strip().lower()
+        version = (filters.get("version_label") or filters.get("version") or "").strip().lower()
         text = (filters.get("failure") or filters.get("falla") or "").strip().lower()
 
         out: list[SearchResult] = []
@@ -295,6 +297,8 @@ class GraphBuilder:
             if dominio and (h.dominio or "").lower() != dominio:
                 continue
             if tipo and (h.tipo or "").lower() != tipo:
+                continue
+            if version and version not in (h.version_label or "").lower():
                 continue
             if document_key and document_key not in (h.document_key or "").lower():
                 if document_key not in (h.titulo or "").lower():

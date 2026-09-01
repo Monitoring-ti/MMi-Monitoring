@@ -65,6 +65,11 @@ def render_mapa_html(out_dir: Path | None = None) -> str:
   .ask-box {{ margin-top: 12px; }}
   .ask-box input {{ width: 100%; box-sizing: border-box; margin-bottom: 8px; padding: 8px; border-radius: 6px; border: 1px solid #3a3350; background: #0f0d14; color: #eee; }}
   .answer {{ margin-top: 10px; font-size: 0.85rem; line-height: 1.5; white-space: pre-wrap; }}
+  .refs {{ margin-top: 8px; font-size: 0.78rem; color: #9a94aa; }}
+  .refs li {{ margin-bottom: 4px; }}
+  .banner {{ margin-top: 8px; padding: 8px 10px; border-radius: 6px; background: #3a2020; border: 1px solid #6a3030; color: #f0b0b0; font-size: 0.8rem; }}
+  .motor-link {{ display: inline-block; margin-top: 10px; color: #8ab4ff; font-size: 0.82rem; }}
+  .sel-count {{ font-size: 0.78rem; color: #9a94aa; margin-top: 6px; }}
   @media (max-width: 960px) {{
     .main {{ grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; }}
     .filters {{ border-right: none; border-bottom: 1px solid var(--border); }}
@@ -96,6 +101,9 @@ def render_mapa_html(out_dir: Path | None = None) -> str:
       <input id="fFailure" placeholder="vibración, temperatura"/>
       <label>Documento (clave)</label>
       <input id="fDocKey" placeholder="FMECA, GUIGS"/>
+      <label>Versión / vigencia</label>
+      <select id="fVersion"><option value="">—</option></select>
+      <button type="button" id="btnApplyFilters" style="width:100%;margin-top:12px">Aplicar filtros</button>
       <div class="view-tabs" style="margin-top:14px">
         <button type="button" class="view-btn active" data-view="global">Global</button>
         <button type="button" class="view-btn" data-view="documents">Docs</button>
@@ -106,6 +114,8 @@ def render_mapa_html(out_dir: Path | None = None) -> str:
     <aside class="detail">
       <h2>Selección</h2>
       <div id="detail" class="meta">Selecciona un nodo en el grafo.</div>
+      <div id="selCount" class="sel-count"></div>
+      <a id="motorLink" class="motor-link" href="#" style="display:none">Abrir en Motor MMI →</a>
       <div class="ask-box">
         <input id="askQ" placeholder="Preguntar sobre nodos seleccionados"/>
         <button id="btnAsk" disabled>Preguntar</button>
@@ -139,7 +149,31 @@ function filters() {{
     tipo: document.getElementById('fTipo').value,
     failure: document.getElementById('fFailure').value.trim(),
     document_key: document.getElementById('fDocKey').value.trim(),
+    version_label: document.getElementById('fVersion').value,
   }};
+}}
+
+function updateSelectionUi(payload) {{
+  const n = state.selected.size;
+  document.getElementById('selCount').textContent = n ? `${{n}} nodo(s) seleccionado(s)` : '';
+  document.getElementById('btnExpand').disabled = n === 0;
+  document.getElementById('btnAsk').disabled = n === 0;
+  const motor = document.getElementById('motorLink');
+  let asset = '';
+  if (payload && n) {{
+    for (const id of state.selected) {{
+      const node = payload.nodes.find(x => x.id === id);
+      if (!node) continue;
+      if (node.kind === 'asset') {{ asset = node.label; break; }}
+      if ((node.asset_codes || []).length) {{ asset = node.asset_codes[0]; break; }}
+    }}
+  }}
+  if (asset) {{
+    motor.href = 'motor.html?asset=' + encodeURIComponent(asset);
+    motor.style.display = 'inline-block';
+  }} else {{
+    motor.style.display = 'none';
+  }}
 }}
 
 function setStatus(msg, ok) {{
@@ -199,6 +233,7 @@ function renderGraph(payload) {{
     document.getElementById('btnExpand').disabled = state.selected.size === 0;
     document.getElementById('btnAsk').disabled = state.selected.size === 0;
     showNode(id, payload.nodes.find(n => n.id === id));
+    updateSelectionUi(payload);
     renderGraph(payload);
   }});
 }}
@@ -232,8 +267,7 @@ async function runSearch() {{
       query, limit: 10, min_similarity: state.minSimilarity, view: state.view, filters: filters(),
     }});
     state.selected.clear();
-    document.getElementById('btnExpand').disabled = true;
-    document.getElementById('btnAsk').disabled = true;
+    updateSelectionUi(data);
     renderGraph(data);
     setStatus(`${{data.count.nodes}} nodos · ${{data.count.edges}} aristas · ${{data.elapsed_ms}} ms`, true);
     history.replaceState(null, '', 'mapa.html?q=' + encodeURIComponent(query));
@@ -264,16 +298,26 @@ async function runExpand() {{
 async function runAsk() {{
   const q = document.getElementById('askQ').value.trim() || document.getElementById('query').value.trim();
   if (!q || !state.selected.size) return;
-  document.getElementById('askAnswer').textContent = 'Generando…';
+  const el = document.getElementById('askAnswer');
+  el.textContent = 'Generando…';
   try {{
     const data = await api('/api/graph/ask', {{
       query: q,
       node_ids: Array.from(state.selected),
       limit: 8,
     }});
-    document.getElementById('askAnswer').textContent = data.answer || '(sin respuesta)';
+    let html = '<div class="answer">' + (data.answer || '(sin respuesta)').replace(/</g,'&lt;') + '</div>';
+    if (data.conflict_banner && data.conflict_banner.visible) {{
+      html += '<div class="banner">' + (data.conflict_banner.message || 'Posible conflicto entre versiones') + '</div>';
+    }}
+    if ((data.references || []).length) {{
+      html += '<ul class="refs">' + data.references.map(r =>
+        '<li>[' + r.index + '] ' + (r.citation || r.titulo || '') + '</li>'
+      ).join('') + '</ul>';
+    }}
+    el.innerHTML = html;
   }} catch (e) {{
-    document.getElementById('askAnswer').textContent = 'Error: ' + e.message;
+    el.textContent = 'Error: ' + e.message;
   }}
 }}
 
@@ -282,15 +326,22 @@ async function loadFilters() {{
     const data = await fetch('/api/graph/filters').then(r => r.json());
     const dom = document.getElementById('fDominio');
     const tipo = document.getElementById('fTipo');
+    const ver = document.getElementById('fVersion');
     (data.dominios || []).forEach(v => {{
       const o = document.createElement('option'); o.value = v; o.textContent = v; dom.appendChild(o);
     }});
     (data.tipos || []).forEach(v => {{
       const o = document.createElement('option'); o.value = v; o.textContent = v; tipo.appendChild(o);
     }});
+    (data.version_labels || []).forEach(v => {{
+      const o = document.createElement('option'); o.value = v; o.textContent = v; ver.appendChild(o);
+    }});
   }} catch (_) {{}}
 }}
 
+document.getElementById('btnApplyFilters').onclick = () => {{
+  if (document.getElementById('query').value.trim()) runSearch();
+}};
 document.getElementById('btnSearch').onclick = runSearch;
 document.getElementById('btnExpand').onclick = runExpand;
 document.getElementById('btnAsk').onclick = runAsk;

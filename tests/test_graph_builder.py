@@ -63,3 +63,14 @@ def test_apply_filters_by_dominio():
 def test_chunk_node_label_includes_page():
     node = _hit_to_chunk_node(_sample_hit())
     assert "p.3" in node.label
+
+
+def test_apply_filters_by_version():
+    builder = GraphBuilder(_FakeEngine())  # type: ignore[arg-type]
+    hits = [
+        _sample_hit(point_id="a", version_label="vigente"),
+        _sample_hit(point_id="b", version_label="Rev 4", document_id="doc-2"),
+    ]
+    filtered = builder._apply_filters(hits, {"version_label": "vigente"})
+    assert len(filtered) == 1
+    assert filtered[0].point_id == "a"
