@@ -388,19 +388,20 @@ MMI_OCR_DPI=300
 | C4.10 | Chunking OCR contextual | `index/ocr_chunking.py` |
 | C4.11 | Worker reanudable por página | `tools/ocr_worker.py` |
 | C4.12 | UI revisión diff + confianza | `tools/ocr_review.py`, `analysis/ocr_status.py` |
-| C4.13 | Indexar IFC-078 lote 1 | `index_lote1` |
+| C4.12b | Detección planos pre-OCR | `ingest/plan_detect.py`, `tools/plan_scan.py` |
+| C4.13 | Indexar planos INF TEC (piloto) | `tools/ocr_index_pilot.py`, `index/ocr_sync.py` |
 | C4.14 | PPTX visual → OCR región | `pptx_visual.py` |
 
 ### DoD C4
 
-- [ ] `IFC-078` extraído con capas crudo + normalizado por página
-- [ ] Imagen original y preprocesada conservadas
-- [ ] `ocr_validations` con al menos regla de tag técnico
-- [ ] Chunks citan página + región + confianza
-- [ ] Re-OCR de 1 página no reprocesa el documento completo
-- [ ] Versión no activa si página crítica en `reject`
-- [ ] Dashboard muestra diff crudo ↔ normalizado
-- [ ] LLM no altera códigos en pipeline de ingesta
+- [x] Extracción con capas crudo + normalizado por página (Azure adapter + staging)
+- [x] Staging conserva `ocr_result.json` por página + `manifest.json`
+- [x] `ocr_validations` con regla de tag técnico (local en manifest)
+- [x] Chunks citan página + región + confianza (`ocr_chunking.py`)
+- [x] Re-OCR incremental por `page_hash` (skip en `ocr_store.page_already_processed`)
+- [ ] Versión no activa si página crítica en `reject` (gate indexación pendiente)
+- [x] Dashboard diff crudo ↔ normalizado (`ocr-review.html`)
+- [x] LLM no altera códigos en pipeline de ingesta (solo normaliza espacios)
 
 ---
 
@@ -408,7 +409,8 @@ MMI_OCR_DPI=300
 
 | Riesgo | Mitigación |
 |--------|------------|
-| Indexar OCR sin confianza ni página | Gate en `validate_ocr` + payload obligatorio |
+| OCR en documento narrativo | `plan_detect` + gate en `ocr_worker` / `process_manifest` |
+| Confundir IFC financiero con plano | `resolve_lote1` → `phase0=pdf` si no es plano |
 | Sobrecorregir códigos por similitud semántica | Solo `catalog_lookup` con flag `approved` |
 | Perder tablas al aplanar | `ocr_tables` + chunk tabular |
 | Mezclar páginas sin contexto | Header fijo por chunk |
@@ -437,4 +439,4 @@ Formato de cita objetivo:
 - Catálogo EAM: B4 (`catalog_assets`)
 - PPTX visual selectivo: `docs/plan-pptx-extraction.md` § eficiencia
 - SQL v2 base: `docs/migrations/002_ingestion_v2.sql`
-- Puerto actual: `src/mmi/ingest/ocr.py` (`UnimplementedOcrAdapter`)
+- Puerto actual: `src/mmi/ingest/ocr.py` + `plan_detect.py`

@@ -23,6 +23,57 @@ class PdfAdapter:
         pages = self._read_pages(path)
         return self._build_document(path, pages)
 
+    def extract_hybrid(self, path: Path) -> ExtractedDocument:
+        """Texto nativo donde hay capa; OCR para páginas sin texto (C4.9)."""
+        pages = self._read_pages(path)
+        needs_ocr = [p for p in pages if p.needs_ocr]
+        if not needs_ocr:
+            return self._build_document(path, pages)
+        if len(needs_ocr) == len(pages):
+            from mmi.ingest.ocr import extract_with_ocr
+
+            return extract_with_ocr(path)
+
+        from mmi.ingest.ocr import extract_with_ocr
+
+        ocr_doc = extract_with_ocr(path)
+        ocr_by_page = {int(p.get("page", 0)): p for p in (ocr_doc.meta.get("pages") or [])}
+
+        merged_pages: list[PageBlock] = []
+        notes: list[str] = [f"Híbrido: {len(needs_ocr)}/{len(pages)} páginas vía OCR"]
+        for block in pages:
+            if block.needs_ocr:
+                ocr_page = ocr_by_page.get(block.page, {})
+                text = (ocr_page.get("text") or ocr_page.get("text_raw") or "").strip()
+                merged_pages.append(
+                    PageBlock(
+                        page=block.page,
+                        text=text,
+                        needs_ocr=False,
+                        char_count=len(text),
+                    )
+                )
+            else:
+                merged_pages.append(block)
+
+        doc = self._build_document(path, merged_pages)
+        return ExtractedDocument(
+            markdown=doc.markdown,
+            quality=ocr_doc.quality if ocr_doc.quality != "pass" else doc.quality,
+            mime_type=doc.mime_type,
+            source_path=doc.source_path,
+            anchors=doc.anchors,
+            ocr_confidence=ocr_doc.ocr_confidence,
+            notes=notes + doc.notes,
+            meta={
+                **doc.meta,
+                "format": "pdf_hybrid",
+                "ocr_pages": [p.page for p in needs_ocr],
+                "ocr_confidence": ocr_doc.ocr_confidence,
+                "engine": ocr_doc.meta.get("engine"),
+            },
+        )
+
     @staticmethod
     def _read_pages(path: Path) -> list[PageBlock]:
         import pdfplumber

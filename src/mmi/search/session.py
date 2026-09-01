@@ -15,6 +15,7 @@ class AskSession:
     hits: list[SearchResult]
     cited_indices: list[int]
     references: list[dict]
+    conflicts: list[dict] = field(default_factory=list)
     created: float = field(default_factory=time)
 
 

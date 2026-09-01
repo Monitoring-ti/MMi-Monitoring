@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 from mmi.config import get_ocr_settings
 from mmi.corpus.lote1 import resolve_lote1
+from mmi.corpus.paths import DEFAULT_CORPUS
 from mmi.ingest.ocr import extract_with_ocr
 from mmi.ingest.ocr_azure import AzureDocumentIntelligenceAdapter
 
@@ -79,11 +80,13 @@ def main(argv: list[str] | None = None) -> int:
 
     path: Path | None = args.file
     if args.ifc:
-        corpus = Path("00 DOCUMENTOS NCC30")
+        corpus = DEFAULT_CORPUS
         files, missing = resolve_lote1(corpus)
         match = next((f for f in files if f.get("phase0") == "ocr"), None)
         if not match:
-            print("No se encontró IFC-078 en lote 1")
+            print(f"No se encontró IFC-078 en lote 1 bajo {corpus}")
+            if missing:
+                print("Archivos faltantes:", ", ".join(missing))
             return 1
         path = Path(match["absolute_path"])
         print(f"\nPiloto OCR: {path.name}")

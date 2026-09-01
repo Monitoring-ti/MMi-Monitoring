@@ -11,18 +11,17 @@ from urllib.parse import unquote, urlparse
 
 from dotenv import load_dotenv
 
-from mmi.search.answer import ask
-from mmi.search.api_payloads import ask_details_payload, ask_payload
-from mmi.search.engine import HybridSearchEngine
-from mmi.search.session import AskSession, AskSessionStore
-from mmi.tools.search_cli import _result_dict, render_search_html
+from mmi.motor.page import render_motor_html
+from mmi.search.rag_page import render_rag_html
+from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api
+from mmi.tools.search_cli import render_search_html
 
 
-def make_handler(engine: HybridSearchEngine, out_dir: Path, search_html: str):
+def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = "monitoring"):
     from mmi.corpus.remote_source import load_remote_source, save_remote_source
 
     remote_path = out_dir / "remote-source.json"
-    sessions = AskSessionStore()
+    api_ctx = ApiContext(tenant_slug=tenant_slug, out_dir=out_dir, _engine=engine)
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, fmt: str, *args) -> None:
@@ -39,16 +38,32 @@ def make_handler(engine: HybridSearchEngine, out_dir: Path, search_html: str):
                 data = load_remote_source(remote_path) or {}
                 self._send_json(data)
                 return
-            rel = path.lstrip("/") or "search.html"
-            target = out_dir / rel
+            if path == "/api/ingestion-live":
+                from mmi.analysis.live_status import collect_live_snapshot
+
+                self._send_json(collect_live_snapshot(out_dir))
+                return
+            if path == "/api/review-models":
+                from mmi.analysis.llm_review import REVIEW_MODELS
+
+                self._send_json({"models": REVIEW_MODELS})
+                return
+            if handle_get_api(path, self, api_ctx):
+                return
+            rel = unquote(path.lstrip("/") or "search.html")
+            rel = rel.replace("\\", "/")
+            target = (out_dir / rel).resolve()
+            try:
+                target.relative_to(out_dir.resolve())
+            except ValueError:
+                self.send_error(404)
+                return
             if target.is_file():
                 self._send_file(target)
                 return
-            self.send_error(404)
+            self.send_error(404, f"No encontrado: {path}")
 
         def do_POST(self) -> None:
-            import time
-
             path = urlparse(self.path).path
             if path == "/api/remote-source":
                 length = int(self.headers.get("Content-Length", "0"))
@@ -67,66 +82,45 @@ def make_handler(engine: HybridSearchEngine, out_dir: Path, search_html: str):
                     self._send_json({"error": str(exc)}, status=500)
                 return
 
-            if path not in {"/api/search", "/api/ask", "/api/ask-details"}:
-                self.send_error(404)
+            if path == "/api/ingestion-action":
+                length = int(self.headers.get("Content-Length", "0"))
+                raw = self.rfile.read(length)
+                try:
+                    data = json.loads(raw.decode("utf-8"))
+                    action = (data.get("action") or "").strip()
+                    names = data.get("names") or []
+                    if isinstance(names, str):
+                        names = [names]
+                    if not action or not names:
+                        self._send_json({"error": "Se requiere action y names"}, status=400)
+                        return
+                    from mmi.analysis.reprocess import run_ingestion_action
+
+                    result = run_ingestion_action(
+                        action,
+                        names,
+                        out_dir=out_dir,
+                        tenant_slug=tenant_slug,
+                        force=bool(data.get("force", True)),
+                        quality=data.get("quality"),
+                        model=data.get("model"),
+                        delete_failed=bool(data.get("delete_failed", True)),
+                        note=data.get("note") or "",
+                    )
+                    self._send_json(result)
+                except Exception as exc:  # noqa: BLE001
+                    self._send_json({"error": str(exc)}, status=500)
                 return
 
             length = int(self.headers.get("Content-Length", "0"))
             raw = self.rfile.read(length)
             try:
                 data = json.loads(raw.decode("utf-8"))
-                t0 = time.perf_counter()
-
-                if path == "/api/ask-details":
-                    session_id = (data.get("ask_id") or "").strip()
-                    section = (data.get("section") or "").strip()
-                    session = sessions.get(session_id)
-                    if session is None:
-                        self._send_json({"error": "Sesión expirada o inválida"}, status=404)
-                        return
-                    payload = ask_details_payload(session, section, _result_dict)
-                    payload["elapsed_ms"] = int((time.perf_counter() - t0) * 1000)
-                    self._send_json(payload)
+                if handle_post_api(path, data, self, api_ctx):
                     return
-
-                query = (data.get("query") or "").strip()
-                limit = int(data.get("limit") or 6)
-
-                if path == "/api/search":
-                    hits = engine.search(query, limit=limit)
-                    payload = {
-                        "query": query,
-                        "count": len(hits),
-                        "elapsed_ms": int((time.perf_counter() - t0) * 1000),
-                        "results": [_result_dict(r) for r in hits],
-                    }
-                else:
-                    result = ask(query, engine, limit=limit)
-                    session_id = sessions.put(
-                        AskSession(
-                            query=result.query,
-                            hits=result.hits,
-                            cited_indices=result.cited_indices,
-                            references=result.references,
-                        )
-                    )
-                    payload = ask_payload(
-                        result,
-                        session_id,
-                        int((time.perf_counter() - t0) * 1000),
-                    )
-
-                self._send_json(payload)
+                self._send_json({"error": f"POST no soportado: {path}"}, status=404)
             except Exception as exc:  # noqa: BLE001
                 self._send_json({"error": str(exc)}, status=500)
-
-        def _send_html(self, html: str) -> None:
-            body = html.encode("utf-8")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
 
         def _send_json(self, data: dict, status: int = 200) -> None:
             body = json.dumps(data, ensure_ascii=False).encode("utf-8")
@@ -143,10 +137,60 @@ def make_handler(engine: HybridSearchEngine, out_dir: Path, search_html: str):
             self.send_response(200)
             self.send_header("Content-Type", ctype)
             self.send_header("Content-Length", str(len(body)))
+            if ctype.startswith("text/html") or path.suffix == ".json":
+                self.send_header("Cache-Control", "no-store, must-revalidate")
             self.end_headers()
             self.wfile.write(body)
 
     return Handler
+
+
+def _pids_listening_on_port(port: int) -> set[int]:
+    import subprocess
+
+    pids: set[int] = set()
+    try:
+        out = subprocess.check_output(
+            ["netstat", "-ano"],
+            text=True,
+            timeout=20,
+        )
+        for line in out.splitlines():
+            if f":{port}" not in line or "LISTENING" not in line:
+                continue
+            parts = line.split()
+            if len(parts) < 5:
+                continue
+            try:
+                pids.add(int(parts[-1]))
+            except ValueError:
+                continue
+    except (subprocess.SubprocessError, OSError):
+        pass
+    return pids
+
+
+def free_listening_port(port: int) -> list[int]:
+    """Libera el puerto deteniendo procesos que escuchan en localhost (dev local)."""
+    import subprocess
+    import time
+
+    freed: list[int] = []
+    for _ in range(3):
+        pids = _pids_listening_on_port(port)
+        if not pids:
+            break
+        for pid in sorted(pids):
+            if pid in freed:
+                continue
+            subprocess.run(
+                ["taskkill", "/PID", str(pid), "/F"],
+                capture_output=True,
+                timeout=15,
+            )
+            freed.append(pid)
+        time.sleep(1.0)
+    return freed
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -154,23 +198,48 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--port", type=int, default=8773)
     parser.add_argument("--out", type=Path, default=Path("out"))
     parser.add_argument("--tenant", default="monitoring")
+    parser.add_argument(
+        "--replace",
+        action="store_true",
+        default=True,
+        help="Detener proceso previo en el puerto (default: sí)",
+    )
+    parser.add_argument(
+        "--no-replace",
+        action="store_false",
+        dest="replace",
+        help="No detener proceso previo en el puerto",
+    )
     args = parser.parse_args(argv)
 
     load_dotenv()
+    if args.replace:
+        freed = free_listening_port(args.port)
+        if freed:
+            print(f"Puerto {args.port}: liberado (PID {', '.join(str(p) for p in freed)})")
     out_dir = args.out.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
-    search_html = render_search_html()
+    search_html = render_search_html(out_dir)
+    rag_html = render_rag_html(out_dir)
+    motor_html = render_motor_html(out_dir)
     (out_dir / "search.html").write_text(search_html, encoding="utf-8")
+    (out_dir / "rag.html").write_text(rag_html, encoding="utf-8")
+    (out_dir / "motor.html").write_text(motor_html, encoding="utf-8")
+
+    from mmi.search.engine import HybridSearchEngine
 
     engine = HybridSearchEngine(tenant_slug=args.tenant)
-    handler = make_handler(engine, out_dir, search_html)
+    handler = make_handler(engine, out_dir, search_html, tenant_slug=args.tenant)
     server = ThreadingHTTPServer(("127.0.0.1", args.port), handler)
     print(f"MMI local → http://127.0.0.1:{args.port}/")
-    print(f"  Búsqueda     http://127.0.0.1:{args.port}/")
-    print(f"  Estado       http://127.0.0.1:{args.port}/analysis-status.html")
-    print(f"  Enlace nube  http://127.0.0.1:{args.port}/source-review.html")
+    print(f"  Búsqueda     http://127.0.0.1:{args.port}/search.html")
+    print(f"  Consulta RAG http://127.0.0.1:{args.port}/rag.html")
+    print(f"  Motor MMI  http://127.0.0.1:{args.port}/motor.html")
+    print(f"  Health     http://127.0.0.1:{args.port}/api/motor/health")
+    print(f"  Revisión     http://127.0.0.1:{args.port}/review.html")
     print(f"  Corpus       http://127.0.0.1:{args.port}/corpus-picker.html")
-    print("  Generación   OpenRouter (/api/ask)")
+    print(f"  Carga (RAG)  http://127.0.0.1:{args.port}/load-test-report.html")
+    print("  Generación   OpenRouter (/api/ask, /api/motor/analyze)")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

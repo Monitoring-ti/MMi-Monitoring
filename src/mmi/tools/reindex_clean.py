@@ -9,6 +9,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 from mmi.corpus.lote1 import resolve_lote1
+from mmi.corpus.paths import DEFAULT_CORPUS
 from mmi.index.chunking import file_sha256
 from mmi.index.store import (
     pg_delete_chunks,
@@ -81,7 +82,7 @@ def clean_tenant(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Limpieza índice lote 1 + re-index opcional")
     parser.add_argument("--tenant", default="monitoring")
-    parser.add_argument("--corpus", type=Path, default=Path("00 DOCUMENTOS NCC30"))
+    parser.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--manifest", type=Path, default=Path("out/process-manifest.json"))
     parser.add_argument("--extract-dir", type=Path, default=Path("out/lote1-extract"))
     parser.add_argument("--dry-run", action="store_true", help="Solo listar documentos a eliminar")

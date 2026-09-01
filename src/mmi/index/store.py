@@ -9,7 +9,15 @@ import requests
 from qdrant_client import QdrantClient
 from qdrant_client.models import FieldCondition, Filter, MatchValue, PointStruct, SparseVector
 
-EXT_METHOD = {".pdf": "native", ".xlsx": "tabular", ".xls": "tabular", ".pptx": "slide", ".docx": "structured", ".doc": "structured"}
+EXT_METHOD = {
+    ".pdf": "native",
+    ".xlsx": "tabular",
+    ".xls": "tabular",
+    ".pptx": "slide",
+    # DB check: native|ocr|tabular|slide (001_schema.sql)
+    ".docx": "native",
+    ".doc": "native",
+}
 
 VERSION_STATUSES = ("received", "processing", "indexed", "active", "failed", "superseded")
 
@@ -60,6 +68,26 @@ def pg_get_tenant_id(slug: str) -> str:
     if not rows:
         raise ValueError(f"Tenant '{slug}' no existe en Supabase.")
     return rows[0]["id"]
+
+
+def pg_find_document_by_key_content(
+    tenant_id: str,
+    document_key: str,
+    content_hash: str,
+) -> list[dict]:
+    r = requests.get(
+        f"{pg_rest()}/documents",
+        params={
+            "tenant_id": f"eq.{tenant_id}",
+            "document_key": f"eq.{document_key}",
+            "content_hash": f"eq.{content_hash}",
+            "select": "id,is_current,status,catalog_id,document_key,version_label",
+        },
+        headers=pg_headers(),
+        timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
 
 
 def pg_find_document(tenant_id: str, file_hash: str) -> list[dict]:
@@ -153,6 +181,56 @@ def pg_documents_for_catalog(catalog_id: str) -> list[dict]:
         },
         headers=pg_headers(),
         timeout=30,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def pg_get_document(document_id: str) -> dict | None:
+    r = requests.get(
+        f"{pg_rest()}/documents",
+        params={"id": f"eq.{document_id}", "select": "*"},
+        headers=pg_headers(),
+        timeout=30,
+    )
+    r.raise_for_status()
+    rows = r.json()
+    return rows[0] if rows else None
+
+
+def pg_load_chunks(document_id: str) -> list[dict]:
+    r = requests.get(
+        f"{pg_rest()}/chunks",
+        params={
+            "document_id": f"eq.{document_id}",
+            "select": (
+                "chunk_index,content,token_count,page_start,page_end,"
+                "section_path,criticality_level,asset_codes,qdrant_point_id"
+            ),
+            "order": "chunk_index",
+        },
+        headers=pg_headers(),
+        timeout=120,
+    )
+    r.raise_for_status()
+    return r.json()
+
+
+def pg_list_failed_documents(tenant_id: str, *, limit: int = 50) -> list[dict]:
+    r = requests.get(
+        f"{pg_rest()}/documents",
+        params={
+            "tenant_id": f"eq.{tenant_id}",
+            "status": "eq.failed",
+            "select": (
+                "id,titulo,document_key,status,file_hash,catalog_id,tenant_id,"
+                "source_file_id,content_hash,version_label,tipo,dominio"
+            ),
+            "limit": str(limit),
+            "order": "titulo",
+        },
+        headers=pg_headers(),
+        timeout=60,
     )
     r.raise_for_status()
     return r.json()

@@ -14,6 +14,8 @@ class OcrSettings:
     azure_model: str
     min_page_confidence: float
     min_block_confidence: float
+    critical_field_confidence: float
+    dpi: int
 
     @property
     def azure_configured(self) -> bool:
@@ -28,6 +30,8 @@ class OcrSettings:
             azure_model=(os.getenv("AZURE_DOCUMENT_INTELLIGENCE_MODEL") or "prebuilt-layout").strip(),
             min_page_confidence=float(os.getenv("MMI_OCR_MIN_PAGE_CONFIDENCE", "0.75")),
             min_block_confidence=float(os.getenv("MMI_OCR_MIN_BLOCK_CONFIDENCE", "0.60")),
+            critical_field_confidence=float(os.getenv("MMI_OCR_CRITICAL_FIELD_CONFIDENCE", "0.90")),
+            dpi=int(os.getenv("MMI_OCR_DPI", "300")),
         )
 
 

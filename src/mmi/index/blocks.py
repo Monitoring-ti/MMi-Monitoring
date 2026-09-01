@@ -18,6 +18,21 @@ class Block:
     meta: dict = field(default_factory=dict)
 
 
+from mmi.analysis.extract_index import default_extract_roots
+
+
+def _resolve_extract_dir(path: Path, extract_root: Path | None = None) -> Path | None:
+    from mmi.analysis.status import _find_extract_dir
+
+    if extract_root is not None:
+        return _find_extract_dir(extract_root, str(path.resolve()))
+    for root in default_extract_roots():
+        hit = _find_extract_dir(root, str(path.resolve()))
+        if hit:
+            return hit
+    return None
+
+
 def blocks_from_path(
     path: Path,
     *,
@@ -28,11 +43,7 @@ def blocks_from_path(
 ) -> list[Block]:
     ext = path.suffix.lower()
     if ext == ".pdf":
-        from mmi.analysis.status import _find_extract_dir
-
-        extract_dir = extract_root
-        if extract_dir is None:
-            extract_dir = _find_extract_dir(Path("out/lote1-extract"), str(path.resolve()))
+        extract_dir = _resolve_extract_dir(path, extract_root)
 
         if extract_dir and (extract_dir / "extracted.json").exists():
             import json
@@ -100,13 +111,10 @@ def blocks_from_path(
             if r.text_line.strip()
         ]
     if ext == ".pptx":
-        from mmi.analysis.status import _find_extract_dir
         from mmi.ingest.pptx import load_or_extract
         from mmi.ingest.pptx_normalize import section_aggregate_blocks, slides_to_blocks
 
-        extract_dir = extract_root
-        if extract_dir is None:
-            extract_dir = _find_extract_dir(Path("out/lote1-extract"), str(path.resolve()))
+        extract_dir = _resolve_extract_dir(path, extract_root)
         presentation = load_or_extract(
             path,
             extract_dir=extract_dir,
@@ -126,15 +134,10 @@ def blocks_from_path(
         )
         return slide_blocks + section_blocks
     if ext in {".docx", ".doc"}:
-        from mmi.analysis.status import _find_extract_dir
         from mmi.ingest.docx import load_or_extract
         from mmi.ingest.docx_normalize import blocks_to_blocks, section_aggregate_blocks
 
-        extract_dir = extract_root
-        if extract_dir is None:
-            extract_dir = _find_extract_dir(Path("out/lote1-extract"), str(path.resolve()))
-            if extract_dir is None:
-                extract_dir = _find_extract_dir(Path("out/docx-extract"), str(path.resolve()))
+        extract_dir = _resolve_extract_dir(path, extract_root)
         document = load_or_extract(
             path,
             extract_dir=extract_dir,

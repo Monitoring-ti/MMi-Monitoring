@@ -1,0 +1,81 @@
+{
+  "assets": [
+    {
+      "id": "CTS-DCH-ENF",
+      "name": "Sistema enfriamiento CTS DCH ODS1",
+      "modulo": "ODS1",
+      "criticality": "A"
+    },
+    {
+      "id": "MRI-ODS21",
+      "name": "Matriz MRI mantenimiento preventivo",
+      "modulo": "ODS21",
+      "criticality": "B"
+    },
+    {
+      "id": "STG-01-X",
+      "name": "Turbina STG-01-X (mock referencia)",
+      "modulo": "DCH",
+      "criticality": "A"
+    }
+  ],
+  "demo_analysis": {
+    "asset_id": "CTS-DCH-ENF",
+    "symptom": "Alta temperatura de salida y caída de caudal en circuito de enfriamiento",
+    "window": "24h",
+    "diagnosis": {
+      "summary": "El síntoma es consistente con restricción de flujo o degradación del intercambio térmico en el sistema de enfriamiento CTS DCH, con lecturas por encima de límites documentados en FMECA y ATM.",
+      "confidence_label": "alta",
+      "confidence_pct": 88
+    },
+    "verified_facts": [
+      {
+        "text": "Temperatura salida intercambiador TE-401A: 98 °C (límite documentado 95 °C)",
+        "kind": "measurement",
+        "citation_index": 1,
+        "source": { "type": "document", "citation": "ANEXO A ATM sistema enfriamiento torre DCH · Rev 1" }
+      },
+      {
+        "text": "Caudal circuito FT-405: 120 L/min (nominal 150 L/min)",
+        "kind": "measurement",
+        "citation_index": 2,
+        "source": { "type": "document", "citation": "FMECA MEC REEMP SIST ENFR CTS DCH ODS1 · Rev A" }
+      },
+      {
+        "text": "Vibración bomba VE-402X: 5,2 mm/s RMS en 1× RPM",
+        "kind": "measurement",
+        "citation_index": 3,
+        "source": { "type": "document", "citation": "Manual OEM equipos sala eléctrica · p. 112" }
+      }
+    ],
+    "hypotheses": [
+      {
+        "id": "H1",
+        "title": "Obstrucción parcial en intercambiador o válvula de control",
+        "rationale": "Caída de caudal simultánea con aumento de temperatura de salida.",
+        "confidence_pct": 88,
+        "supported_fact_indices": [1, 2]
+      },
+      {
+        "id": "H2",
+        "title": "Degradación sellos / cavitation en bomba de circulación",
+        "rationale": "Vibración elevada en 1× RPM con caudal reducido.",
+        "confidence_pct": 65,
+        "supported_fact_indices": [2, 3]
+      }
+    ],
+    "physical_checks": [
+      { "text": "Inspeccionar diferencial de presión en intercambiador principal", "priority": "urgent" },
+      { "text": "Verificar posición y estado válvula de control FT-405", "priority": "urgent" },
+      { "text": "Muestra aceite / fluido según checklist M&C si aplica", "priority": "normal" }
+    ],
+    "discrepancies": [
+      { "text": "PT-882 última calibración >365 días; lectura ±5% fuera de tolerancia metrológica", "severity": "warn" }
+    ],
+    "sources_preview": [
+      "ANEXO A ATM sistema enfriamiento torre DCH ODS1 Rev 1",
+      "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH ODS 1 Rev A",
+      "ANEXO A CHECK LIST REEMP SIST ENFR CTS DCH ODS1 Rev B"
+    ]
+  }
+}

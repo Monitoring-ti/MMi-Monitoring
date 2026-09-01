@@ -1,0 +1,9 @@
+{
+  "calibration_max_days": 365,
+  "reading_tolerance_pct": 5,
+  "rules": {
+    "calibration_overdue": true,
+    "reading_vs_wo": true,
+    "doc_version_conflict": true
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "calibrations": [
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "tag": "PT-882",
+      "description": "Transmisor presión circuito enfriamiento",
+      "last_calibration": "2024-08-15",
+      "interval_days": 365,
+      "tolerance_pct": 5,
+      "reading_drift_pct": 5.2
+    }
+  ],
+  "work_orders": [
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "wo_code": "WO-88912",
+      "date": "2025-11-03",
+      "cause": "Restricción de flujo en intercambiador",
+      "action": "Limpieza parcial y ajuste válvula de control",
+      "mtbf_hours": 8400,
+      "mtbf_expected_hours": 12000,
+      "symptoms": ["alta temperatura", "caudal reducido", "caída de caudal"]
+    },
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "wo_code": "WO-87401",
+      "date": "2024-06-18",
+      "cause": "Fuga menor en sellos bomba circulación",
+      "action": "Reemplazo sellos VE-402X",
+      "mtbf_hours": 11200,
+      "mtbf_expected_hours": 12000,
+      "symptoms": ["vibración", "ruido bomba"]
+    }
+  ],
+  "doc_conflicts": [
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "tag": "TE-401A",
+      "doc_a": "ATM sistema enfriamiento torre DCH · Rev 1 — límite 95 °C",
+      "doc_b": "FMECA MEC REEMP SIST ENFR CTS DCH ODS1 · Rev A — alarma 93 °C",
+      "severity": "warn"
+    }
+  ]
+}

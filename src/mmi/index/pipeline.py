@@ -8,6 +8,10 @@ from pathlib import Path
 
 from qdrant_client.models import PointStruct, SparseVector
 
+from mmi.catalog.version_detect import (
+    DocumentCandidate,
+    resolve_ingest_decision,
+)
 from mmi.index.blocks import blocks_from_path
 from mmi.index.chunking import ChunkOut, chunk_blocks, file_sha256
 from mmi.index.content_hash import content_hash
@@ -18,6 +22,7 @@ from mmi.index.store import (
     pg_activate_document_version,
     pg_count_chunks,
     pg_find_document,
+    pg_find_document_by_key_content,
     pg_finish_ingestion_job,
     pg_get_tenant_id,
     pg_insert_chunks,
@@ -70,16 +75,24 @@ def ingest_file(
     document_key: str | None = None,
     origen: str = "local",
     activate: bool = True,
+    relative_path: str = "",
+    asset_tag: str = "",
+    modulo: str = "",
 ) -> dict:
     t0 = time.perf_counter()
     path = Path(path)
     if not path.exists():
         raise FileNotFoundError(path)
 
-    doc_key = (document_key or path.stem).strip()
-    validate_ingest_metadata(document_key=doc_key, tipo=tipo, tenant_slug=tenant_slug)
+    fmt = path.suffix.lower()
+    tipo_db = _map_tipo(tipo)
+    dominio = dominio or DOMINIO_BY_TIPO.get(tipo_db, "mantenibilidad")
+    fname = path.name
+    file_hash = file_sha256(path)
 
     if not pg_schema_v2():
+        doc_key = (document_key or path.stem).strip()
+        validate_ingest_metadata(document_key=doc_key, tipo=tipo, tenant_slug=tenant_slug)
         return _ingest_legacy(
             path,
             tenant_slug=tenant_slug,
@@ -89,11 +102,6 @@ def ingest_file(
             document_key=doc_key,
         )
 
-    fmt = path.suffix.lower()
-    tipo_db = _map_tipo(tipo)
-    dominio = dominio or DOMINIO_BY_TIPO.get(tipo_db, "mantenibilidad")
-    fname = path.name
-    file_hash = file_sha256(path)
     tenant_id = pg_get_tenant_id(tenant_slug)
 
     existing = pg_find_document(tenant_id, file_hash)
@@ -102,7 +110,7 @@ def ingest_file(
         append_job(
             {
                 "archivo": fname,
-                "document_key": doc_key,
+                "document_key": row.get("document_key") or document_key or path.stem,
                 "estado": "duplicado",
                 "file_hash": file_hash,
                 "document_id": row["id"],
@@ -113,11 +121,112 @@ def ingest_file(
             "archivo": fname,
             "estado": "duplicado",
             "document_id": row["id"],
-            "document_key": doc_key,
+            "document_key": row.get("document_key") or document_key or path.stem,
             "chunks": 0,
             "sha256": file_hash[:12],
         }
 
+    candidate = DocumentCandidate.from_ingest(
+        path,
+        tenant_slug=tenant_slug,
+        tipo=tipo,
+        document_key=document_key,
+        version_label=version_label,
+        origen=origen,
+        relative_path=relative_path,
+        asset_tag=asset_tag,
+        modulo=modulo,
+    )
+    doc_key = candidate.logical_key
+    validate_ingest_metadata(document_key=doc_key, tipo=tipo, tenant_slug=tenant_slug)
+
+    blocks = blocks_from_path(
+        path,
+        document_key=doc_key,
+        version_label=version_label or "",
+        tipo=tipo_db,
+    )
+    chunks = chunk_blocks(blocks, fmt, tipo_db)
+    if not chunks:
+        raise RuntimeError("sin contenido extraíble")
+
+    normalized = "\n\n".join(c.content for c in chunks)
+    c_hash = content_hash(normalized)
+    decision = resolve_ingest_decision(
+        candidate,
+        content_hash_value=c_hash,
+        tenant_slug=tenant_slug,
+    )
+    identity_metrics = {
+        "identity_decision": decision.kind,
+        "identity_reason": decision.reason,
+        "logical_key": decision.logical_key,
+        "content_hash": c_hash[:12],
+        "confidence": decision.confidence,
+    }
+
+    if decision.kind == "needs_review":
+        job_id = pg_insert_ingestion_job(
+            {
+                "tenant_id": tenant_id,
+                "stage": "validate",
+                "status": "skipped",
+                "metrics": {"archivo": fname, "review_status": "needs_review", **identity_metrics},
+            }
+        )
+        append_job(
+            {
+                "archivo": fname,
+                "document_key": doc_key,
+                "estado": "needs_review",
+                "file_hash": file_hash,
+                "stage": "skip",
+                "reason": decision.reason,
+                "metrics": identity_metrics,
+                "job_id": job_id,
+            }
+        )
+        return {
+            "archivo": fname,
+            "estado": "needs_review",
+            "document_key": doc_key,
+            "chunks": 0,
+            "sha256": file_hash[:12],
+            "content_hash": c_hash[:12],
+            "reason": decision.reason,
+            "identity_decision": decision.kind,
+        }
+
+    if decision.kind == "mismo_contenido":
+        existing_id = decision.existing_document_id
+        if not existing_id:
+            hits = pg_find_document_by_key_content(tenant_id, doc_key, c_hash)
+            existing_id = hits[0]["id"] if hits else None
+        if existing_id and version_label:
+            pg_patch_document(existing_id, {"version_label": version_label})
+        append_job(
+            {
+                "archivo": fname,
+                "document_key": doc_key,
+                "estado": "mismo_contenido",
+                "file_hash": file_hash,
+                "document_id": existing_id,
+                "stage": "skip",
+                "metrics": identity_metrics,
+            }
+        )
+        return {
+            "archivo": fname,
+            "estado": "mismo_contenido",
+            "document_id": existing_id,
+            "document_key": doc_key,
+            "chunks": 0,
+            "sha256": file_hash[:12],
+            "content_hash": c_hash[:12],
+            "identity_decision": decision.kind,
+        }
+
+    doc_key = decision.logical_key
     catalog_id = pg_upsert_catalog(
         tenant_id,
         doc_key,
@@ -133,7 +242,7 @@ def ingest_file(
             "catalog_id": catalog_id,
             "stage": "extract",
             "status": "running",
-            "metrics": {"archivo": fname},
+            "metrics": {"archivo": fname, **identity_metrics},
         }
     )
 
@@ -146,6 +255,7 @@ def ingest_file(
             "tipo": tipo_db,
             "dominio": dominio,
             "file_hash": file_hash,
+            "content_hash": c_hash,
             "version_label": version_label,
             "is_current": False,
             "status": "processing",
@@ -158,18 +268,6 @@ def ingest_file(
         requests_patch_job_document(job_id, doc_id)
 
     try:
-        blocks = blocks_from_path(
-            path,
-            document_key=doc_key,
-            version_label=version_label or "",
-            tipo=tipo_db,
-        )
-        chunks = chunk_blocks(blocks, fmt, tipo_db)
-        if not chunks:
-            raise RuntimeError("sin contenido extraíble")
-
-        normalized = "\n\n".join(c.content for c in chunks)
-        c_hash = content_hash(normalized)
         pg_patch_document(doc_id, {"content_hash": c_hash, "status": "processing"})
 
         emb = OpenAIEmbedding()
@@ -203,6 +301,8 @@ def ingest_file(
                         "dominio": dominio,
                         "criticality_level": c.criticality_level,
                         "asset_codes": c.asset_codes or [],
+                        "asset_tag": asset_tag or "",
+                        "modulo": modulo or "",
                         "is_current": False,
                         "version_status": "indexed",
                         "extraction_method": EXT_METHOD.get(fmt, "native"),
@@ -250,7 +350,10 @@ def ingest_file(
             "tokens": sum(c.token_count for c in chunks),
             "elapsed_ms": elapsed,
             "content_hash": c_hash[:12],
+            **identity_metrics,
         }
+        if decision.kind == "nueva_version":
+            metrics["supersedes_document_id"] = decision.supersedes_document_id
         pg_finish_ingestion_job(job_id, status="completed", metrics=metrics)
         append_job(
             {
@@ -263,6 +366,7 @@ def ingest_file(
                 "chunks": len(chunks),
                 "stage": "activate" if activate else "indexed",
                 "metrics": metrics,
+                "identity_decision": decision.kind,
             }
         )
 
@@ -277,6 +381,7 @@ def ingest_file(
             "sha256": file_hash[:12],
             "content_hash": c_hash[:12],
             "elapsed_ms": elapsed,
+            "identity_decision": decision.kind,
         }
 
     except Exception as exc:

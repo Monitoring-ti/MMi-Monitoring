@@ -6,6 +6,7 @@ import re
 from dataclasses import dataclass
 
 from mmi.llm.openrouter import chat_completion
+from mmi.search.conflicts import conflict_banner, detect_conflicts
 from mmi.search.engine import HybridSearchEngine, SearchResult
 
 CITE_RE = re.compile(r"\[(\d+)\]")
@@ -40,6 +41,8 @@ class AnswerResult:
     cited_indices: list[int]
     evidence_count: int
     hits: list[SearchResult]
+    conflicts: list[dict]
+    conflict_banner: dict
 
 
 def extract_cited_indices(text: str) -> list[int]:
@@ -98,6 +101,8 @@ def generate_answer(query: str, hits: list[SearchResult], model: str | None = No
             cited_indices=[],
             evidence_count=0,
             hits=[],
+            conflicts=[],
+            conflict_banner={"visible": False, "count": 0, "message": ""},
         )
 
     evidence = _format_evidence(hits)
@@ -133,6 +138,7 @@ Redacta la respuesta con las secciones ## Resumen y ## Detalle, citando [1], [2]
         for i, h in enumerate(hits, 1)
     ]
     cited_indices, references = build_references(answer, hits)
+    conflicts = detect_conflicts(hits)
 
     return AnswerResult(
         query=query,
@@ -143,6 +149,8 @@ Redacta la respuesta con las secciones ## Resumen y ## Detalle, citando [1], [2]
         cited_indices=cited_indices,
         evidence_count=len(hits),
         hits=hits,
+        conflicts=conflicts,
+        conflict_banner=conflict_banner(conflicts),
     )
 
 

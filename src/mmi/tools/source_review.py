@@ -10,6 +10,8 @@ from mmi.corpus.remote_source import load_remote_source, save_remote_source
 
 
 def render_source_review_page(remote: dict | None = None) -> str:
+    from mmi.analysis.review_shell import render_review_nav, review_nav_css
+
     panel = render_source_link_panel(remote)
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -22,21 +24,16 @@ def render_source_review_page(remote: dict | None = None) -> str:
   body {{ margin: 0; padding: 24px; max-width: 920px; }}
   h1 {{ font-size: 1.25rem; margin: 0 0 8px; }}
   .lead {{ color: #9a9a9a; margin-bottom: 20px; line-height: 1.5; }}
-  .nav {{ margin-top: 24px; }}
-  .nav a {{ color: #8ab4ff; margin-right: 16px; }}
+{review_nav_css()}
 </style>
 </head>
 <body>
+  {render_review_nav("cloud")}
   <h1>Revisar documentos en SharePoint / OneDrive</h1>
   <p class="lead">Pega el enlace compartido de la carpeta donde están los archivos.
      Guarda y abre la carpeta en una pestaña nueva para revisar los originales
      mientras consultas la extracción en el estado de análisis.</p>
   {panel}
-  <p class="nav">
-    <a href="analysis-status.html">Estado de extracción (Fase 0)</a>
-    <a href="search.html">Búsqueda con citas</a>
-    <a href="corpus-picker.html">Selector de corpus</a>
-  </p>
 </body>
 </html>"""
 

@@ -8,6 +8,7 @@ from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
+from mmi.corpus.paths import DEFAULT_CORPUS
 from mmi.ingest.file_types import FILE_TYPES, FileTypeSpec, spec_for_path
 
 
@@ -90,7 +91,7 @@ def _row(ext: str, count: int, spec: FileTypeSpec | None) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Compatibilidad tipos de archivo vs corpus")
-    parser.add_argument("--corpus", type=Path, default=Path("00 DOCUMENTOS NCC30"))
+    parser.add_argument("--corpus", type=Path, default=DEFAULT_CORPUS)
     parser.add_argument("--out", type=Path, default=Path("out/file-types-report.json"))
     args = parser.parse_args(argv)
 

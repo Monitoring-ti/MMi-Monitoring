@@ -24,7 +24,8 @@ def chat_completion(
     model: str | None = None,
     temperature: float = 0.2,
     max_tokens: int = 1200,
-) -> str:
+    return_usage: bool = False,
+) -> str | tuple[str, dict[str, int]]:
     model = model or os.environ.get("OPENROUTER_MODEL", DEFAULT_MODEL)
     client = openrouter_client()
     extra_headers: dict[str, str] = {}
@@ -40,4 +41,15 @@ def chat_completion(
         max_tokens=max_tokens,
         extra_headers=extra_headers or None,
     )
-    return (resp.choices[0].message.content or "").strip()
+    content = (resp.choices[0].message.content or "").strip()
+    if not return_usage:
+        return content
+    usage_raw = getattr(resp, "usage", None)
+    usage: dict[str, int] = {}
+    if usage_raw:
+        usage = {
+            "prompt_tokens": int(getattr(usage_raw, "prompt_tokens", 0) or 0),
+            "completion_tokens": int(getattr(usage_raw, "completion_tokens", 0) or 0),
+            "total_tokens": int(getattr(usage_raw, "total_tokens", 0) or 0),
+        }
+    return content, usage

@@ -17,6 +17,7 @@ from qdrant_client.models import (
 
 from mmi.index.embeddings import OpenAIEmbedding, SparseEncoder
 from mmi.index.store import pg_get_tenant_id, pg_headers, pg_rest, qdrant_client, qdrant_collection
+from mmi.search.rerank import rerank_results
 
 _SAFETY_QUERY_RE = re.compile(
     r"\b(seguridad|advertencia|precauci|peligro|bloqueo|loto|riesgo|"
@@ -44,6 +45,9 @@ class SearchResult:
     version_label: str | None = None
     titulo: str | None = None
     citation: str | None = None
+    document_key: str | None = None
+    version_status: str | None = None
+    is_current: bool = True
 
 
 def _doc_meta(doc_ids: list[str]) -> dict[str, dict]:
@@ -51,7 +55,7 @@ def _doc_meta(doc_ids: list[str]) -> dict[str, dict]:
         return {}
     r = requests.get(
         f"{pg_rest()}/documents",
-        params={"id": f"in.({','.join(doc_ids)})", "select": "id,titulo,version_label,tipo"},
+        params={"id": f"in.({','.join(doc_ids)})", "select": "id,titulo,version_label,tipo,document_key,status,is_current"},
         headers=pg_headers(),
         timeout=30,
     )
@@ -196,9 +200,16 @@ class HybridSearchEngine:
         prefetch_limit: int = 20,
         boost_safety: bool = True,
         enrich: bool = True,
+        *,
+        lexical_rerank: bool = True,
+        rerank_pool: int | None = None,
     ) -> list[SearchResult]:
-        points = self._retrieve(query, limit=prefetch_limit, prefetch_limit=prefetch_limit)
-        results = self._rerank(points, query, boost_safety)[:limit]
+        pool = rerank_pool or max(prefetch_limit, limit * 4)
+        points = self._retrieve(query, limit=pool, prefetch_limit=max(pool, prefetch_limit))
+        results = self._rerank(points, query, boost_safety)
+        if lexical_rerank and len(results) > 1:
+            results = rerank_results(query, results)
+        results = results[:limit]
 
         if enrich and results:
             docs = _doc_meta(list({r.document_id for r in results}))
@@ -208,6 +219,9 @@ class HybridSearchEngine:
                 cm = chunks.get(r.point_id, {})
                 r.titulo = dm.get("titulo")
                 r.version_label = dm.get("version_label")
+                r.document_key = dm.get("document_key")
+                r.version_status = dm.get("status")
+                r.is_current = bool(dm.get("is_current", True))
                 r.page_start = cm.get("page_start") or r.page_start
                 r.page_end = cm.get("page_end") or r.page_end
                 r.section_path = cm.get("section_path") or r.section_path

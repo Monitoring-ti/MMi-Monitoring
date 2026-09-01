@@ -5,6 +5,7 @@ from __future__ import annotations
 from mmi.index.blocks import Block
 from mmi.index.chunking import (
     CHUNK_TOKENS,
+    MAX_EMBED_TOKENS,
     MIN_CHUNK_TOKENS,
     ChunkOut,
     count_tokens,
@@ -28,7 +29,9 @@ def chunk_docx_blocks(blocks: list[Block], tipo: str) -> list[ChunkOut]:
 
         crit = "seguridad" if _SAFETY_RE.search(b.text) else "normal"
 
-        if tk <= target or scope in {"block", "table", "list", "heading", "section", "image"}:
+        if (
+            tk <= target or scope in {"block", "table", "list", "heading", "section", "image"}
+        ) and tk <= MAX_EMBED_TOKENS:
             chunks.append(
                 ChunkOut(
                     content=b.text,
@@ -82,11 +85,14 @@ def chunk_docx_blocks(blocks: list[Block], tipo: str) -> list[ChunkOut]:
             filtered.append(c)
         elif filtered:
             prev = filtered[-1]
-            prev.content += "\n\n" + c.content
-            prev.token_count = count_tokens(prev.content)
-            prev.asset_codes = sorted(set(prev.asset_codes + c.asset_codes))
-            if prev.criticality_level != "seguridad" and c.criticality_level == "seguridad":
-                prev.criticality_level = "seguridad"
+            if prev.token_count + c.token_count <= MAX_EMBED_TOKENS:
+                prev.content += "\n\n" + c.content
+                prev.token_count = count_tokens(prev.content)
+                prev.asset_codes = sorted(set(prev.asset_codes + c.asset_codes))
+                if prev.criticality_level != "seguridad" and c.criticality_level == "seguridad":
+                    prev.criticality_level = "seguridad"
+            else:
+                filtered.append(c)
         elif c.token_count > 0:
             filtered.append(c)
 

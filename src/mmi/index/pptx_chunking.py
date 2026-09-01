@@ -5,6 +5,7 @@ from __future__ import annotations
 from mmi.index.blocks import Block
 from mmi.index.chunking import (
     CHUNK_TOKENS,
+    MAX_EMBED_TOKENS,
     MIN_SLIDE_TOKENS,
     ChunkOut,
     count_tokens,
@@ -26,7 +27,7 @@ def chunk_pptx_blocks(blocks: list[Block], tipo: str) -> list[ChunkOut]:
         slide_title = (b.meta or {}).get("slide_title")
         section = (b.meta or {}).get("section_title")
 
-        if tk <= target or scope in {"slide", "element", "section"}:
+        if (tk <= target or scope in {"slide", "element", "section"}) and tk <= MAX_EMBED_TOKENS:
             section_path = _section_path(section, slide_title, slide_num)
             chunks.append(
                 ChunkOut(
@@ -86,9 +87,12 @@ def chunk_pptx_blocks(blocks: list[Block], tipo: str) -> list[ChunkOut]:
             filtered.append(c)
         elif filtered:
             prev = filtered[-1]
-            prev.content += "\n\n" + c.content
-            prev.token_count = count_tokens(prev.content)
-            prev.asset_codes = sorted(set(prev.asset_codes + c.asset_codes))
+            if prev.token_count + c.token_count <= MAX_EMBED_TOKENS:
+                prev.content += "\n\n" + c.content
+                prev.token_count = count_tokens(prev.content)
+                prev.asset_codes = sorted(set(prev.asset_codes + c.asset_codes))
+            else:
+                filtered.append(c)
         elif c.token_count > 0:
             filtered.append(c)
 

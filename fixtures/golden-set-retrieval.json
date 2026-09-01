@@ -1,0 +1,230 @@
+{
+  "version": "1.0",
+  "description": "Golden set C3 — recuperación híbrida ODS1/NCC30 + consultas síntoma Motor MMI",
+  "cases": [
+    {
+      "id": "ncc-criticidad",
+      "category": "norma",
+      "query": "NCC-030 requisitos criticidad mantenibilidad confiabilidad",
+      "relevant": { "titulo_any": ["NCC", "N.I."], "keywords_any": ["criticidad", "mantenibilidad"] }
+    },
+    {
+      "id": "guigs-alcance",
+      "category": "guia",
+      "query": "SGP-07MYC-GUIGS-00001 Rev 6 alcance mantenibilidad confiabilidad proyectos",
+      "relevant": { "titulo_any": ["GUIGS"], "keywords_any": ["mantenibilidad", "alcance"] }
+    },
+    {
+      "id": "progs-etapas",
+      "category": "guia",
+      "query": "SGPD-07MYC-PROGS-0001 procedimiento mantenibilidad estudios proyectos pasos etapas",
+      "relevant": { "titulo_any": ["PROGS"], "keywords_any": ["procedimiento", "etapas"] }
+    },
+    {
+      "id": "progs-diagramas",
+      "category": "guia",
+      "query": "PROGS diagramas documentación ingeniería mantenibilidad",
+      "relevant": { "titulo_any": ["PROGS", "diagrama"], "keywords_any": ["diagrama"] }
+    },
+    {
+      "id": "fmeca-enfriamiento",
+      "category": "guia",
+      "query": "FMECA modos falla efectos criticidad sistema enfriamiento torre DCH",
+      "relevant": { "titulo_any": ["FMECA"], "content_any": ["falla", "modo"] }
+    },
+    {
+      "id": "fmeca-anexo-mec",
+      "category": "guia",
+      "query": "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH modos falla",
+      "relevant": { "titulo_any": ["FMECA", "ENFR", "CTS DCH"] }
+    },
+    {
+      "id": "atm-enfriamiento",
+      "category": "guia",
+      "query": "ANEXO A ATM sistema enfriamiento torre DCH operación temperatura",
+      "relevant": { "titulo_any": ["ATM", "enfriamiento"] }
+    },
+    {
+      "id": "checklist-mc",
+      "category": "guia",
+      "query": "check list reemplazo sistema enfriamiento M&C ODS1",
+      "relevant": { "titulo_any": ["CHECK", "LIST", "ENFR"] }
+    },
+    {
+      "id": "rcm-plantilla",
+      "category": "tabla",
+      "query": "SGPD-07MYC-FRMGS-0036 RCM tareas mantenimiento recomendadas",
+      "relevant": { "titulo_any": ["RCM", "FRMGS"], "keywords_any": ["tarea", "mantenimiento"] }
+    },
+    {
+      "id": "matriz-mri",
+      "category": "tabla",
+      "query": "matriz planes MRI mantenimiento preventivo ODS21",
+      "relevant": { "titulo_any": ["MRI"], "keywords_any": ["preventivo", "matriz"] }
+    },
+    {
+      "id": "matriz-mso",
+      "category": "tabla",
+      "query": "matriz planes MSO operación mantenimiento sistema",
+      "relevant": { "titulo_any": ["MSO"], "keywords_any": ["operación", "matriz"] }
+    },
+    {
+      "id": "matriz-criticidad",
+      "category": "tabla",
+      "query": "matriz criticidad equipos ODS1 mantenimiento",
+      "relevant": { "keywords_any": ["criticidad", "matriz"] }
+    },
+    {
+      "id": "taller-ncc30",
+      "category": "presentacion",
+      "query": "taller final NCC30 ODS21 mantenibilidad confiabilidad capacitación",
+      "relevant": { "keywords_any": ["taller", "NCC30", "capacitación"] }
+    },
+    {
+      "id": "presentacion-operacion",
+      "category": "presentacion",
+      "query": "presentación operación mantenimiento sistema eléctrico sala",
+      "relevant": { "keywords_any": ["operación", "eléctric", "sala", "ELE", "RC01", "RCM", "ENERG"] }
+    },
+    {
+      "id": "plano-diagrama",
+      "category": "plano",
+      "query": "diagrama unifilar sistema eléctrico torre enfriamiento",
+      "relevant": { "keywords_any": ["diagrama", "unifilar", "eléctric"] }
+    },
+    {
+      "id": "plano-pid",
+      "category": "plano",
+      "query": "P&ID lubricación circuito enfriamiento válvulas",
+      "relevant": { "keywords_any": ["P&ID", "lubric", "válvula", "enfriamiento"] }
+    },
+    {
+      "id": "manual-oem",
+      "category": "guia",
+      "query": "manual OEM equipos sala eléctrica operación mantenimiento",
+      "relevant": { "tipo": "manual_oem", "keywords_any": ["manual", "OEM"] }
+    },
+    {
+      "id": "ods21-diseno",
+      "category": "guia",
+      "query": "ODS21 diseño constructivo especificaciones técnicas",
+      "relevant": { "keywords_any": ["ODS21", "diseño", "constructiv"] }
+    },
+    {
+      "id": "ods1-reemplazo",
+      "category": "guia",
+      "query": "reemplazo sistema enfriamiento CTS DCH ODS1 especificaciones",
+      "relevant": { "titulo_any": ["ENFR", "CTS DCH", "REEMP"] }
+    },
+    {
+      "id": "sop-bloqueo",
+      "category": "guia",
+      "query": "procedimiento bloqueo etiquetado LOTO seguridad operación",
+      "relevant": { "keywords_any": ["LOTO", "bloqueo", "seguridad"] }
+    },
+    {
+      "id": "cronograma-estudios",
+      "category": "tabla",
+      "query": "cronograma estudios mantenibilidad confiabilidad proyecto",
+      "relevant": { "keywords_any": ["cronograma", "estudio"] }
+    },
+    {
+      "id": "adenda-ncc30",
+      "category": "norma",
+      "query": "adenda NCC30 revisión requisitos normativos",
+      "relevant": { "titulo_any": ["Adenda", "NCC30", "N.I."] }
+    },
+    {
+      "id": "formulario-frmgs",
+      "category": "tabla",
+      "query": "FRMGS formulario registro mantenimiento preventivo",
+      "relevant": { "titulo_any": ["FRMGS"], "keywords_any": ["formulario"] }
+    },
+    {
+      "id": "transformador-sala",
+      "category": "guia",
+      "query": "transformador sala eléctrica mantenimiento inspección",
+      "relevant": { "keywords_any": ["transformador", "sala eléctrica"] }
+    },
+    {
+      "id": "interruptor-media",
+      "category": "guia",
+      "query": "interruptor media tensión mantenimiento pruebas",
+      "relevant": { "keywords_any": ["interruptor", "media tensión"] }
+    },
+    {
+      "id": "fmeca-sala-electrica",
+      "category": "guia",
+      "query": "FMECA sala eléctrica equipos auxiliares modos falla",
+      "relevant": { "titulo_any": ["FMECA"], "keywords_any": ["eléctric", "sala"] }
+    },
+    {
+      "id": "politica-mantenimiento",
+      "category": "norma",
+      "query": "política mantenimiento confiabilidad activos críticos",
+      "relevant": { "keywords_any": ["política", "mantenimiento", "confiabilidad"] }
+    },
+    {
+      "id": "motor-cts-temperatura-caudal",
+      "category": "motor",
+      "query": "alta temperatura caída caudal circuito enfriamiento CTS DCH activo ODS1",
+      "asset_id": "CTS-DCH-ENF",
+      "symptom": "alta temperatura y caída de caudal en circuito de enfriamiento",
+      "relevant": { "titulo_any": ["ATM", "FMECA", "ENFR", "CTS DCH"] }
+    },
+    {
+      "id": "motor-cts-intercambiador",
+      "category": "motor",
+      "query": "restricción flujo intercambiador temperatura salida enfriamiento",
+      "asset_id": "CTS-DCH-ENF",
+      "symptom": "temperatura salida intercambiador elevada",
+      "relevant": { "titulo_any": ["ATM", "FMECA", "ENFR", "ENFRIAMIENTO", "INFMC"], "content_any": ["temperatura", "intercambiador"] }
+    },
+    {
+      "id": "motor-bomba-vibracion",
+      "category": "motor",
+      "query": "vibración bomba circulación caudal reducido enfriamiento",
+      "asset_id": "CTS-DCH-ENF",
+      "symptom": "vibración elevada en bomba con caudal bajo",
+      "relevant": { "keywords_any": ["vibración", "bomba", "FMECA", "CHECK"] }
+    },
+    {
+      "id": "motor-mri-preventivo",
+      "category": "motor",
+      "query": "matriz MRI mantenimiento preventivo ODS21 tareas vencidas",
+      "asset_id": "MRI-ODS21",
+      "symptom": "tareas preventivas MRI pendientes o vencidas",
+      "relevant": { "titulo_any": ["MRI"], "keywords_any": ["preventivo", "ODS21"] }
+    },
+    {
+      "id": "motor-valvula-control",
+      "category": "motor",
+      "query": "válvula control FT caudal circuito enfriamiento posición",
+      "asset_id": "CTS-DCH-ENF",
+      "symptom": "válvula de control no responde caudal inestable",
+      "relevant": { "titulo_any": ["CHECK", "ATM", "FMECA", "RCM", "ENFR", "FLUJO"], "keywords_any": ["válvula", "caudal"] }
+    },
+    {
+      "id": "motor-presion-instrumento",
+      "category": "motor",
+      "query": "transmisor presión PT calibración tolerancia metrología",
+      "asset_id": "CTS-DCH-ENF",
+      "symptom": "lectura presión fuera de tolerancia calibración vencida",
+      "relevant": { "keywords_any": ["presión", "calibr", "instrument"] }
+    },
+    {
+      "id": "motor-stg-referencia",
+      "category": "motor",
+      "query": "alta temperatura vibración turbina cojinete lubricación",
+      "asset_id": "STG-01-X",
+      "symptom": "alta temperatura y vibración en turbina",
+      "relevant": { "keywords_any": ["temperatura", "vibración", "lubric"] }
+    },
+    {
+      "id": "safety-procedimiento",
+      "category": "guia",
+      "query": "procedimiento seguridad antes de intervenir equipo energizado",
+      "relevant": { "keywords_any": ["seguridad", "procedimiento", "energiz"] }
+    }
+  ]
+}

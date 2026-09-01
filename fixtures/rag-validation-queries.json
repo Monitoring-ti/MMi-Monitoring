@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ncc-criticidad",
+    "category": "NCC30",
+    "query": "NCC-030 requisitos criticidad mantenibilidad confiabilidad",
+    "expect_keywords": ["NCC", "criticidad"]
+  },
+  {
+    "id": "guigs-alcance",
+    "category": "NCC30",
+    "query": "SGP-07MYC-GUIGS-00001 Rev 6 alcance mantenibilidad confiabilidad proyectos",
+    "expect_keywords": ["GUIGS", "mantenibilidad"]
+  },
+  {
+    "id": "fmeca-enfriamiento",
+    "category": "FMECA",
+    "query": "FMECA modos falla efectos criticidad sistema enfriamiento torre DCH",
+    "expect_keywords": ["FMECA", "falla"]
+  },
+  {
+    "id": "fmeca-anexo-mec",
+    "category": "FMECA",
+    "query": "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH modos falla",
+    "expect_keywords": ["FMECA"]
+  },
+  {
+    "id": "matriz-mri",
+    "category": "Matrices",
+    "query": "matriz planes MRI mantenimiento preventivo ODS21",
+    "expect_keywords": ["MRI"]
+  },
+  {
+    "id": "matriz-mso",
+    "category": "Matrices",
+    "query": "matriz planes MSO operación mantenimiento sistema",
+    "expect_keywords": ["MSO"]
+  },
+  {
+    "id": "checklist-mc",
+    "category": "Checklist",
+    "query": "check list reemplazo sistema enfriamiento M&C ODS1",
+    "expect_keywords": ["CHECK", "LIST"]
+  },
+  {
+    "id": "rcm-plantilla",
+    "category": "RCM",
+    "query": "SGPD-07MYC-FRMGS-0036 RCM tareas mantenimiento recomendadas",
+    "expect_keywords": ["RCM"]
+  },
+  {
+    "id": "atm-enfriamiento",
+    "category": "Enfriamiento",
+    "query": "ANEXO A ATM sistema enfriamiento torre DCH operación",
+    "expect_keywords": ["ATM", "enfriamiento"]
+  },
+  {
+    "id": "progs-etapas",
+    "category": "NCC30",
+    "query": "SGPD-07MYC-PROGS-0001 procedimiento mantenibilidad estudios proyectos pasos etapas",
+    "expect_keywords": ["PROGS", "procedimiento"]
+  }
+]

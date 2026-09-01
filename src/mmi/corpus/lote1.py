@@ -81,8 +81,8 @@ LOTE1_SPECS: tuple[Lote1Spec, ...] = (
         "IFC-078",
         "REV15",
         True,
-        "plano",
-        "ocr",
+        "sop",
+        "pdf",
     ),
 )
 
@@ -110,6 +110,21 @@ def resolve_lote1(corpus_root: Path) -> tuple[list[dict], list[str]]:
             continue
         rel = f"{corpus_root.name}/{path.relative_to(corpus_root).as_posix()}"
         ext = path.suffix.lower()
+        phase0 = spec.phase0
+        suggested_tipo = spec.tipo
+        plan_detection: dict | None = None
+        if ext == ".pdf":
+            from mmi.ingest.plan_detect import detect_plan
+
+            det = detect_plan(path)
+            plan_detection = det.to_dict()
+            suggested_tipo = det.suggested_tipo
+            if spec.phase0 == "ocr" and det.block_ocr:
+                phase0 = det.suggested_phase0
+            elif spec.phase0 == "ocr" and det.is_plano:
+                phase0 = "ocr"
+            elif spec.phase0 == "pdf" and det.is_plano and det.ocr_page_ratio >= 0.5:
+                phase0 = "ocr"
         files.append(
             {
                 "id": _file_id(str(path.resolve())),
@@ -122,8 +137,10 @@ def resolve_lote1(corpus_root: Path) -> tuple[list[dict], list[str]]:
                 "document_key": spec.document_key,
                 "revision": spec.revision,
                 "is_current": spec.is_current,
-                "suggested_tipo": spec.tipo,
-                "phase0": spec.phase0,
+                "suggested_tipo": suggested_tipo,
+                "phase0": phase0,
+                "plan_detection": plan_detection,
+                "is_plano": plan_detection.get("is_plano") if plan_detection else None,
             }
         )
     return files, missing

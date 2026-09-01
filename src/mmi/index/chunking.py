@@ -30,11 +30,14 @@ CHUNK_TOKENS = {
     "sop": 550,
     "tabla": 350,
     "presentacion": 500,
+    "plano": 600,
     "otro": 800,
 }
 OVERLAP_RATIO = 0.10
 MIN_CHUNK_TOKENS = 60
 MIN_SLIDE_TOKENS = 40
+# OpenAI text-embedding-3-* limit 8192 tokens; margen para batching
+MAX_EMBED_TOKENS = 8000
 
 
 def count_tokens(text: str) -> int:
@@ -208,17 +211,86 @@ def chunk_xlsx_blocks(blocks: list[Block], tipo: str) -> list[ChunkOut]:
     return chunks
 
 
+def split_oversized_text(text: str, max_tokens: int = MAX_EMBED_TOKENS) -> list[str]:
+    """Divide texto que excede el límite del modelo de embeddings."""
+    if count_tokens(text) <= max_tokens:
+        return [text]
+    parts: list[str] = []
+    buf: list[str] = []
+    buf_tokens = 0
+    for para in (p.strip() for p in text.split("\n\n") if p.strip()):
+        pt = count_tokens(para)
+        if pt > max_tokens:
+            if buf:
+                parts.append("\n\n".join(buf))
+                buf, buf_tokens = [], 0
+            for sent in re.split(r"(?<=[.!?])\s+", para):
+                sent = sent.strip()
+                if not sent:
+                    continue
+                st = count_tokens(sent)
+                if st > max_tokens:
+                    tokens = _ENC.encode(sent)
+                    for i in range(0, len(tokens), max_tokens):
+                        parts.append(_ENC.decode(tokens[i : i + max_tokens]))
+                else:
+                    if buf_tokens + st > max_tokens and buf:
+                        parts.append(" ".join(buf))
+                        buf, buf_tokens = [], 0
+                    buf.append(sent)
+                    buf_tokens += st
+            continue
+        if buf_tokens + pt > max_tokens and buf:
+            parts.append("\n\n".join(buf))
+            buf, buf_tokens = [], 0
+        buf.append(para)
+        buf_tokens += pt
+    if buf:
+        parts.append("\n\n".join(buf) if "\n" in "\n\n".join(buf) else " ".join(buf))
+    return parts or [text]
+
+
+def enforce_max_embed_size(
+    chunks: list[ChunkOut],
+    max_tokens: int = MAX_EMBED_TOKENS,
+) -> list[ChunkOut]:
+    """Garantiza que ningún chunk supere el límite de tokens del embedder."""
+    out: list[ChunkOut] = []
+    for c in chunks:
+        if c.token_count <= max_tokens:
+            out.append(c)
+            continue
+        for part in split_oversized_text(c.content, max_tokens):
+            out.append(
+                ChunkOut(
+                    content=part,
+                    chunk_index=0,
+                    token_count=count_tokens(part),
+                    page_start=c.page_start,
+                    page_end=c.page_end,
+                    section_path=c.section_path,
+                    criticality_level=c.criticality_level,
+                    asset_codes=detect_assets(part),
+                )
+            )
+    for i, c in enumerate(out):
+        c.chunk_index = i
+    return out
+
+
 def chunk_blocks(blocks: list[Block], fmt: str, tipo: str) -> list[ChunkOut]:
     if fmt in {".docx", ".doc"}:
         from mmi.index.docx_chunking import chunk_docx_blocks
 
-        return chunk_docx_blocks(blocks, tipo)
-    if fmt == ".pdf":
-        return chunk_pdf_blocks(blocks, tipo)
-    if fmt in {".xlsx", ".xls"}:
-        return chunk_xlsx_blocks(blocks, tipo)
-    if fmt == ".pptx":
+        chunks = chunk_docx_blocks(blocks, tipo)
+    elif fmt == ".pdf":
+        chunks = chunk_pdf_blocks(blocks, tipo)
+    elif fmt in {".xlsx", ".xls"}:
+        chunks = chunk_xlsx_blocks(blocks, tipo)
+    elif fmt == ".pptx":
         from mmi.index.pptx_chunking import chunk_pptx_blocks
 
-        return chunk_pptx_blocks(blocks, tipo)
-    raise ValueError(f"Formato no soportado para chunking: {fmt}")
+        chunks = chunk_pptx_blocks(blocks, tipo)
+    else:
+        raise ValueError(f"Formato no soportado para chunking: {fmt}")
+    return enforce_max_embed_size(chunks)

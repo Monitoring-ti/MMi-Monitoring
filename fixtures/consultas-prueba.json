@@ -1,0 +1,20 @@
+[
+  {
+    "id": "ncc",
+    "category": "norma",
+    "query": "NCC-030 criticidad mantenibilidad",
+    "expect_keywords": ["NCC", "criticidad"]
+  },
+  {
+    "id": "fmeca",
+    "category": "guia",
+    "query": "FMECA modos falla sistema enfriamiento",
+    "expect_keywords": ["FMECA"]
+  },
+  {
+    "id": "guigs",
+    "category": "guia",
+    "query": "GUIGS alcance mantenibilidad proyectos",
+    "expect_keywords": ["GUIGS"]
+  }
+]

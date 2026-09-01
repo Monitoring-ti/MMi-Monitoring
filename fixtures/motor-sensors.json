@@ -1,0 +1,40 @@
+{
+  "readings": [
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "tag": "TE-401A",
+      "description": "Temperatura salida intercambiador",
+      "value": 98.0,
+      "unit": "°C",
+      "nominal": null,
+      "timestamp": "2026-09-01T14:32:00Z"
+    },
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "tag": "FT-405",
+      "description": "Caudal circuito enfriamiento",
+      "value": 120.0,
+      "unit": "L/min",
+      "nominal": 150.0,
+      "timestamp": "2026-09-01T14:32:00Z"
+    },
+    {
+      "asset_id": "CTS-DCH-ENF",
+      "tag": "VE-402X",
+      "description": "Vibración bomba circulación (1× RPM)",
+      "value": 5.2,
+      "unit": "mm/s",
+      "nominal": null,
+      "timestamp": "2026-09-01T14:32:00Z"
+    },
+    {
+      "asset_id": "STG-01-X",
+      "tag": "TE-401A",
+      "description": "Temperatura cojinete turbina",
+      "value": 98.0,
+      "unit": "°C",
+      "nominal": null,
+      "timestamp": "2026-09-01T10:00:00Z"
+    }
+  ]
+}
