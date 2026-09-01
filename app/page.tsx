@@ -149,9 +149,9 @@ function DemoApp(){
 }
 
 const valueCards = [
-  {icon: Gauge, title:"Reducción", text:"Disminuye el tiempo dedicado a buscar, comparar y reconstruir antecedentes técnicos antes de actuar."},
-  {icon: Layers3, title:"Orden", text:"Conecta SAP PM, FMECA, manuales OEM, RCA y registros históricos alrededor de cada activo."},
-  {icon: BrainCircuit, title:"Conocimiento", text:"Convierte la experiencia dispersa en una memoria técnica viva, consultable y trazable."}
+  {icon: Gauge, image:"/solution-reduction.webp", alt:"Ingeniero reduciendo el tiempo de análisis técnico", title:"Reducción", text:"Disminuye el tiempo dedicado a buscar, comparar y reconstruir antecedentes técnicos antes de actuar."},
+  {icon: Layers3, image:"/solution-order.webp", alt:"Información técnica de mantenimiento organizada y conectada", title:"Orden", text:"Conecta SAP PM, FMECA, manuales OEM, RCA y registros históricos alrededor de cada activo."},
+  {icon: BrainCircuit, image:"/solution-knowledge.webp", alt:"Transferencia de conocimiento entre especialistas de mantenimiento", title:"Conocimiento", text:"Convierte la experiencia dispersa en una memoria técnica viva, consultable y trazable."}
 ];
 
 export default function Home(){
@@ -182,7 +182,7 @@ export default function Home(){
 
     <section className="solution-block" id="solucion">
       <div className="solution-intro"><span className="commercial-kicker">01 · La solución</span><h2>Su planta ya tiene los datos.<br/><em>MMI los convierte en conocimiento.</em></h2><p>Una capa de inteligencia operacional que trabaja sobre la información existente. Recupera, relaciona y presenta antecedentes técnicos sin modificar órdenes de trabajo ni reemplazar el CMMS/EAM.</p></div>
-      <div className="value-grid">{valueCards.map(v=><article key={v.title}><v.icon/><h3>{v.title}</h3><p>{v.text}</p></article>)}</div>
+      <div className="value-grid">{valueCards.map(v=><article key={v.title}><div className="value-image"><img src={v.image} alt={v.alt}/><span><v.icon/></span></div><div className="value-copy"><h3>{v.title}</h3><p>{v.text}</p></div></article>)}</div>
     </section>
 
     <section className="process-block" id="proceso">
