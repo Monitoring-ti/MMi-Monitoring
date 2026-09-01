@@ -21,7 +21,7 @@ const results = [
 ];
 
 function Brand() {
-  return <span className="brand"><span className="brand-mark"><i/><i/><i/></span><span className="brand-copy"><strong>MONITORING</strong><small>GESTIÓN DE ACTIVOS · MMI</small></span></span>;
+  return <span className="brand"><img className="brand-logo" src="/monitoring-logo-horizontal.svg" alt="Monitoring Gestión de Activos"/><span className="product-tag">MMI</span></span>;
 }
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
         <div className="hero-visual" aria-label="Fuentes técnicas conectadas por MMI">
           <div className="orbit orbit-one"/><div className="orbit orbit-two"/>
-          <div className="core"><BrainCircuit/><strong>MMI</strong><span>Memoria técnica viva</span></div>
+          <div className="core"><img src="/monitoring-logo-circular.svg" alt="Símbolo original de Monitoring"/><strong>MMI</strong><span>Memoria técnica viva</span></div>
           <div className="source source-a"><Database/><span>SAP PM</span></div><div className="source source-b"><FileSearch/><span>FMECA</span></div><div className="source source-c"><BookOpenCheck/><span>Manuales OEM</span></div><div className="source source-d"><Users/><span>Experiencia</span></div>
         </div>
       </section>
