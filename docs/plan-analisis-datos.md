@@ -1,8 +1,8 @@
 # Análisis de datos — MMi corpus ODS1/NCC30
 
-**Rama:** `analisis-datos`  
+**Rama:** `analisis-datos` / `mapa-conocimiento`  
 **Fecha:** 2026-09-01  
-**Precondición:** MVP indexado (~1274 docs) · Fase C cerrada para consultas · `serve_local :8773`
+**Estado:** 🔄 Sprint A–B operativo (`data_report`)
 
 ---
 
@@ -87,19 +87,21 @@ cd mmi-by-monitoring
 .venv\Scripts\python -m mmi.tools.eval_retrieval
 .venv\Scripts\python -m mmi.tools.query_smoke
 .venv\Scripts\python -m mmi.tools.validate_rag --search-only
+.venv\Scripts\python -m mmi.tools.data_report
 
-# Inventario planos (ya generado)
-# out/plan-scan.json — 309 PDFs, 50 planos en 02 INF TEC
+# Salida Fase D
+# → out/data-analysis/report.json · out/data-quality.html
 ```
 
 ---
 
 ## 5. Entregables
 
-- [ ] `docs/informe-analisis-datos.md` — narrativa + hallazgos
-- [ ] `out/data-analysis/` — JSON/CSV agregados
-- [ ] Script `mmi.tools.data_report` (opcional) — unifica fuentes `out/`
-- [ ] Recomendaciones priorizadas para ingesta/OCR/index
+- [x] `out/data-analysis/report.json` — agregados JSON
+- [x] `out/data-quality.html` — dashboard Fase D
+- [x] Script `mmi.tools.data_report`
+- [ ] `docs/informe-analisis-datos.md` — narrativa extendida (opcional)
+- [ ] Recomendaciones automáticas en pipeline CI
 
 ---
 

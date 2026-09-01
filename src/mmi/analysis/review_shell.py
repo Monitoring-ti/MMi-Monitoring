@@ -88,6 +88,7 @@ def render_review_data_links(*, depth: int = 0) -> str:
     links = (
         ("catalog-validation.json", "Catálogo EAM"),
         ("rag-validation.json", "Validación RAG"),
+        ("data-quality.html", "Análisis datos"),
         ("index-corpus-summary.json", "Indexación"),
         ("ingestion-registry.json", "Jobs"),
         ("process-manifest.json", "Manifest"),
