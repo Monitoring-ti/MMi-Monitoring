@@ -1,11 +1,11 @@
 # Mapa de Conocimiento MMI — Plan de integración
 
 **Fecha:** 2026-09-01  
-**Estado:** ⏳ planificado (post Fase D)  
-**Rama sugerida:** `mapa-conocimiento` (después de `analisis-datos`)  
+**Estado:** ✅ E1–E4 completado  
+**Rama:** `analisis-datos` (merge de `mapa-conocimiento`)  
 **Objetivo:** exploración visual del corpus — grafo estilo Obsidian con búsqueda semántica, filtros industriales y asistente contextual sobre nodos seleccionados.
 
-**Relacionado:** [`plan.md`](plan.md) · [`plan-analisis-datos.md`](plan-analisis-datos.md) · [`plan-mmi-motor.md`](plan-mmi-motor.md) · [`plan-fase-c.md`](plan-fase-c.md)
+**Relacionado:** [`plan.md`](plan.md) · [`plan-anexo-operaciones.md`](plan-anexo-operaciones.md) · [`plan-analisis-datos.md`](plan-analisis-datos.md) · [`plan-mmi-motor.md`](plan-mmi-motor.md) · [`plan-fase-c.md`](plan-fase-c.md)
 
 ---
 
@@ -111,6 +111,7 @@ El Mapa de Conocimiento **no reemplaza** las pantallas actuales; las complementa
 | GET | `/api/graph/node/{id}` | Metadatos + contenido para panel derecho |
 | POST | `/api/graph/ask` | Pregunta + `node_ids[]` → RAG acotado al subgrafo |
 | GET | `/api/graph/filters` | Opciones activo, área, tipo, rango fechas |
+| GET | `/api/graph/health` | Health check (`e1`) |
 
 **Reutiliza:** `HybridSearchEngine`, `search/rerank.py`, `search/answer.py`, `catalog/assets.py`, `search/conflicts.py`.
 
@@ -168,17 +169,16 @@ El Mapa de Conocimiento **no reemplaza** las pantallas actuales; las complementa
 | Catálogo EAM B4 | ✅ | Nodos/filtro activo |
 | Conflictos C2 | ✅ | Aristas alerta |
 | Golden set C3 | ✅ | Validar calidad expansión |
-| **Fase D análisis datos** | 🔄 rama actual | Pesos `co_occurs`, gaps cobertura |
+| **Fase D análisis datos** | ✅ parcial (`data_report`) | Pesos `co_occurs` PG pendiente D1 |
 | Filtros UI búsqueda | ⏳ pendiente Fase 2 | Reutilizar misma capa de filtros |
 
-**Orden recomendado:**
+**Orden recomendado (actualizado):**
 
 ```
-Fase D (analisis-datos)  →  métricas y co-ocurrencia
+Fase D (data_report)     →  ✅ dashboard + métricas
+Fase E1–E4 (mapa)        →  ✅ mapa.html operativo
         ↓
-Fase E1 (grafo MVP)      →  mapa.html básico
-        ↓
-Fase E2–E3 (filtros + asistente)
+D1–D2 co-ocurrencia      →  enriquecer aristas grafo
         ↓
 Fase 3 producto (auth, cloud)
 ```
@@ -222,8 +222,8 @@ Fase 3 producto (auth, cloud)
 
 ## 10. Checklist integración al plan
 
-- [ ] Rama `mapa-conocimiento` desde `main` (post merge `analisis-datos`)
-- [ ] E1.1–E1.5 grafo MVP
-- [ ] Entrada en nav: Búsqueda · RAG · **Mapa** · Motor · Revisión
+- [x] Rama `mapa-conocimiento` → merge en `analisis-datos`
+- [x] E1.1–E1.5 grafo MVP
+- [x] Entrada en nav: Búsqueda · RAG · **Mapa** · Motor · Revisión
 - [ ] Golden set ampliado con 5 casos “exploración relacional”
-- [ ] Documentar en `plan.md` § Fase E
+- [x] Documentar en `plan.md` § Fase E

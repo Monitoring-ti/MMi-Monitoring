@@ -26,7 +26,9 @@ cd mmi-by-monitoring
 |-----|-----|
 | http://127.0.0.1:8773/search.html | Búsqueda híbrida (inmediata) |
 | http://127.0.0.1:8773/rag.html | Respuesta + citas (OpenRouter en `.env`) |
+| http://127.0.0.1:8773/mapa.html | Mapa de conocimiento (grafo relacional) |
 | http://127.0.0.1:8773/motor.html | Activo + síntoma (Motor MMI) |
+| http://127.0.0.1:8773/data-quality.html | Dashboard análisis de datos (Fase D) |
 | http://127.0.0.1:8773/rag-validation.html | 10 casos validados |
 
 **Consultas de prueba** (`fixtures/consultas-prueba.json`):
@@ -36,6 +38,8 @@ cd mmi-by-monitoring
 3. `GUIGS alcance mantenibilidad proyectos`
 
 Validación extendida: `validate_rag --search-only` → `out/rag-validation.html`
+
+Comandos y URLs completas: [`plan-anexo-operaciones.md`](plan-anexo-operaciones.md)
 
 ---
 

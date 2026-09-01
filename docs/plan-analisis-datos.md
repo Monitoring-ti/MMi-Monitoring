@@ -1,8 +1,8 @@
 # Análisis de datos — MMi corpus ODS1/NCC30
 
-**Rama:** `analisis-datos` / `mapa-conocimiento`  
+**Rama:** `analisis-datos` (incluye Mapa E1–E4)  
 **Fecha:** 2026-09-01  
-**Estado:** 🔄 Sprint A–B operativo (`data_report`)
+**Estado:** ✅ Sprint A + B4 · 🔄 B1 parcial · ⏳ B2–B3, C, D1–D2
 
 ---
 
@@ -38,40 +38,40 @@ Corpus en disco: `ODS1 TORR ENF DCH/` · extracciones: `out/ods1-extract/`, `out
 
 ## 3. Tareas propuestas
 
-### Sprint A — Inventario y cobertura
+### Sprint A — Inventario y cobertura ✅
 
-| # | Tarea | Salida |
-|---|-------|--------|
-| A1 | Resumen Fase 0 por tipo (pdf, pptx, xlsx, docx) | tabla + gráfico |
-| A2 | Cobertura indexación vs manifest corpus | % por carpeta raíz |
-| A3 | Distribución planos (`plan-scan.json`) por subcarpeta y confianza | ranking prioridad OCR |
-| A4 | Documentos `reject` / `review` — causas top | lista accionable |
+| # | Tarea | Salida | Estado |
+|---|-------|--------|--------|
+| A1 | Resumen Fase 0 por tipo (pdf, pptx, xlsx, docx) | tabla + gráfico | ✅ `data_report` |
+| A2 | Cobertura indexación vs manifest corpus | % por carpeta raíz | ✅ |
+| A3 | Distribución planos (`plan-scan.json`) por subcarpeta y confianza | ranking prioridad OCR | ✅ 50 planos |
+| A4 | Documentos `reject` / `review` — causas top | lista accionable | ✅ |
 
 ### Sprint B — Calidad recuperación
 
-| # | Tarea | Salida |
-|---|-------|--------|
-| B1 | Desglose golden set por categoría (norma, guía, tabla, plano) | heatmap recall@5 |
-| B2 | Casos con recall &lt; 1 — diagnóstico chunk/título | informe |
-| B3 | Comparativa reranker on/off (ya en `golden-set-rerank-compare.json`) | delta MRR |
-| B4 | Smoke + validación RAG como dashboard periódico | `out/data-quality.html` |
+| # | Tarea | Salida | Estado |
+|---|-------|--------|--------|
+| B1 | Desglose golden set por categoría (norma, guía, tabla, plano) | heatmap recall@5 | 🔄 en `report.json` |
+| B2 | Casos con recall &lt; 1 — diagnóstico chunk/título | informe | ⏳ |
+| B3 | Comparativa reranker on/off (ya en `golden-set-rerank-compare.json`) | delta MRR | ⏳ |
+| B4 | Smoke + validación RAG como dashboard periódico | `out/data-quality.html` | ✅ |
 
-### Sprint C — OCR y planos (opcional)
+### Sprint C — OCR y planos (opcional) ⏳
 
-| # | Tarea | Salida |
-|---|-------|--------|
-| C1 | Métricas piloto `4600027995-06950-201ME-00001` vs PDF nativo | confianza por página |
-| C2 | Estimación costo/tiempo OCR 50 planos INF TEC | proyección |
-| C3 | Tags EAM detectados en OCR vs catálogo | tasa validación |
+| # | Tarea | Salida | Estado |
+|---|-------|--------|--------|
+| C1 | Métricas piloto `4600027995-06950-201ME-00001` vs PDF nativo | confianza por página | 🔄 piloto en `ocr-pilot-summary.json` |
+| C2 | Estimación costo/tiempo OCR 50 planos INF TEC | proyección | ⏳ |
+| C3 | Tags EAM detectados en OCR vs catálogo | tasa validación | ⏳ |
 
 ### Sprint D — Entradas al Mapa de Conocimiento (Fase E)
 
-| # | Tarea | Salida |
-|---|-------|--------|
-| D1 | Matriz co-ocurrencia `asset_codes` × `document_key` | aristas `co_occurs` |
-| D2 | Top pares chunk similares (Qdrant, muestra 500) | umbral similitud recomendado |
-| D3 | Nodos concepto candidatos (FMECA modos falla, tags EAM) | `out/data-analysis/concepts.json` |
-| D4 | Informe gaps por activo/área | prioridad expansión grafo |
+| # | Tarea | Salida | Estado |
+|---|-------|--------|--------|
+| D1 | Matriz co-ocurrencia `asset_codes` × `document_key` | aristas `co_occurs` | ⏳ |
+| D2 | Top pares chunk similares (Qdrant, muestra 500) | umbral similitud recomendado | ⏳ |
+| D3 | Nodos concepto candidatos (FMECA modos falla, tags EAM) | `out/data-analysis/concepts.json` | 🔄 vía Mapa E4 (en grafo) |
+| D4 | Informe gaps por activo/área | prioridad expansión grafo | 🔄 recomendaciones en `data-quality.html` |
 
 Ver especificación completa: [`plan-mapa-conocimiento.md`](plan-mapa-conocimiento.md)
 
@@ -91,11 +91,28 @@ cd mmi-by-monitoring
 
 # Salida Fase D
 # → out/data-analysis/report.json · out/data-quality.html
+# → http://127.0.0.1:8773/data-quality.html (con serve_local)
 ```
 
 ---
 
-## 5. Entregables
+## 5. Resultados actuales (`data_report`)
+
+| Métrica | Valor |
+|---------|-------|
+| Fase 0 pass / reject / review | 1435 / **46** / 1 *(live `analysis-status.json`)*
+| Indexados | 1274 |
+| Planos INF TEC | 50 (de 309 PDFs) |
+| Golden recall@5 | 35/35 |
+| Golden MRR | ~0.91 |
+| RAG validación | 10/10 |
+| Smoke consultas | 3/3 |
+
+**Recomendaciones automáticas** (en `data-quality.html`): revisar rejects, ampliar OCR en planos, cobertura baja en `04 MINUTAS (CP)`.
+
+---
+
+## 6. Entregables
 
 - [x] `out/data-analysis/report.json` — agregados JSON
 - [x] `out/data-quality.html` — dashboard Fase D
@@ -105,9 +122,9 @@ cd mmi-by-monitoring
 
 ---
 
-## 6. Referencias
+## 7. Referencias
 
-- MVP: `docs/plan.md`
+- MVP: [`plan.md`](plan.md) · operaciones: [`plan-anexo-operaciones.md`](plan-anexo-operaciones.md)
 - Fase C: `docs/plan-fase-c.md`
 - Golden set: `fixtures/golden-set-retrieval.json`
 - Planos: `out/plan-scan.json`
