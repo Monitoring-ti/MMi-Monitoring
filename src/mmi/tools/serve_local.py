@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 from mmi.graph.page import render_mapa_html
 from mmi.motor.page import render_motor_html
 from mmi.search.rag_page import render_rag_html
-from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api
+from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api, normalize_api_path
 from mmi.tools.search_cli import render_search_html
 
 
@@ -65,7 +65,7 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             self.send_error(404, f"No encontrado: {path}")
 
         def do_POST(self) -> None:
-            path = urlparse(self.path).path
+            path = normalize_api_path(urlparse(self.path).path)
             if path == "/api/remote-source":
                 length = int(self.headers.get("Content-Length", "0"))
                 raw = self.rfile.read(length)
@@ -240,6 +240,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  Mapa         http://127.0.0.1:{args.port}/mapa.html")
     print(f"  Motor MMI  http://127.0.0.1:{args.port}/motor.html")
     print(f"  Health     http://127.0.0.1:{args.port}/api/motor/health")
+    print(f"  Graph API  http://127.0.0.1:{args.port}/api/graph/health")
     print(f"  Revisión     http://127.0.0.1:{args.port}/review.html")
     print(f"  Corpus       http://127.0.0.1:{args.port}/corpus-picker.html")
     print(f"  Carga (RAG)  http://127.0.0.1:{args.port}/load-test-report.html")

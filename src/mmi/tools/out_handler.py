@@ -8,7 +8,7 @@ from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
-from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api
+from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api, normalize_api_path
 
 
 def make_out_handler(out_dir: Path, *, tenant_slug: str = "monitoring"):
@@ -43,7 +43,7 @@ def make_out_handler(out_dir: Path, *, tenant_slug: str = "monitoring"):
             self.send_error(404, f"No encontrado: {path}")
 
         def do_POST(self) -> None:
-            path = urlparse(self.path).path
+            path = normalize_api_path(urlparse(self.path).path)
             if path == "/api/ingestion-action":
                 self._handle_ingestion_action()
                 return

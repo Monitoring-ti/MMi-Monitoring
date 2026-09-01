@@ -21,6 +21,13 @@ from mmi.search.session import AskSession, AskSessionStore
 from mmi.tools.search_cli import _result_dict
 
 MOTOR_API_VERSION = "m6"
+GRAPH_API_VERSION = "e1"
+
+
+def normalize_api_path(path: str) -> str:
+    """Normaliza rutas API (sin query ni barra final)."""
+    base = path.split("?", 1)[0].rstrip("/")
+    return base or "/"
 
 
 class JsonHandler(Protocol):
@@ -46,13 +53,21 @@ def motor_health_payload() -> dict[str, Any]:
     return {"ok": True, "motor_api": True, "version": MOTOR_API_VERSION}
 
 
+def graph_health_payload() -> dict[str, Any]:
+    return {"ok": True, "graph_api": True, "version": GRAPH_API_VERSION}
+
+
 def _graph_builder(ctx: ApiContext) -> GraphBuilder:
     return GraphBuilder(ctx.engine)
 
 
 def handle_get_api(path: str, handler: JsonHandler, ctx: ApiContext) -> bool:
+    path = normalize_api_path(path)
     if path == "/api/motor/health":
         handler._send_json(motor_health_payload())
+        return True
+    if path == "/api/graph/health":
+        handler._send_json(graph_health_payload())
         return True
     if path == "/api/graph/filters":
         handler._send_json(_graph_builder(ctx).filter_options())
@@ -133,6 +148,7 @@ def _handle_graph_api(
 
 
 def handle_post_api(path: str, data: dict[str, Any], handler: JsonHandler, ctx: ApiContext) -> bool:
+    path = normalize_api_path(path)
     graph_paths = {"/api/graph/search", "/api/graph/expand", "/api/graph/ask"}
     t0 = time.perf_counter()
     if path in graph_paths:
