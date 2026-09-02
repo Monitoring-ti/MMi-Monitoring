@@ -49,6 +49,45 @@ class ApiContext:
         return self._engine
 
 
+def vitrina_diag_payload() -> dict[str, Any]:
+    """Prueba conectividad Supabase / Qdrant / OpenAI (sin exponer secretos)."""
+    checks: dict[str, Any] = {}
+
+    try:
+        from mmi.index.store import pg_get_tenant_id
+
+        tenant_id = pg_get_tenant_id("monitoring")
+        checks["supabase"] = {"ok": True, "tenant": "monitoring", "tenant_id_prefix": tenant_id[:8]}
+    except Exception as exc:  # noqa: BLE001
+        checks["supabase"] = {"ok": False, "error": str(exc)}
+
+    try:
+        from mmi.index.store import qdrant_client, qdrant_collection
+
+        client = qdrant_client()
+        info = client.get_collection(qdrant_collection())
+        checks["qdrant"] = {
+            "ok": True,
+            "collection": qdrant_collection(),
+            "points": getattr(info, "points_count", None),
+        }
+    except Exception as exc:  # noqa: BLE001
+        checks["qdrant"] = {"ok": False, "error": str(exc)}
+
+    try:
+        from mmi.index.embeddings import OpenAIEmbedding
+
+        OpenAIEmbedding().embed(["diag"])
+        checks["openai_embeddings"] = {"ok": True}
+    except Exception as exc:  # noqa: BLE001
+        checks["openai_embeddings"] = {"ok": False, "error": str(exc)}
+
+    ok = all(isinstance(v, dict) and v.get("ok") for v in checks.values())
+    from mmi.web.deploy_mode import get_deploy_mode
+
+    return {"ok": ok, "checks": checks, "deploy_mode": get_deploy_mode()}
+
+
 def motor_health_payload() -> dict[str, Any]:
     import os
 
@@ -82,6 +121,9 @@ def handle_get_api(path: str, handler: JsonHandler, ctx: ApiContext) -> bool:
     path = normalize_api_path(path)
     if path == "/api/motor/health":
         handler._send_json(motor_health_payload())
+        return True
+    if path == "/api/vitrina/diag":
+        handler._send_json(vitrina_diag_payload())
         return True
     if path == "/api/graph/health":
         handler._send_json(graph_health_payload())
@@ -255,7 +297,11 @@ def handle_post_api(path: str, data: dict[str, Any], handler: JsonHandler, ctx: 
     limit = int(data.get("limit") or 6)
 
     if path == "/api/search":
-        hits = ctx.engine.search(query, limit=limit)
+        try:
+            hits = ctx.engine.search(query, limit=limit)
+        except Exception as exc:  # noqa: BLE001
+            handler._send_json({"error": str(exc), "hint": "Ver /api/vitrina/diag"}, status=500)
+            return True
         handler._send_json(
             {
                 "query": query,

@@ -110,10 +110,14 @@ go.onclick = runSearch;
 askBtn.onclick = () => goRag();
 q.addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
 
-function apiError(res, fallback) {
+async function apiError(res, fallback) {
   if (res.status === 404) {
     return 'API no disponible (404). Ejecuta: python -m mmi.tools.serve_local --port 8773';
   }
+  try {
+    const data = await res.json();
+    if (data.error) return data.error + (data.hint ? ' · ' + data.hint : '');
+  } catch (_) {}
   return fallback || ('HTTP ' + res.status);
 }
 
@@ -138,7 +142,7 @@ async function runSearch() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query, limit: 8 }),
     });
-    if (!res.ok) throw new Error(apiError(res));
+    if (!res.ok) throw new Error(await apiError(res));
     const data = await res.json();
     status.textContent = data.count + ' resultados · ' + (data.elapsed_ms || '?') + ' ms';
     status.className = 'text-body-md text-primary font-semibold min-h-[1.25rem]';
