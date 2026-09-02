@@ -8,6 +8,7 @@ from typing import Any
 # Logos locales: reemplazar SVG en public/ (se copian a out/ al generar vitrina).
 LOGO_SIDEBAR = "/monitoring-logo-horizontal.svg"
 LOGO_HEADER = "/monitoring-logo-horizontal.svg"
+FOOTER_CREDIT = "Desarrollado por P.H.R. para Monitoring · sep 26 · v0.1"
 
 NAV_ITEMS: tuple[tuple[str, str, str, str], ...] = (
     ("home", "index.html", "dashboard", "Inicio"),
@@ -194,7 +195,9 @@ def render_shell(
 <body class="flex min-h-screen text-on-surface bg-background">
 <aside class="hidden md:flex flex-col w-64 bg-primary text-on-primary fixed h-full z-50">
   <div class="p-stack-lg flex items-center gap-base">
-    <img src="{LOGO_SIDEBAR}" alt="Monitoring" class="w-full h-auto object-contain px-stack-sm"/>
+    <div class="w-full bg-white rounded-lg p-stack-sm shadow-sm">
+      <img src="{LOGO_SIDEBAR}" alt="Monitoring" class="w-full h-auto object-contain"/>
+    </div>
   </div>
   <nav class="flex-1 mt-stack-md"><ul class="space-y-base">{nav}</ul></nav>
   <div class="p-margin-mobile mt-auto">
@@ -211,7 +214,9 @@ def render_shell(
 <main class="flex-1 md:ml-64 flex flex-col min-h-screen pb-20 md:pb-0">
   <header class="h-16 bg-surface flex justify-between items-center px-margin-mobile md:px-margin-desktop sticky top-0 z-40 shadow-sm border-b border-outline/10">
     <div class="flex items-center gap-stack-md min-w-0">
-      <img src="{LOGO_HEADER}" alt="Monitoring" class="h-8 w-auto object-contain md:hidden"/>
+      <div class="bg-white rounded-lg p-1 shadow-sm shrink-0 md:hidden">
+        <img src="{LOGO_HEADER}" alt="Monitoring" class="h-8 w-auto object-contain"/>
+      </div>
       <div class="min-w-0">
         <h1 class="text-headline-md font-semibold text-primary truncate">{escape(title)}</h1>
         {subtitle_html}
@@ -228,6 +233,9 @@ def render_shell(
   <section class="p-margin-mobile md:p-margin-desktop space-y-gutter flex-1">
     {content}
   </section>
+  <footer class="px-margin-mobile md:px-margin-desktop py-stack-md border-t border-outline/10 bg-surface-container-lowest">
+    <p class="text-label-sm text-on-surface-variant text-center md:text-left">{escape(FOOTER_CREDIT)}</p>
+  </footer>
 {fab_html}
 </main>
 <nav class="md:hidden fixed bottom-0 w-full bg-surface flex justify-around items-center py-2 px-margin-mobile shadow-lg border-t border-outline/20 z-50">{mobile}</nav>
