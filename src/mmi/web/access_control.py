@@ -16,6 +16,7 @@ AUTH_EXEMPT_PATHS = frozenset(
         "/",
         "/index.html",
         "/robots.txt",
+        "/acceso.html",
     }
 )
 

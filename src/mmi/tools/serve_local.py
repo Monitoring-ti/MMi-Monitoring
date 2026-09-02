@@ -50,8 +50,12 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
             self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
+        def _wants_html(self) -> bool:
+            accept = (self.headers.get("Accept") or "").lower()
+            return "text/html" in accept or "*/*" in accept or accept == ""
+
         def _require_auth(self, path: str) -> bool:
-            """False si la petición queda rechazada (401)."""
+            """False si la petición queda rechazada (401 / redirect acceso)."""
             if not basic_auth_required():
                 return True
             norm = normalize_api_path(path)
@@ -59,6 +63,15 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
                 return True
             if check_basic_auth(self.headers.get("Authorization")):
                 return True
+            # Navegación HTML → pantalla de verificación con modal (sin diálogo nativo).
+            if not norm.startswith("/api/") and self._wants_html():
+                from urllib.parse import quote
+
+                path_only = urlparse(self.path).path or "/ejemplos.html"
+                self.send_response(302)
+                self.send_header("Location", f"/acceso.html?next={quote(path_only, safe='/')}")
+                self.end_headers()
+                return False
             body = b'{"error":"Unauthorized"}'
             self.send_response(401)
             self.send_header("WWW-Authenticate", 'Basic realm="MMI Vitrina"')
@@ -68,14 +81,35 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             self.wfile.write(body)
             return False
 
+        def _send_html(self, html: str, status: int = 200) -> None:
+            body = html.encode("utf-8")
+            self.send_response(status)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Cache-Control", "no-store, must-revalidate")
+            self.end_headers()
+            self.wfile.write(body)
+
         def do_OPTIONS(self) -> None:
             self.send_response(204)
             self._cors_headers()
             self.end_headers()
 
         def do_GET(self) -> None:
-            path = urlparse(self.path).path
+            parsed = urlparse(self.path)
+            path = parsed.path
             if not self._require_auth(path):
+                return
+            if path == "/acceso.html":
+                from urllib.parse import parse_qs
+
+                from mmi.web.acceso import render_acceso_html
+
+                nxt = (parse_qs(parsed.query).get("next") or ["/ejemplos.html"])[0]
+                self._send_html(render_acceso_html(next_path=nxt))
+                return
+            if path == "/api/auth/check":
+                self._send_json({"ok": True, "auth": True})
                 return
             if path in {"/", "/index.html"}:
                 target = out_dir / "index.html"
