@@ -266,16 +266,20 @@ def main(argv: list[str] | None = None) -> int:
         write_landing_page(out_dir)
     search_html = render_search_html(out_dir)
     rag_html = render_rag_html(out_dir)
-    motor_html = render_motor_html(out_dir)
-    mapa_html = render_mapa_html(out_dir)
     (out_dir / "search.html").write_text(search_html, encoding="utf-8")
     (out_dir / "rag.html").write_text(rag_html, encoding="utf-8")
-    (out_dir / "motor.html").write_text(motor_html, encoding="utf-8")
-    (out_dir / "mapa.html").write_text(mapa_html, encoding="utf-8")
+    if not is_vitrina():
+        motor_html = render_motor_html(out_dir)
+        mapa_html = render_mapa_html(out_dir)
+        (out_dir / "motor.html").write_text(motor_html, encoding="utf-8")
+        (out_dir / "mapa.html").write_text(mapa_html, encoding="utf-8")
 
-    from mmi.search.engine import HybridSearchEngine
+    # Vitrina: motor de búsqueda lazy (ApiContext) — el HTML sirve sin keys al arrancar.
+    engine = None
+    if not is_vitrina():
+        from mmi.search.engine import HybridSearchEngine
 
-    engine = HybridSearchEngine(tenant_slug=args.tenant)
+        engine = HybridSearchEngine(tenant_slug=args.tenant)
     handler = make_handler(engine, out_dir, search_html, tenant_slug=args.tenant)
     server = ThreadingHTTPServer((args.host, args.port), handler)
     mode = "vitrina" if is_vitrina() else "development"

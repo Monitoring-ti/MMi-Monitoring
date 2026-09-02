@@ -50,7 +50,24 @@ class ApiContext:
 
 
 def motor_health_payload() -> dict[str, Any]:
-    return {"ok": True, "motor_api": True, "version": MOTOR_API_VERSION}
+    import os
+
+    from mmi.web.deploy_mode import get_deploy_mode
+
+    missing = [
+        k
+        for k in ("QDRANT_URL", "QDRANT_API_KEY", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "OPENAI_API_KEY")
+        if not os.environ.get(k)
+    ]
+    payload: dict[str, Any] = {
+        "ok": True,
+        "motor_api": True,
+        "version": MOTOR_API_VERSION,
+        "deploy_mode": get_deploy_mode(),
+    }
+    if missing:
+        payload["config_warning"] = f"Faltan variables: {', '.join(missing)}"
+    return payload
 
 
 def graph_health_payload() -> dict[str, Any]:
