@@ -63,15 +63,56 @@ Railway gestiona el certificado TLS.
 
 ---
 
-## 4. Auth (acceso restringido)
+## 4. Auth y bloqueo de corpus (obligatorio)
 
-Railway **no** trae Basic Auth nativo. Opciones:
+La vitrina **no debe** quedar pública con `/api/search` y `/api/ask` abiertos.
 
-| Opción | Cómo |
-|--------|------|
-| **A. Cloudflare Access** (recomendado) | Dominio detrás de Cloudflare + Access policy (email equipo) |
-| **B. Password en proxy** | Cloudflare / nginx delante |
-| **C. Sin auth pública** | Solo `robots.txt` + `noindex` (ya en vitrina) — solo si el enlace es privado |
+### 4.1 Basic Auth (toda la app excepto healthcheck)
+
+En Railway → **Variables**:
+
+```env
+MMI_BASIC_AUTH_USER=monitoring
+MMI_BASIC_AUTH_PASSWORD=CLAVE_LARGA_AQUI
+```
+
+Tras redeploy, el navegador pedirá usuario/contraseña.  
+`/api/motor/health` queda libre para el healthcheck de Railway.
+
+### 4.2 Consultas al corpus (bloqueo por defecto)
+
+En Railway, **`MMI_VITRINA_LIVE_QUERIES` default = `0`**:
+
+| Valor | Efecto |
+|-------|--------|
+| `0` (default) | `/api/search`, `/api/ask`, `/api/ask-details` → **403** |
+| `1` | Consultas en vivo (solo con Basic Auth ya configurado) |
+
+Activar consultas solo cuando Basic Auth esté ON:
+
+```env
+MMI_BASIC_AUTH_USER=...
+MMI_BASIC_AUTH_PASSWORD=...
+MMI_VITRINA_LIVE_QUERIES=1
+```
+
+HTML de dashboard/pruebas/ejemplos sigue visible (con auth); el corpus indexado **no** se consulta hasta el unlock.
+
+### 4.3 Auth por usuario / empresa / corpus
+
+Basic Auth es **capa 0** (equipo). Autorización por tenant/empresa/corpus es **capa 1** (producto) — pendiente en roadmap; no basta con ocultar páginas.
+
+### 4.4 Revisar logs (consultas ya hechas)
+
+En Railway → servicio → **Logs** / **Observability**:
+
+1. Filtrar `POST /api/search` y `POST /api/ask`
+2. Anotar IPs/timestamps si hubo tráfico externo
+3. Si hubo abuso: rotar `OPENAI_API_KEY`, `OPENROUTER_API_KEY`, y opcionalmente API keys Qdrant/Supabase
+
+### 4.5 Cloudflare Access (recomendado a medio plazo)
+
+Dominio `mmi.monitoring.lat` detrás de Cloudflare + Access (email del equipo). Complementa Basic Auth.
 
 ---
 

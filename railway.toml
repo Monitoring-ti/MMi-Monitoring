@@ -7,7 +7,7 @@ builder = "DOCKERFILE"
 dockerfilePath = "deploy/Dockerfile"
 
 [deploy]
-healthcheckPath = "/"
+healthcheckPath = "/api/motor/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5

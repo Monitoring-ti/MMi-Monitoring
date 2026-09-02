@@ -106,6 +106,10 @@ def motor_health_payload() -> dict[str, Any]:
     }
     if missing:
         payload["config_warning"] = f"Faltan variables: {', '.join(missing)}"
+    from mmi.web.access_control import basic_auth_required, live_queries_enabled
+
+    payload["basic_auth"] = basic_auth_required()
+    payload["live_queries"] = live_queries_enabled()
     return payload
 
 

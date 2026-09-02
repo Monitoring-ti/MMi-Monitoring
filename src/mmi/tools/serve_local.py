@@ -26,6 +26,14 @@ from mmi.analysis.ingestion_results import write_ingestion_results
 
 def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = "monitoring"):
     from mmi.corpus.remote_source import load_remote_source, save_remote_source
+    from mmi.web.access_control import (
+        AUTH_EXEMPT_PATHS,
+        LIVE_QUERY_PATHS,
+        basic_auth_required,
+        check_basic_auth,
+        live_queries_enabled,
+        live_query_block_payload,
+    )
 
     remote_path = out_dir / "remote-source.json"
     api_ctx = ApiContext(tenant_slug=tenant_slug, out_dir=out_dir, _engine=engine)
@@ -35,9 +43,30 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             print(f"[mmi] {args[0]}")
 
         def _cors_headers(self) -> None:
+            # En vitrina no abrir CORS público; el front es mismo origen.
+            if is_vitrina():
+                return
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+        def _require_auth(self, path: str) -> bool:
+            """False si la petición queda rechazada (401)."""
+            if not basic_auth_required():
+                return True
+            norm = normalize_api_path(path)
+            if norm in AUTH_EXEMPT_PATHS:
+                return True
+            if check_basic_auth(self.headers.get("Authorization")):
+                return True
+            body = b'{"error":"Unauthorized"}'
+            self.send_response(401)
+            self.send_header("WWW-Authenticate", 'Basic realm="MMI Vitrina"')
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return False
 
         def do_OPTIONS(self) -> None:
             self.send_response(204)
@@ -46,6 +75,8 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
 
         def do_GET(self) -> None:
             path = urlparse(self.path).path
+            if not self._require_auth(path):
+                return
             if path in {"/", "/index.html"}:
                 target = out_dir / "index.html"
                 if target.is_file():
@@ -86,6 +117,11 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
 
         def do_POST(self) -> None:
             path = normalize_api_path(urlparse(self.path).path)
+            if not self._require_auth(path):
+                return
+            if path in LIVE_QUERY_PATHS and is_vitrina() and not live_queries_enabled():
+                self._send_json(live_query_block_payload(), status=403)
+                return
             if path == "/api/remote-source":
                 length = int(self.headers.get("Content-Length", "0"))
                 raw = self.rfile.read(length)
