@@ -222,26 +222,31 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
 </div>
 
 <div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
-  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack-md">
+  <div class="flex flex-col gap-stack-md">
     <div class="flex items-start gap-stack-md min-w-0">
       <div class="p-stack-sm bg-secondary-fixed rounded-xl text-on-secondary-fixed shrink-0">
-        <span class="material-symbols-outlined">key</span>
+        <span class="material-symbols-outlined">login</span>
       </div>
       <div>
-        <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Acceso demo</p>
-        <p class="text-body-md text-on-surface-variant">El navegador pedirá estas credenciales para consultar el corpus (búsqueda y RAG).</p>
+        <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Ejemplo de acceso</p>
+        <p class="text-body-md text-on-surface-variant">
+          Cuando el navegador pida usuario y contraseña, escriba exactamente estos valores para ingresar a la vitrina y consultar el corpus.
+        </p>
       </div>
     </div>
-    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-stack-sm sm:gap-stack-md shrink-0 w-full sm:w-auto">
-      <div class="rounded-lg bg-surface-container-low border border-outline/15 px-stack-md py-stack-sm">
-        <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Usuario</dt>
-        <dd class="text-body-lg font-semibold text-primary font-data-tabular break-all">{escape(DEMO_AUTH_USER)}</dd>
-      </div>
-      <div class="rounded-lg bg-surface-container-low border border-outline/15 px-stack-md py-stack-sm">
-        <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Contraseña</dt>
-        <dd class="text-body-lg font-semibold text-primary font-data-tabular">{escape(DEMO_AUTH_PASSWORD)}</dd>
-      </div>
-    </dl>
+    <div class="rounded-xl border border-primary/20 bg-primary-fixed/15 p-stack-md space-y-stack-md">
+      <p class="text-label-sm font-semibold text-primary uppercase tracking-wider">Copie y pegue en el cuadro de inicio de sesión</p>
+      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
+        <div class="rounded-lg bg-surface-container-lowest border border-outline/15 px-stack-md py-stack-sm">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-base">Campo usuario → escriba</dt>
+          <dd class="text-body-lg font-semibold text-primary break-all select-all">{escape(DEMO_AUTH_USER)}</dd>
+        </div>
+        <div class="rounded-lg bg-surface-container-lowest border border-outline/15 px-stack-md py-stack-sm">
+          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-base">Campo contraseña → escriba</dt>
+          <dd class="text-body-lg font-semibold text-primary font-data-tabular select-all">{escape(DEMO_AUTH_PASSWORD)}</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </div>
 
