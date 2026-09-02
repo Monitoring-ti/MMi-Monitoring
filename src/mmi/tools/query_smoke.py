@@ -10,6 +10,7 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 
 from mmi.search.rag_page import render_rag_html
+from mmi.tools.console import configure_stdout_utf8
 from mmi.tools.search_cli import render_search_html
 from mmi.tools.validate_rag import _load_cases, run_validation
 
@@ -26,6 +27,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", type=Path, default=Path("out"))
     args = parser.parse_args(argv)
 
+    configure_stdout_utf8()
     load_dotenv()
     repo = Path.cwd()
     cases_path = args.cases if args.cases.is_absolute() else repo / args.cases

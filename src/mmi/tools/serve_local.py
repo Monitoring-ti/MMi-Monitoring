@@ -15,7 +15,13 @@ from mmi.graph.page import render_mapa_html
 from mmi.motor.page import render_motor_html
 from mmi.search.rag_page import render_rag_html
 from mmi.tools.api_routes import ApiContext, handle_get_api, handle_post_api, normalize_api_path
+from mmi.tools.console import configure_stdout_utf8
 from mmi.tools.search_cli import render_search_html
+from mmi.web.deploy_mode import is_vitrina
+from mmi.web.landing import write_landing_page
+from mmi.web.sync import sync_web_assets
+from mmi.web.vitrina import write_vitrina_pages
+from mmi.analysis.ingestion_results import write_ingestion_results
 
 
 def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = "monitoring"):
@@ -28,11 +34,25 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
         def log_message(self, fmt: str, *args) -> None:
             print(f"[mmi] {args[0]}")
 
+        def _cors_headers(self) -> None:
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+
+        def do_OPTIONS(self) -> None:
+            self.send_response(204)
+            self._cors_headers()
+            self.end_headers()
+
         def do_GET(self) -> None:
             path = urlparse(self.path).path
             if path in {"/", "/index.html"}:
+                target = out_dir / "index.html"
+                if target.is_file():
+                    self._send_file(target)
+                    return
                 self.send_response(302)
-                self.send_header("Location", "/search.html")
+                self.send_header("Location", "/app.html")
                 self.end_headers()
                 return
             if path == "/api/remote-source":
@@ -84,6 +104,12 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
                 return
 
             if path == "/api/ingestion-action":
+                if is_vitrina():
+                    self._send_json(
+                        {"error": "Acción no disponible en modo vitrina (ingesta solo local)."},
+                        status=403,
+                    )
+                    return
                 length = int(self.headers.get("Content-Length", "0"))
                 raw = self.rfile.read(length)
                 try:
@@ -128,6 +154,7 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             self.send_response(status)
             self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
+            self._cors_headers()
             self.end_headers()
             self.wfile.write(body)
 
@@ -197,6 +224,7 @@ def free_listening_port(port: int) -> list[int]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Servidor local MMI (búsqueda + out/)")
     parser.add_argument("--port", type=int, default=8773)
+    parser.add_argument("--host", default="127.0.0.1", help="Interfaz de escucha (0.0.0.0 en Docker)")
     parser.add_argument("--out", type=Path, default=Path("out"))
     parser.add_argument("--tenant", default="monitoring")
     parser.add_argument(
@@ -213,6 +241,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    configure_stdout_utf8()
     load_dotenv()
     if args.replace:
         freed = free_listening_port(args.port)
@@ -220,6 +249,12 @@ def main(argv: list[str] | None = None) -> int:
             print(f"Puerto {args.port}: liberado (PID {', '.join(str(p) for p in freed)})")
     out_dir = args.out.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
+    sync_web_assets(out_dir)
+    if is_vitrina():
+        write_vitrina_pages(out_dir)
+    else:
+        write_ingestion_results(out_dir)
+        write_landing_page(out_dir)
     search_html = render_search_html(out_dir)
     rag_html = render_rag_html(out_dir)
     motor_html = render_motor_html(out_dir)
@@ -233,17 +268,25 @@ def main(argv: list[str] | None = None) -> int:
 
     engine = HybridSearchEngine(tenant_slug=args.tenant)
     handler = make_handler(engine, out_dir, search_html, tenant_slug=args.tenant)
-    server = ThreadingHTTPServer(("127.0.0.1", args.port), handler)
-    print(f"MMI local → http://127.0.0.1:{args.port}/")
-    print(f"  Búsqueda     http://127.0.0.1:{args.port}/search.html")
-    print(f"  Consulta RAG http://127.0.0.1:{args.port}/rag.html")
-    print(f"  Mapa         http://127.0.0.1:{args.port}/mapa.html")
-    print(f"  Motor MMI  http://127.0.0.1:{args.port}/motor.html")
-    print(f"  Health     http://127.0.0.1:{args.port}/api/motor/health")
-    print(f"  Graph API  http://127.0.0.1:{args.port}/api/graph/health")
-    print(f"  Revisión     http://127.0.0.1:{args.port}/review.html")
-    print(f"  Corpus       http://127.0.0.1:{args.port}/corpus-picker.html")
-    print(f"  Carga (RAG)  http://127.0.0.1:{args.port}/load-test-report.html")
+    server = ThreadingHTTPServer((args.host, args.port), handler)
+    mode = "vitrina" if is_vitrina() else "development"
+    host = args.host if args.host != "0.0.0.0" else "127.0.0.1"
+    print(f"MMI local -> http://{host}:{args.port}/  (modo {mode})")
+    if is_vitrina():
+        print(f"  Vitrina      http://{host}:{args.port}/")
+        print(f"  Pruebas      http://{host}:{args.port}/pruebas.html")
+        print(f"  Ejemplos     http://{host}:{args.port}/ejemplos.html")
+    else:
+        print(f"  Portal       http://{host}:{args.port}/index.html")
+        print(f"  App MMI      http://{host}:{args.port}/app.html")
+        print(f"  Ingesta      http://{host}:{args.port}/ingestion-results.html")
+    print(f"  Búsqueda     http://{host}:{args.port}/search.html")
+    print(f"  Consulta RAG http://{host}:{args.port}/rag.html")
+    print(f"  Health       http://{host}:{args.port}/api/motor/health")
+    if not is_vitrina():
+        print(f"  Mapa         http://{host}:{args.port}/mapa.html")
+        print(f"  Motor MMI    http://{host}:{args.port}/motor.html")
+        print(f"  Revisión     http://{host}:{args.port}/review.html")
     print("  Generación   OpenRouter (/api/ask, /api/motor/analyze)")
     try:
         server.serve_forever()

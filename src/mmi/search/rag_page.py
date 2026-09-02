@@ -5,7 +5,395 @@ from __future__ import annotations
 from pathlib import Path
 
 
+def render_rag_vitrina_html(out_dir: Path | None = None) -> str:
+    from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
+    from mmi.search.vitrina_examples import vitrina_example_card
+    from mmi.web.vitrina_shell import render_shell
+
+    stats = load_corpus_stats(out_dir)
+    docs = stats.get("docs") or "—"
+    chunks = stats.get("chunks") or 0
+    tokens = stats.get("tokens_fmt") or ""
+    lote = str(stats.get("lote") or "ODS1")
+    chunks_k = f"{chunks // 1000}k" if isinstance(chunks, int) and chunks >= 1000 else str(chunks or "—")
+
+    quick_examples = "".join(
+        vitrina_example_card(c)
+        for c in (*_CATEGORIES[:3], *_TIPS[:1])
+    )
+
+    extra_head = """
+<style>
+  .answer-body h3 { margin: 1rem 0 0.5rem; font-size: 0.98rem; font-weight: 600; color: #002a6d; }
+  .answer-body h3:first-child { margin-top: 0; }
+  .answer-body p { margin: 0 0 0.75rem; line-height: 1.6; color: #434651; }
+  .answer-body ul { margin: 0 0 0.75rem; padding-left: 1.25rem; color: #434651; line-height: 1.55; }
+  .answer-body li { margin-bottom: 0.35rem; }
+  .cite-link { color: #002a6d; font-weight: 600; text-decoration: none; }
+  .cite-link:hover { text-decoration: underline; }
+  .refs-list { margin: 0; padding: 0; list-style: none; }
+  .refs-list li { scroll-margin-top: 5rem; }
+</style>"""
+
+    content = f"""
+<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
+  <div class="flex flex-col lg:flex-row gap-stack-md">
+    <div class="flex-1 flex items-center gap-stack-sm bg-surface-container-low px-stack-md py-2 rounded-full border border-outline/30">
+      <span class="material-symbols-outlined text-outline shrink-0">psychology</span>
+      <input id="q" type="search" placeholder="Pregunta completa: definición, criterio, procedimiento, checklist…"
+        class="flex-1 min-w-0 bg-transparent border-none focus:ring-0 text-body-md text-on-surface placeholder:text-on-surface-variant"/>
+    </div>
+    <div class="flex flex-wrap gap-stack-sm shrink-0">
+      <button id="ask" type="button"
+        class="inline-flex items-center gap-base bg-primary text-on-primary px-stack-lg py-stack-md rounded-lg text-label-sm font-bold uppercase tracking-wide hover:opacity-95 transition-opacity disabled:opacity-50">
+        <span class="material-symbols-outlined" style="font-size:18px">auto_awesome</span>
+        Preguntar
+      </button>
+      <button id="clear" type="button"
+        class="inline-flex items-center gap-base bg-surface-container-high text-on-surface-variant px-stack-lg py-stack-md rounded-lg text-label-sm font-semibold hover:bg-surface-container transition-colors">
+        Limpiar
+      </button>
+    </div>
+  </div>
+  <p class="text-body-md text-on-surface-variant mt-stack-md">
+    Respuesta con <strong class="text-on-surface">OpenRouter</strong> y citas documentales ·
+    <a href="/search.html" class="text-primary font-semibold hover:underline">solo fragmentos → Búsqueda</a>
+  </p>
+  <p class="mt-stack-md inline-flex items-center gap-base rounded-lg border border-secondary-container/40 bg-secondary-fixed/30 px-stack-md py-stack-sm text-label-sm font-bold uppercase tracking-widest text-secondary">
+    <span class="material-symbols-outlined text-secondary" style="font-size:18px">flag</span>
+    Aca Vamos
+  </p>
+</div>
+
+<div class="bg-surface-container-low p-stack-md rounded-xl border border-outline/20 text-body-md text-on-surface-variant">
+  Corpus indexado: <strong class="text-primary">{docs}</strong> documentos ·
+  <strong class="text-primary">{chunks_k}</strong> fragmentos ·
+  <strong class="text-primary">{tokens or "—"}</strong> tokens
+</div>
+
+<div id="question" class="bg-primary-fixed/20 border border-primary-fixed rounded-xl p-stack-lg hidden">
+  <span class="block text-label-sm font-semibold uppercase tracking-wider text-primary mb-base">Consulta</span>
+  <span id="question-text" class="text-body-lg text-on-surface"></span>
+</div>
+
+<div id="status" class="text-body-md text-on-surface-variant min-h-[1.25rem]"></div>
+<div id="conflict-banner" class="hidden rounded-xl border border-secondary/30 bg-secondary-fixed/40 p-stack-md text-body-md text-on-secondary-fixed"></div>
+<ul id="conflicts" class="hidden space-y-stack-sm mb-stack-md"></ul>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+  <section class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-outline/20 overflow-hidden shadow-sm" aria-live="polite">
+    <div class="px-stack-lg py-stack-md border-b border-outline/10 bg-primary-fixed/10">
+      <h2 class="text-headline-md font-semibold text-primary">Respuesta</h2>
+    </div>
+    <div class="p-stack-lg">
+      <div id="answer" class="text-body-md text-on-surface-variant italic">Escribe una pregunta y pulsa <strong class="text-on-surface not-italic">Preguntar</strong>, o elige un ejemplo abajo.</div>
+    </div>
+  </section>
+  <aside class="bg-surface-container-lowest rounded-xl border border-outline/20 overflow-hidden shadow-sm">
+    <div class="px-stack-lg py-stack-md border-b border-outline/10">
+      <h2 class="text-headline-md font-semibold text-primary">Referencias citadas</h2>
+    </div>
+    <div class="p-stack-md max-h-[70vh] overflow-auto">
+      <ol id="references" class="refs-list space-y-stack-sm"></ol>
+      <p id="refs-empty" class="text-body-md text-on-surface-variant italic">Las fuentes citadas [1][2]… aparecerán aquí.</p>
+    </div>
+  </aside>
+</div>
+
+<details class="bg-surface-container-lowest rounded-xl border border-outline/20 overflow-hidden group mt-gutter" id="evidence-wrap" open>
+  <summary class="cursor-pointer list-none px-stack-lg py-stack-md flex items-center justify-between gap-stack-md border-b border-outline/10">
+    <h2 id="evidence-summary" class="text-headline-md font-semibold text-primary">Fragmentos de evidencia</h2>
+    <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+  </summary>
+  <div class="p-stack-lg space-y-stack-md" id="evidence"></div>
+</details>
+
+<details class="bg-surface-container-lowest rounded-xl border border-outline/20 overflow-hidden group">
+  <summary class="cursor-pointer list-none px-stack-lg py-stack-md flex items-center justify-between gap-stack-md border-b border-outline/10">
+    <div>
+      <h2 class="text-headline-md font-semibold text-primary">Ejemplos de consulta</h2>
+      <p class="text-body-md text-on-surface-variant mt-1">Un clic ejecuta la consulta RAG con citas</p>
+    </div>
+    <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+  </summary>
+  <div class="p-stack-lg grid grid-cols-1 md:grid-cols-2 gap-gutter">{quick_examples}</div>
+</details>"""
+
+    scripts = """
+<script>
+const q = document.getElementById('q');
+const askBtn = document.getElementById('ask');
+const clearBtn = document.getElementById('clear');
+const statusEl = document.getElementById('status');
+const answerEl = document.getElementById('answer');
+const refsEl = document.getElementById('references');
+const refsEmpty = document.getElementById('refs-empty');
+const evidenceEl = document.getElementById('evidence');
+const evidenceSummary = document.getElementById('evidence-summary');
+const questionBox = document.getElementById('question');
+const questionText = document.getElementById('question-text');
+const conflictBannerEl = document.getElementById('conflict-banner');
+const conflictsEl = document.getElementById('conflicts');
+let lastAsk = null;
+
+document.querySelectorAll('[data-q]').forEach(b => {
+  b.onclick = () => {
+    if (b.dataset.action === 'search') {
+      location.href = '/search.html?q=' + encodeURIComponent(b.dataset.q);
+      return;
+    }
+    q.value = b.dataset.q;
+    runAsk();
+  };
+});
+askBtn.onclick = runAsk;
+clearBtn.onclick = clearAll;
+q.addEventListener('keydown', e => { if (e.key === 'Enter') runAsk(); });
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function apiError(res, fallback) {
+  if (res.status === 404) {
+    return 'API no disponible (404). Ejecuta: python -m mmi.tools.serve_local --port 8773';
+  }
+  return fallback || ('HTTP ' + res.status);
+}
+
+function setStatus(text, ok) {
+  statusEl.textContent = text;
+  statusEl.className = ok
+    ? 'text-body-md text-primary font-semibold min-h-[1.25rem]'
+    : 'text-body-md text-on-surface-variant min-h-[1.25rem]';
+}
+
+function showError(err) {
+  const hint = location.protocol === 'file:'
+    ? ' Abre http://127.0.0.1:8773/rag.html (no el archivo directo).'
+    : '';
+  statusEl.textContent = 'Error: ' + err.message + hint;
+  statusEl.className = 'text-body-md text-error font-semibold min-h-[1.25rem]';
+}
+
+function clearAll() {
+  q.value = '';
+  lastAsk = null;
+  questionBox.classList.add('hidden');
+  answerEl.innerHTML = 'Escribe una pregunta y pulsa <strong class="text-on-surface not-italic">Preguntar</strong>, o elige un ejemplo abajo.';
+  answerEl.className = 'text-body-md text-on-surface-variant italic';
+  refsEl.innerHTML = '';
+  refsEmpty.classList.remove('hidden');
+  evidenceEl.innerHTML = '';
+  evidenceSummary.textContent = 'Fragmentos de evidencia';
+  conflictBannerEl.classList.add('hidden');
+  conflictBannerEl.textContent = '';
+  conflictsEl.classList.add('hidden');
+  conflictsEl.innerHTML = '';
+  setStatus('', false);
+  history.replaceState(null, '', '/rag.html');
+}
+
+function linkCites(s) {
+  return s.replace(/\\[(\\d+)\\]/g, '<a class="cite-link" href="#ref-$1">[$1]</a>');
+}
+
+function renderAnswer(text) {
+  if (!text) return '<p class="text-on-surface-variant italic">Sin respuesta.</p>';
+  const lines = esc(text).split('\\n');
+  const parts = [];
+  let inList = false;
+  for (const line of lines) {
+    const h = line.match(/^## (.+)$/);
+    if (h) {
+      if (inList) { parts.push('</ul>'); inList = false; }
+      parts.push('<h3>' + h[1] + '</h3>');
+      continue;
+    }
+    const li = line.match(/^- (.+)$/);
+    if (li) {
+      if (!inList) { parts.push('<ul>'); inList = true; }
+      parts.push('<li>' + linkCites(li[1]) + '</li>');
+      continue;
+    }
+    if (inList) { parts.push('</ul>'); inList = false; }
+    if (line.trim()) parts.push('<p>' + linkCites(line) + '</p>');
+  }
+  if (inList) parts.push('</ul>');
+  return '<div class="answer-body">' + parts.join('') + '</div>';
+}
+
+function renderReferences(refs) {
+  if (!refs.length) {
+    refsEl.innerHTML = '';
+    refsEmpty.classList.remove('hidden');
+    return;
+  }
+  refsEmpty.classList.add('hidden');
+  refsEl.innerHTML = refs.map(r => `
+    <li id="ref-${r.index}" class="bg-surface-container-low rounded-lg border border-primary/20 p-stack-md cited">
+      <span class="inline-block min-w-[2rem] font-bold text-primary">[${r.index}]</span>
+      <strong class="text-body-md text-on-surface">${esc(r.citation || r.titulo || 'Fuente')}</strong>
+      <div class="text-label-sm text-on-surface-variant mt-1">${esc([r.tipo, r.version_label, r.section_path,
+        r.page_start ? 'pág. ' + r.page_start + (r.page_end && r.page_end !== r.page_start ? '–' + r.page_end : '') : ''
+      ].filter(Boolean).join(' · '))}</div>
+      ${r.snippet ? '<div class="text-body-md text-on-surface-variant mt-2 italic">“' + esc(r.snippet) + '…”</div>' : ''}
+    </li>`).join('');
+}
+
+function badge(text, seg) {
+  const cls = seg
+    ? 'bg-secondary-fixed/40 text-on-secondary-fixed border-secondary/20'
+    : 'bg-tertiary-fixed text-on-surface-variant border-outline/20';
+  return '<span class="inline-flex items-center px-stack-sm py-0.5 rounded border text-label-sm font-semibold mr-1 mb-1 ' + cls + '">' + esc(text) + '</span>';
+}
+
+function renderHits(hits, citedSet) {
+  citedSet = citedSet || new Set();
+  if (!hits.length) {
+    evidenceEl.innerHTML = '<p class="text-body-md text-on-surface-variant italic">Sin fragmentos recuperados.</p>';
+    evidenceSummary.textContent = 'Fragmentos de evidencia (0)';
+    return;
+  }
+  evidenceSummary.textContent = 'Fragmentos de evidencia (' + hits.length + ')';
+  evidenceEl.innerHTML = hits.map((r, i) => {
+    const n = i + 1;
+    const cited = citedSet.has(n);
+    const seg = r.criticality_level === 'seguridad';
+    return `
+      <article class="bg-surface-container-low rounded-xl border p-stack-lg scroll-mt-20 ${cited ? 'border-primary/40' : 'border-outline/20'}" id="evidence-${n}">
+        <h3 class="text-body-lg font-bold text-primary mb-stack-sm">${n}. ${esc(r.citation || r.titulo || 'Resultado')}${cited ? ' <span class="text-label-sm font-semibold text-secondary">· citada</span>' : ''}</h3>
+        <div class="mb-stack-sm">${badge(r.tipo || '', false)}${badge(r.criticality_level || '', seg)}<span class="text-label-sm text-on-surface-variant">score ${r.score}</span></div>
+        <div class="text-body-md text-on-surface-variant leading-relaxed whitespace-pre-wrap">${esc(r.content || '')}</div>
+      </article>`;
+  }).join('');
+}
+
+function renderConflicts(banner, conflictos) {
+  conflictos = conflictos || [];
+  if (!banner || !banner.visible || !conflictos.length) {
+    conflictBannerEl.classList.add('hidden');
+    conflictBannerEl.textContent = '';
+    conflictsEl.classList.add('hidden');
+    conflictsEl.innerHTML = '';
+    return;
+  }
+  const info = banner.severity !== 'warn';
+  conflictBannerEl.className = info
+    ? 'rounded-xl border border-primary/20 bg-primary-fixed/20 p-stack-md text-body-md text-primary'
+    : 'rounded-xl border border-secondary/30 bg-secondary-fixed/40 p-stack-md text-body-md text-on-secondary-fixed';
+  conflictBannerEl.textContent = banner.message || ('Conflicto documental detectado (' + conflictos.length + ')');
+  conflictBannerEl.classList.remove('hidden');
+  conflictsEl.classList.remove('hidden');
+  conflictsEl.innerHTML = conflictos.map(c => `
+    <li class="rounded-lg border p-stack-md text-body-md ${c.severity === 'info' ? 'border-primary/20 bg-primary-fixed/10 text-primary' : 'border-secondary/30 bg-secondary-fixed/30 text-on-secondary-fixed'}">
+      <div class="text-label-sm font-semibold uppercase tracking-wider mb-1">${esc(c.kind || 'conflicto')}</div>
+      ${esc(c.text || '')}
+    </li>`).join('');
+}
+
+document.addEventListener('click', e => {
+  const link = e.target.closest('a.cite-link');
+  if (!link) return;
+  e.preventDefault();
+  const target = document.getElementById(link.getAttribute('href').slice(1));
+  if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+});
+
+async function fetchAskDetails(section) {
+  const res = await fetch('/api/ask-details', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ ask_id: lastAsk.ask_id, section }),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(apiError(res, err.error));
+  }
+  return res.json();
+}
+
+async function runAsk() {
+  const query = q.value.trim();
+  if (!query) return;
+  askBtn.disabled = true;
+  setStatus('Recuperando evidencia y generando respuesta…', false);
+  answerEl.innerHTML = '<p class="text-on-surface-variant italic">Generando…</p>';
+  answerEl.className = '';
+  refsEl.innerHTML = '';
+  refsEmpty.classList.add('hidden');
+  evidenceEl.innerHTML = '<p class="text-on-surface-variant italic">Cargando…</p>';
+  conflictBannerEl.classList.add('hidden');
+  conflictsEl.classList.add('hidden');
+  questionBox.classList.remove('hidden');
+  questionText.textContent = query;
+  history.replaceState(null, '', '/rag.html?q=' + encodeURIComponent(query));
+  try {
+    const res = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, limit: 8 }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(apiError(res, err.error));
+    }
+    const data = await res.json();
+    lastAsk = { ask_id: data.ask_id, cited_indices: data.cited_indices || [] };
+    answerEl.innerHTML = renderAnswer(data.answer || '');
+    answerEl.className = '';
+    renderConflicts(data.conflict_banner, data.conflictos);
+    setStatus(
+      data.cited_count + ' referencias · ' + data.evidence_count + ' evidencias · '
+      + (data.elapsed_ms || '?') + ' ms · ' + (data.model || ''),
+      true
+    );
+    const citedSet = new Set(data.cited_indices || []);
+    const [refsData, evData] = await Promise.all([
+      fetchAskDetails('references'),
+      fetchAskDetails('evidence'),
+    ]);
+    renderReferences(refsData.references || []);
+    renderHits(evData.results || [], citedSet);
+  } catch (err) {
+    showError(err);
+    answerEl.innerHTML = '<p class="text-on-surface-variant italic">No se pudo generar la respuesta.</p>';
+    evidenceEl.innerHTML = '';
+  } finally {
+    askBtn.disabled = false;
+  }
+}
+
+(function boot() {
+  const params = new URLSearchParams(location.search);
+  const initial = params.get('q');
+  if (initial) {
+    q.value = initial;
+    runAsk();
+  } else {
+    q.focus();
+  }
+})();
+</script>"""
+
+    return render_shell(
+        active="rag",
+        title="Consulta RAG",
+        header_subtitle=f"Corpus {lote} · respuestas con citas",
+        content=content,
+        corpus_lote=lote,
+        extra_head=extra_head,
+        footer_scripts=scripts,
+        show_fab=False,
+    )
+
+
 def render_rag_html(out_dir: Path | None = None) -> str:
+    from mmi.web.deploy_mode import is_vitrina
+
+    if is_vitrina():
+        return render_rag_vitrina_html(out_dir)
+
     from mmi.analysis.review_shell import render_review_nav, review_nav_css
     from mmi.search.examples import load_corpus_stats, render_corpus_intro
 
@@ -146,7 +534,7 @@ def render_rag_html(out_dir: Path | None = None) -> str:
   {render_review_nav("rag")}
   <h1>Consulta con citas — RAG</h1>
   <p class="meta">Respuesta generada con <b>OpenRouter</b> sobre evidencia del corpus indexado.
-     Para solo fragmentos, usa <a href="search.html">búsqueda híbrida</a>.</p>
+     Para solo fragmentos, usa <a href="/search.html">búsqueda híbrida</a>.</p>
   {intro}
   <div class="bar">
     <input id="q" type="search" placeholder="Pregunta completa: definición, criterio, procedimiento, checklist…"/>
@@ -253,7 +641,7 @@ function clearAll() {{
   conflictsEl.hidden = true;
   conflictsEl.innerHTML = '';
   setStatus('', false);
-  history.replaceState(null, '', 'rag.html');
+  history.replaceState(null, '', '/rag.html');
 }}
 
 function linkCites(s) {{
@@ -383,7 +771,7 @@ async function runAsk() {{
   conflictsEl.hidden = true;
   questionBox.hidden = false;
   questionText.textContent = query;
-  history.replaceState(null, '', 'rag.html?q=' + encodeURIComponent(query));
+  history.replaceState(null, '', '/rag.html?q=' + encodeURIComponent(query));
   try {{
     const res = await fetch('/api/ask', {{
       method: 'POST',

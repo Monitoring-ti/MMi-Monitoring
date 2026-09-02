@@ -34,6 +34,13 @@ def _result_dict(r: SearchResult) -> dict:
 
 
 def render_search_html(out_dir: Path | None = None) -> str:
+    from mmi.web.deploy_mode import is_vitrina
+
+    if is_vitrina():
+        from mmi.search.search_page import render_search_vitrina_html
+
+        return render_search_vitrina_html(out_dir)
+
     from mmi.analysis.review_shell import render_review_nav, review_nav_css
     from mmi.search.examples import render_search_examples_html
 
@@ -128,7 +135,7 @@ def render_search_html(out_dir: Path | None = None) -> str:
     body_start = """
   <h1>Búsqueda híbrida — memoria técnica NCC30</h1>
   <p class="meta">Búsqueda de fragmentos: Qdrant + Supabase ·
-     Respuestas con citas en <a href="rag.html">Consulta RAG</a> (OpenRouter)</p>
+     Respuestas con citas en <a href="/rag.html">Consulta RAG</a> (OpenRouter)</p>
   <div class="bar">
     <input id="q" type="search" placeholder="Términos, códigos de documento, checklist, FMECA, matriz MRI…"/>
     <button id="go" class="primary">Buscar</button>
@@ -150,7 +157,7 @@ let lastSearch = null;
 function goRag(query) {
   const text = (query != null ? query : q.value).trim();
   if (!text) return;
-  location.href = 'rag.html?q=' + encodeURIComponent(text);
+  location.href = '/rag.html?q=' + encodeURIComponent(text);
 }
 
 document.querySelectorAll('[data-q]').forEach(b => {
@@ -228,7 +235,7 @@ function renderHits(hits) {
         </div>
         <p class="cite">${esc(r.citation||'')}</p>
         <div class="snippet">${esc(r.content||'')}</div>
-        <p class="meta" style="margin-top:10px"><a href="rag.html?q=${encodeURIComponent(q.value.trim())}">Preguntar sobre esto en Consulta RAG →</a></p>
+        <p class="meta" style="margin-top:10px"><a href="/rag.html?q=${encodeURIComponent(q.value.trim())}">Preguntar sobre esto en Consulta RAG →</a></p>
       </div>`;
   }).join('');
   results.innerHTML = '<details class="optional-panel evidence" id="evidence-panel" open>'
@@ -238,6 +245,17 @@ function renderHits(hits) {
 function esc(s) {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+
+(function boot() {
+  const params = new URLSearchParams(location.search);
+  const initial = params.get('q');
+  if (initial) {
+    q.value = initial;
+    runSearch();
+  } else {
+    q.focus();
+  }
+})();
 </script>
 </body>
 </html>"""

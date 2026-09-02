@@ -69,6 +69,11 @@ def handle_get_api(path: str, handler: JsonHandler, ctx: ApiContext) -> bool:
     if path == "/api/graph/health":
         handler._send_json(graph_health_payload())
         return True
+    if path == "/api/ingestion-results":
+        from mmi.analysis.ingestion_results import build_ingestion_results
+
+        handler._send_json(build_ingestion_results(ctx.out_dir))
+        return True
     if path == "/api/graph/filters":
         handler._send_json(_graph_builder(ctx).filter_options())
         return True

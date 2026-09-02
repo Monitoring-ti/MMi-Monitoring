@@ -12,6 +12,9 @@ REVIEW_JSON = "analysis-status.json"
 LEGACY_ALIASES = ("ingestion-status.html", "analysis-status.html")
 
 _NAV_ITEMS: tuple[tuple[str, str, str], ...] = (
+    ("home", "index.html", "Inicio"),
+    ("app", "app.html", "App MMI"),
+    ("ingestion", "ingestion-results.html", "Ingesta"),
     ("hub", REVIEW_HUB, "Revisión"),
     ("search", "search.html", "Búsqueda"),
     ("rag", "rag.html", "Consulta RAG"),
@@ -21,8 +24,27 @@ _NAV_ITEMS: tuple[tuple[str, str, str], ...] = (
     ("cloud", "source-review.html", "Enlace nube"),
 )
 
+_VITRINA_NAV_ITEMS: tuple[tuple[str, str, str], ...] = (
+    ("home", "index.html", "Inicio"),
+    ("pruebas", "pruebas.html", "Pruebas"),
+    ("ejemplos", "ejemplos.html", "Ejemplos"),
+    ("search", "search.html", "Búsqueda"),
+    ("rag", "rag.html", "Consulta"),
+)
+
+
+def _nav_items() -> tuple[tuple[str, str, str], ...]:
+    from mmi.web.deploy_mode import is_vitrina
+
+    return _VITRINA_NAV_ITEMS if is_vitrina() else _NAV_ITEMS
+
 
 def nav_href(page: str, *, depth: int = 0) -> str:
+    if depth == 0:
+        from mmi.web.deploy_mode import is_vitrina
+
+        if is_vitrina():
+            return f"/{page.lstrip('/')}"
     return f"{'../' * depth}{page}"
 
 
@@ -65,21 +87,24 @@ def review_nav_css() -> str:
 
 
 def render_review_nav(active: str = "hub", *, depth: int = 0) -> str:
+    from mmi.web.deploy_mode import is_vitrina
+
     parts = ['<nav class="review-nav" aria-label="Revisión MMI">']
-    parts.append(f'<span class="brand">MMI</span>')
-    for key, page, label in _NAV_ITEMS:
+    parts.append(f'<span class="brand"><a href="{escape(nav_href("index.html", depth=depth))}" style="color:inherit;text-decoration:none">MMI</a></span>')
+    for key, page, label in _nav_items():
         cls = ' class="active"' if key == active else ""
         parts.append(f'<a href="{escape(nav_href(page, depth=depth))}"{cls}>{escape(label)}</a>')
-    parts.append('<span class="spacer"></span>')
-    parts.append(
-        f'<a href="{escape(nav_href("rag-validation.html", depth=depth))}">Validación RAG</a>'
-    )
-    parts.append(
-        f'<a href="{escape(nav_href("catalog-validation.html", depth=depth))}">Catálogo EAM</a>'
-    )
-    parts.append(
-        f'<a href="{escape(nav_href("load-test-report.html", depth=depth))}">Carga</a>'
-    )
+    if not is_vitrina():
+        parts.append('<span class="spacer"></span>')
+        parts.append(
+            f'<a href="{escape(nav_href("rag-validation.html", depth=depth))}">Validación RAG</a>'
+        )
+        parts.append(
+            f'<a href="{escape(nav_href("catalog-validation.html", depth=depth))}">Catálogo EAM</a>'
+        )
+        parts.append(
+            f'<a href="{escape(nav_href("load-test-report.html", depth=depth))}">Carga</a>'
+        )
     parts.append("</nav>")
     return "".join(parts)
 
@@ -89,6 +114,7 @@ def render_review_data_links(*, depth: int = 0) -> str:
         ("catalog-validation.json", "Catálogo EAM"),
         ("rag-validation.json", "Validación RAG"),
         ("data-quality.html", "Análisis datos"),
+        ("ingestion-results.html", "Ingesta"),
         ("index-corpus-summary.json", "Indexación"),
         ("ingestion-registry.json", "Jobs"),
         ("process-manifest.json", "Manifest"),

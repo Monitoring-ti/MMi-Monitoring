@@ -30,12 +30,29 @@ UI: `search.html` · `rag.html` · `mapa.html` · `motor.html` · `review.html`
 
 Plan operativo: [`docs/plan.md`](docs/plan.md) · comandos: [`docs/plan-anexo-operaciones.md`](docs/plan-anexo-operaciones.md)
 
-## Web app (Next.js)
+## Vitrina (deploy público)
+
+Modo **solo pruebas + consultas** — sin ingesta ni portal dev.
+
+```powershell
+$env:MMI_DEPLOY_MODE = "vitrina"
+.venv\Scripts\python -m mmi.tools.vitrina
+.venv\Scripts\python -m mmi.tools.serve_local --port 8773
+```
+
+Páginas: `/` · `/pruebas.html` · `/ejemplos.html` · `/search.html` · `/rag.html`
+
+Publicar al VPS: [`deploy/VITRINA.md`](deploy/VITRINA.md) · `.\scripts\publish_vitrina.ps1`
+
 
 ```bash
 npm install
 npm run dev
+# → http://localhost:3000 — demo operativa en #demo
 ```
+
+Requiere el backend en `:8773` (proxy automático vía `next.config.ts`).  
+Integración: [`docs/plan-integracion-ui.md`](docs/plan-integracion-ui.md)
 
 ## Git
 

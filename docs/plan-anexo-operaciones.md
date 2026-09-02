@@ -60,6 +60,9 @@ Comandos extendidos, URLs locales y validación lote 1. Plan principal: [`plan.m
 
 | Página | URL |
 |--------|-----|
+| **Portal local (indice HTML)** | http://127.0.0.1:8773/ |
+| **App comercial + demo** | http://127.0.0.1:8773/app.html |
+| **Resultados ingesta** | http://127.0.0.1:8773/ingestion-results.html |
 | Búsqueda | http://127.0.0.1:8773/search.html |
 | Consulta RAG | http://127.0.0.1:8773/rag.html |
 | Mapa conocimiento | http://127.0.0.1:8773/mapa.html |
