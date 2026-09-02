@@ -252,6 +252,9 @@ def main(argv: list[str] | None = None) -> int:
 
     configure_stdout_utf8()
     load_dotenv()
+    from mmi.web.deploy_mode import get_deploy_mode
+
+    print(f"[mmi] deploy_mode={get_deploy_mode()} vitrina={is_vitrina()}")
     if args.replace:
         freed = free_listening_port(args.port)
         if freed:
@@ -259,15 +262,25 @@ def main(argv: list[str] | None = None) -> int:
     out_dir = args.out.resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     sync_web_assets(out_dir)
+    skip_vitrina_regen = os.environ.get("MMI_SKIP_VITRINA_REGEN") and (out_dir / "index.html").is_file()
     if is_vitrina():
-        write_vitrina_pages(out_dir)
+        if skip_vitrina_regen:
+            print("[mmi] vitrina HTML prebuilt — skip regeneration")
+        else:
+            write_vitrina_pages(out_dir)
     else:
         write_ingestion_results(out_dir)
         write_landing_page(out_dir)
-    search_html = render_search_html(out_dir)
-    rag_html = render_rag_html(out_dir)
-    (out_dir / "search.html").write_text(search_html, encoding="utf-8")
-    (out_dir / "rag.html").write_text(rag_html, encoding="utf-8")
+    if is_vitrina() and skip_vitrina_regen and (out_dir / "search.html").is_file():
+        search_html = (out_dir / "search.html").read_text(encoding="utf-8")
+    else:
+        search_html = render_search_html(out_dir)
+        (out_dir / "search.html").write_text(search_html, encoding="utf-8")
+    if is_vitrina() and skip_vitrina_regen and (out_dir / "rag.html").is_file():
+        rag_html = (out_dir / "rag.html").read_text(encoding="utf-8")
+    else:
+        rag_html = render_rag_html(out_dir)
+        (out_dir / "rag.html").write_text(rag_html, encoding="utf-8")
     if not is_vitrina():
         motor_html = render_motor_html(out_dir)
         mapa_html = render_mapa_html(out_dir)

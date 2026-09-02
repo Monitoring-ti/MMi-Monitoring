@@ -11,6 +11,8 @@ _DEFAULT_FIXTURE = Path(__file__).resolve().parents[3] / "fixtures" / "motor-dem
 
 def load_motor_fixture(path: Path | None = None) -> dict:
     fixture_path = path or _DEFAULT_FIXTURE
+    if not fixture_path.is_file():
+        return {"assets": [], "demo_analysis": {}}
     return json.loads(fixture_path.read_text(encoding="utf-8"))
 
 

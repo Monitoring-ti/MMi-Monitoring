@@ -13,11 +13,15 @@ COPY deploy/entrypoint.sh ./deploy/entrypoint.sh
 COPY deploy/railway-seed ./deploy/railway-seed
 
 RUN pip install --no-cache-dir -e . \
-    && chmod +x /app/deploy/entrypoint.sh
+    && chmod +x /app/deploy/entrypoint.sh \
+    && mkdir -p /app/out \
+    && cp /app/deploy/railway-seed/*.json /app/out/ \
+    && MMI_DEPLOY_MODE=vitrina python -m mmi.tools.vitrina
 
 ENV PYTHONUNBUFFERED=1
 ENV MMI_DEPLOY_MODE=vitrina
 ENV MMI_BIND_HOST=0.0.0.0
+ENV MMI_SKIP_VITRINA_REGEN=1
 EXPOSE 8773
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
