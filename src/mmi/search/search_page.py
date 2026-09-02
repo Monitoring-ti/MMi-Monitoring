@@ -8,6 +8,7 @@ from typing import Any
 
 from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
 from mmi.search.vitrina_examples import vitrina_example_card
+from mmi.web.vitrina import PROJECT_SHORT
 from mmi.web.vitrina_shell import render_shell
 
 
@@ -223,8 +224,8 @@ function esc(s) {
     return render_shell(
         active="search",
         title="Búsqueda híbrida",
-        header_subtitle=f"Corpus {lote} · {docs} documentos",
+        header_subtitle=f"{PROJECT_SHORT} · {docs} documentos",
         content=content,
-        corpus_lote=lote,
+        corpus_lote=PROJECT_SHORT,
         footer_scripts=scripts,
     )

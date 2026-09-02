@@ -8,6 +8,7 @@ from pathlib import Path
 def render_rag_vitrina_html(out_dir: Path | None = None) -> str:
     from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
     from mmi.search.vitrina_examples import vitrina_example_card
+    from mmi.web.vitrina import PROJECT_SHORT
     from mmi.web.vitrina_shell import render_shell
 
     stats = load_corpus_stats(out_dir)
@@ -379,9 +380,9 @@ async function runAsk() {
     return render_shell(
         active="rag",
         title="Consulta RAG",
-        header_subtitle=f"Corpus {lote} · respuestas con citas",
+        header_subtitle=f"{PROJECT_SHORT} · respuestas con citas",
         content=content,
-        corpus_lote=lote,
+        corpus_lote=PROJECT_SHORT,
         extra_head=extra_head,
         footer_scripts=scripts,
         show_fab=False,
