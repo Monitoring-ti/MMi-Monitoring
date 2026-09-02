@@ -15,7 +15,7 @@ from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
 from mmi.web.vitrina_shell import metric_card, render_shell
 
 # Credenciales demo de la vitrina (también default en deploy/entrypoint.sh en Railway).
-DEMO_AUTH_USER = "Pruena Monitoring"
+DEMO_AUTH_USER = "Prueba Monitoring"
 DEMO_AUTH_PASSWORD = "202608v1"
 
 VITRINA_ROBOTS = "User-agent: *\nDisallow: /\n"

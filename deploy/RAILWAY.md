@@ -72,7 +72,7 @@ La vitrina **no debe** quedar pública con `/api/search` y `/api/ask` abiertos.
 En Railway el `entrypoint` activa por defecto:
 
 ```env
-MMI_BASIC_AUTH_USER=Pruena Monitoring
+MMI_BASIC_AUTH_USER=Prueba Monitoring
 MMI_BASIC_AUTH_PASSWORD=202608v1
 MMI_VITRINA_LIVE_QUERIES=1
 ```

@@ -5,7 +5,7 @@ PORT="${PORT:-8773}"
 if [ -n "${RAILWAY_ENVIRONMENT:-}" ]; then
   export MMI_DEPLOY_MODE=vitrina
   # Demo vitrina: Basic Auth + consultas al corpus (sobreescribible en Variables)
-  export MMI_BASIC_AUTH_USER="${MMI_BASIC_AUTH_USER:-Pruena Monitoring}"
+  export MMI_BASIC_AUTH_USER="${MMI_BASIC_AUTH_USER:-Prueba Monitoring}"
   export MMI_BASIC_AUTH_PASSWORD="${MMI_BASIC_AUTH_PASSWORD:-202608v1}"
   export MMI_VITRINA_LIVE_QUERIES="${MMI_VITRINA_LIVE_QUERIES:-1}"
 else
