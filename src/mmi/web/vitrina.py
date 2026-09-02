@@ -14,6 +14,10 @@ from mmi.analysis.data_report import _load_json
 from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
 from mmi.web.vitrina_shell import metric_card, render_shell
 
+# Proyecto de análisis mostrado en la vitrina (corpus ODS1 / DCH).
+PROJECT_NAME = "Servicio de estudio M&C — Sist. enfriamiento DCH"
+PROJECT_SHORT = "M&C · Enfriamiento DCH"
+
 VITRINA_ROBOTS = "User-agent: *\nDisallow: /\n"
 
 
@@ -194,11 +198,12 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
   {metric_card(icon="insights", badge="GOLDEN", title="Calidad recuperación", value=mrr_txt, subtitle=f"recall@5 {recall_txt}", progress_pct=int(float(mrr) * 100) if isinstance(mrr, (int, float)) and mrr <= 1 else None)}
 </div>"""
 
-    notice = """
+    notice = f"""
 <div class="bg-primary text-on-primary p-stack-lg rounded-xl relative overflow-hidden">
   <div class="relative z-10 max-w-3xl">
-    <h2 class="text-headline-md font-semibold mb-stack-sm">Memoria técnica indexada</h2>
-    <p class="text-body-md opacity-90">La ingesta es gestionada internamente por Monitoring. Esta vitrina muestra resultados de pruebas y permite consultas de ejemplo sobre el índice activo.</p>
+    <p class="text-label-sm uppercase tracking-wider opacity-80 mb-base">Proyecto de análisis</p>
+    <h2 class="text-headline-md font-semibold mb-stack-sm">{escape(PROJECT_NAME)}</h2>
+    <p class="text-body-md opacity-90">Esta vitrina corresponde al análisis documental del servicio de estudio de mantenibilidad y confiabilidad (M&amp;C) del sistema de enfriamiento DCH. Muestra resultados de pruebas y consultas sobre el corpus indexado · lote {escape(lote)} · {escape(str(docs))} documentos.</p>
   </div>
   <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-container rounded-full opacity-30 blur-2xl"></div>
 </div>"""
@@ -242,9 +247,9 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     return render_shell(
         active="home",
         title="Dashboard MMI",
-        header_subtitle=f"Corpus {lote} · {docs} documentos",
+        header_subtitle=f"{PROJECT_SHORT} · lote {lote} · {docs} documentos",
         content=content,
-        corpus_lote=lote,
+        corpus_lote=PROJECT_SHORT,
     )
 
 
@@ -294,9 +299,9 @@ def render_pruebas_html(report: dict[str, Any]) -> str:
     return render_shell(
         active="pruebas",
         title="Resultados de pruebas",
-        header_subtitle=f"Informe estático · {report.get('generated_at', '')[:10]}",
+        header_subtitle=f"{PROJECT_SHORT} · informe {report.get('generated_at', '')[:10]}",
         content=content,
-        corpus_lote=lote,
+        corpus_lote=PROJECT_SHORT,
     )
 
 
@@ -312,7 +317,7 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
   <strong class="text-primary">{docs}</strong> documentos indexados · clic azul = <strong>Consulta RAG</strong> · clic verde = <strong>solo búsqueda</strong>
 </div>
 <div>
-  <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Corpus ODS1</h2>
+  <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Corpus del proyecto</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">{cards}</div>
 </div>
 <div>
@@ -323,9 +328,9 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
     return render_shell(
         active="ejemplos",
         title="Ejemplos de consulta",
-        header_subtitle="Consultas predefinidas del corpus",
+        header_subtitle=f"{PROJECT_SHORT} · consultas predefinidas",
         content=content,
-        corpus_lote=lote,
+        corpus_lote=PROJECT_SHORT,
     )
 
 

@@ -202,12 +202,12 @@ def render_shell(
   <nav class="flex-1 mt-stack-md"><ul class="space-y-base">{nav}</ul></nav>
   <div class="p-margin-mobile mt-auto">
     <div class="bg-primary-container rounded-lg p-stack-md">
-      <p class="text-label-sm text-on-primary-container opacity-80 uppercase mb-base tracking-wider">Corpus activo</p>
+      <p class="text-label-sm text-on-primary-container opacity-80 uppercase mb-base tracking-wider">Proyecto</p>
       <div class="flex items-center justify-between gap-stack-sm">
         <span class="text-body-md font-bold">{escape(corpus_lote)}</span>
         <span class="material-symbols-outlined text-secondary-container">verified</span>
       </div>
-      <p class="text-label-sm text-on-primary-container opacity-70 mt-base">MMI · consulta documental</p>
+      <p class="text-label-sm text-on-primary-container opacity-70 mt-base">MMI · análisis documental</p>
     </div>
   </div>
 </aside>
