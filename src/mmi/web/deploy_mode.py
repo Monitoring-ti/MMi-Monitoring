@@ -6,7 +6,10 @@ import os
 
 
 def get_deploy_mode() -> str:
-    return (os.getenv("MMI_DEPLOY_MODE") or "development").strip().lower()
+    mode = (os.getenv("MMI_DEPLOY_MODE") or "development").strip().lower()
+    if os.getenv("RAILWAY_ENVIRONMENT") and mode == "development":
+        return "vitrina"
+    return mode
 
 
 def is_vitrina() -> bool:
