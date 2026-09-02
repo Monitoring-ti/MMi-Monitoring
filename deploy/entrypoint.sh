@@ -1,6 +1,17 @@
 #!/bin/sh
 set -eu
 
+# Docker: WORKDIR=/app · Railpack/local: raíz del repo
+if [ -d /app/src ]; then
+  APP_ROOT=/app
+  cd /app
+elif [ -d ./src ]; then
+  APP_ROOT="$(pwd)"
+else
+  echo "MMI: no se encuentra src/ (APP_ROOT)" >&2
+  exit 1
+fi
+
 PORT="${PORT:-8773}"
 if [ -n "${RAILWAY_ENVIRONMENT:-}" ]; then
   export MMI_DEPLOY_MODE=vitrina
@@ -13,21 +24,21 @@ else
 fi
 export MMI_BIND_HOST="${MMI_BIND_HOST:-0.0.0.0}"
 
-mkdir -p /app/out /app/public
+mkdir -p "$APP_ROOT/out" "$APP_ROOT/public"
 
 # Seed de JSON de pruebas (si el volumen out/ está vacío)
-if [ -d /app/deploy/railway-seed ]; then
-  for f in /app/deploy/railway-seed/*.json; do
+if [ -d "$APP_ROOT/deploy/railway-seed" ]; then
+  for f in "$APP_ROOT/deploy/railway-seed"/*.json; do
     [ -f "$f" ] || continue
     base=$(basename "$f")
-    if [ ! -f "/app/out/$base" ]; then
-      cp "$f" "/app/out/$base"
+    if [ ! -f "$APP_ROOT/out/$base" ]; then
+      cp "$f" "$APP_ROOT/out/$base"
       echo "seed -> out/$base"
     fi
   done
 fi
 
-echo "MMI Railway · mode=$MMI_DEPLOY_MODE · live_queries=${MMI_VITRINA_LIVE_QUERIES:-unset} · port=$PORT"
+echo "MMI Railway · root=$APP_ROOT · mode=$MMI_DEPLOY_MODE · live_queries=${MMI_VITRINA_LIVE_QUERIES:-unset} · port=$PORT"
 if [ -n "${MMI_BASIC_AUTH_USER:-}" ] && [ -n "${MMI_BASIC_AUTH_PASSWORD:-}" ]; then
   echo "MMI Railway · Basic Auth ON (user=${MMI_BASIC_AUTH_USER})"
 else

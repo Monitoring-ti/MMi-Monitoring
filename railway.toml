@@ -1,12 +1,13 @@
-# Railway — un servicio: HTML vitrina + API búsqueda/RAG
-# Dashboard: New Project → Deploy from GitHub → Root Directory vacío
-# Settings → Build: Dockerfile path = deploy/Dockerfile
+# Railway — HTML vitrina + API búsqueda/RAG
+# Settings → Build: Builder = Dockerfile (no Railpack)
+# Root Directory: vacío (raíz del repo)
 
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "deploy/Dockerfile"
+dockerfilePath = "Dockerfile"
 
 [deploy]
+startCommand = "/app/deploy/entrypoint.sh"
 healthcheckPath = "/api/motor/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE"

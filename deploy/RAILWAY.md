@@ -11,13 +11,16 @@ Dominio: `mmi.monitoring.lat` → CNAME al dominio Railway (o custom domain en e
 1. [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub**
 2. Repo: `Monitoring-ti/MMi-Monitoring` · rama `feature/mmi-operational-web` (o `main` tras merge)
 3. **Root Directory:** vacío (raíz del repo)
-4. Railway detecta `railway.toml` → build con `deploy/Dockerfile`
+4. Railway debe usar el **`Dockerfile`** de la raíz (`railway.toml` → `builder = "DOCKERFILE"`)
 
-Si no auto-detecta:
+Si Railway muestra **Railpack** (“No start command detected”):
 
-- Settings → Build → **Dockerfile path:** `deploy/Dockerfile`
-- Settings → Deploy → **Custom start command:** vacío (usa `ENTRYPOINT`)
+1. Servicio → **Settings → Build**
+2. **Builder:** `Dockerfile` (no Railpack / Nixpacks)
+3. **Dockerfile path:** `Dockerfile`
+4. Redeploy
 
+Start command (solo si hace falta): `/app/deploy/entrypoint.sh`
 ---
 
 ## 2. Variables de entorno

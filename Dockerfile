@@ -1,5 +1,4 @@
-# Compat: mismo contenido que Dockerfile en la raíz del repo.
-# Preferir /Dockerfile para que Railway no caiga en Railpack.
+# Railway / Docker — vitrina MMI (raíz del repo para auto-detección)
 FROM python:3.12-slim-bookworm
 
 WORKDIR /app
