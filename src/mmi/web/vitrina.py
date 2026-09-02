@@ -18,6 +18,10 @@ from mmi.web.vitrina_shell import metric_card, render_shell
 DEMO_AUTH_USER = "Prueba Monitoring"
 DEMO_AUTH_PASSWORD = "202608v1"
 
+# Proyecto de análisis mostrado en la vitrina (corpus ODS1 / DCH).
+PROJECT_NAME = "Servicio de estudio M&C — Sist. enfriamiento DCH"
+PROJECT_SHORT = "M&C · Enfriamiento DCH"
+
 VITRINA_ROBOTS = "User-agent: *\nDisallow: /\n"
 
 
