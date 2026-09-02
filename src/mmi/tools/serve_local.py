@@ -27,12 +27,12 @@ from mmi.analysis.ingestion_results import write_ingestion_results
 def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = "monitoring"):
     from mmi.corpus.remote_source import load_remote_source, save_remote_source
     from mmi.web.access_control import (
-        AUTH_EXEMPT_PATHS,
         LIVE_QUERY_PATHS,
         basic_auth_required,
         check_basic_auth,
         live_queries_enabled,
         live_query_block_payload,
+        path_auth_exempt,
     )
 
     remote_path = out_dir / "remote-source.json"
@@ -55,7 +55,7 @@ def make_handler(engine, out_dir: Path, search_html: str, *, tenant_slug: str = 
             if not basic_auth_required():
                 return True
             norm = normalize_api_path(path)
-            if norm in AUTH_EXEMPT_PATHS:
+            if path_auth_exempt(norm):
                 return True
             if check_basic_auth(self.headers.get("Authorization")):
                 return True

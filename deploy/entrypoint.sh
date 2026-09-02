@@ -33,4 +33,9 @@ if [ -n "${MMI_BASIC_AUTH_USER:-}" ] && [ -n "${MMI_BASIC_AUTH_PASSWORD:-}" ]; t
 else
   echo "MMI Railway · Basic Auth OFF (definir MMI_BASIC_AUTH_USER/PASSWORD)"
 fi
+
+# Regenerar HTML siempre (evita out/ viejo en volumen / caché de imagen)
+echo "MMI Railway · regenerating vitrina HTML"
+MMI_DEPLOY_MODE=vitrina python -m mmi.tools.vitrina
+
 exec python -m mmi.tools.serve_local --host "$MMI_BIND_HOST" --port "$PORT" --no-replace

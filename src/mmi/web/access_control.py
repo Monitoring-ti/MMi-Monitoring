@@ -9,8 +9,26 @@ from typing import Any
 
 LIVE_QUERY_PATHS = frozenset({"/api/search", "/api/ask", "/api/ask-details"})
 
-# Healthcheck Railway — sin auth para no tumbar el deploy.
-AUTH_EXEMPT_PATHS = frozenset({"/api/motor/health"})
+# Healthcheck Railway + inicio público (muestra ejemplo de acceso sin auth).
+AUTH_EXEMPT_PATHS = frozenset(
+    {
+        "/api/motor/health",
+        "/",
+        "/index.html",
+        "/robots.txt",
+    }
+)
+
+
+def path_auth_exempt(path: str) -> bool:
+    """Rutas visibles sin Basic Auth (inicio + logos de la shell)."""
+    if path in AUTH_EXEMPT_PATHS:
+        return True
+    # Logos / assets estáticos de la vitrina en out/
+    name = path.rsplit("/", 1)[-1]
+    if name.startswith("monitoring-logo") and name.endswith((".svg", ".png", ".jpeg", ".jpg", ".webp")):
+        return True
+    return False
 
 
 def live_queries_enabled() -> bool:

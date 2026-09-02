@@ -230,7 +230,7 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
       <div>
         <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Ejemplo de acceso</p>
         <p class="text-body-md text-on-surface-variant">
-          Cuando el navegador pida usuario y contraseña, escriba exactamente estos valores para ingresar a la vitrina y consultar el corpus.
+          Esta pantalla es pública. Al abrir <strong class="text-on-surface">Ejemplos</strong>, <strong class="text-on-surface">Búsqueda</strong> o <strong class="text-on-surface">Consulta RAG</strong>, el navegador pedirá usuario y contraseña: escriba exactamente estos valores.
         </p>
       </div>
     </div>

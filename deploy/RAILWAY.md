@@ -77,8 +77,8 @@ MMI_BASIC_AUTH_PASSWORD=202608v1
 MMI_VITRINA_LIVE_QUERIES=1
 ```
 
-Esas credenciales se muestran en el **inicio** de la vitrina (bloque Acceso demo).  
-Puedes sobreescribirlas en Railway → **Variables**.  
+Esas credenciales se muestran en el **inicio** (`/` y `/index.html`), que es **público** (sin auth) para que el visitante vea qué escribir.  
+El resto de páginas y las APIs de consulta piden Basic Auth.  
 `/api/motor/health` queda libre para el healthcheck.
 
 ### 4.2 Consultas al corpus
