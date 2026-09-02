@@ -124,6 +124,7 @@ def metric_card(
     icon_color: str = "text-on-primary-fixed",
     value_color: str = "text-primary",
     progress_pct: int | None = None,
+    explanation: str = "",
 ) -> str:
     bar = ""
     if progress_pct is not None:
@@ -131,6 +132,19 @@ def metric_card(
 <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden mt-base">
   <div class="bg-primary h-full rounded-full" style="width:{int(progress_pct)}%"></div>
 </div>"""
+    explain = ""
+    if explanation:
+        explain = f"""
+<details class="metric-explain group mt-stack-md border-t border-outline/10 pt-stack-sm">
+  <summary class="list-none cursor-pointer flex items-center justify-between gap-stack-sm text-label-sm font-semibold text-primary select-none hover:opacity-80 transition-opacity">
+    <span class="inline-flex items-center gap-base">
+      <span class="material-symbols-outlined text-outline" style="font-size:18px">info</span>
+      ¿Qué significa?
+    </span>
+    <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform" style="font-size:18px">expand_more</span>
+  </summary>
+  <p class="mt-stack-sm text-body-md text-on-surface-variant leading-relaxed">{escape(explanation)}</p>
+</details>"""
     return f"""
 <div class="bg-surface-container-lowest p-stack-lg rounded-lg border border-outline/20 shadow-sm hover:shadow-md transition-shadow">
   <div class="flex justify-between items-start mb-stack-md">
@@ -146,6 +160,7 @@ def metric_card(
       <span class="text-label-sm font-semibold text-on-surface-variant">{escape(subtitle)}</span>
     </div>
     {bar}
+    {explain}
   </div>
 </div>"""
 
@@ -189,6 +204,8 @@ def render_shell(
 <style>
   body {{ font-family: Montserrat, system-ui, sans-serif; }}
   .material-symbols-outlined {{ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }}
+  details.metric-explain > summary {{-webkit-details-marker: none;}}
+  details.metric-explain > summary::-webkit-details-marker {{ display: none; }}
 </style>
 {extra_head}
 </head>

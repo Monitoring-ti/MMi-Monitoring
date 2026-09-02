@@ -264,11 +264,65 @@ def render_pruebas_html(report: dict[str, Any]) -> str:
     p95_txt = f"{p95:.0f} ms" if isinstance(p95, (int, float)) else "—"
 
     metrics = f"""
-<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
-  {metric_card(icon="science", badge="SMOKE", title="Smoke test", value=_fmt_pass(smoke.get("summary"))[0], subtitle="búsqueda híbrida", icon_bg="bg-primary-fixed", icon_color="text-on-primary-fixed")}
-  {metric_card(icon="star", badge="GOLDEN", title="MRR", value=str(golden_sum.get("mrr", "—")), subtitle=f"{golden.get('case_count', '—')} casos")}
-  {metric_card(icon="check_circle", badge="RAG", title="Validación", value=_fmt_pass(rag_val.get("summary"))[0], subtitle="batería ampliada", icon_bg="bg-secondary-fixed", icon_color="text-on-secondary-fixed")}
-  {metric_card(icon="speed", badge="CARGA", title="Latencia p95", value=p95_txt, subtitle="búsqueda directa")}
+<div class="bg-surface-container-low p-stack-md rounded-xl border border-outline/20 text-body-md text-on-surface-variant mb-gutter">
+  Indicadores del análisis <strong class="text-primary">{escape(PROJECT_SHORT)}</strong>.
+  Pulse <strong class="text-on-surface">¿Qué significa?</strong> en cada tarjeta para la definición.
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-gutter">
+  {metric_card(
+      icon="science",
+      badge="SMOKE",
+      title="Smoke test",
+      value=_fmt_pass(smoke.get("summary"))[0],
+      subtitle="búsqueda híbrida",
+      icon_bg="bg-primary-fixed",
+      icon_color="text-on-primary-fixed",
+      explanation=(
+          "Prueba rápida de humo: consultas ancla del proyecto (códigos, normas, equipos). "
+          "3/3 indica que la búsqueda híbrida (Qdrant + Supabase) respondió en todos los casos críticos. "
+          "Si falla alguno, el índice o la API no están listos para consulta."
+      ),
+  )}
+  {metric_card(
+      icon="star",
+      badge="GOLDEN",
+      title="MRR",
+      value=str(golden_sum.get("mrr", "—")),
+      subtitle=f"{golden.get('case_count', '—')} casos",
+      explanation=(
+          "Mean Reciprocal Rank: calidad de recuperación sobre un set dorado de consultas con respuesta esperada. "
+          "Valor cerca de 1.0 = el documento correcto aparece muy arriba en los resultados. "
+          "0.91 en ~35 casos indica buen ranking para el corpus M&C · Enfriamiento DCH. "
+          "Complementa recall@1 / @5 / @8 en la tabla Golden set."
+      ),
+  )}
+  {metric_card(
+      icon="check_circle",
+      badge="RAG",
+      title="Validación",
+      value=_fmt_pass(rag_val.get("summary"))[0],
+      subtitle="batería ampliada",
+      icon_bg="bg-secondary-fixed",
+      icon_color="text-on-secondary-fixed",
+      explanation=(
+          "Batería de validación RAG: el sistema genera respuesta con citas y se comprueba que use evidencia del corpus. "
+          "10/10 = todas las preguntas de la suite pasaron (citación y coherencia mínima). "
+          "No sustituye revisión humana: siempre verifique el documento fuente."
+      ),
+  )}
+  {metric_card(
+      icon="speed",
+      badge="CARGA",
+      title="Latencia p95",
+      value=p95_txt,
+      subtitle="búsqueda directa",
+      explanation=(
+          "Percentil 95 de latencia en prueba de carga de búsqueda directa: "
+          "el 95 % de las consultas respondió en este tiempo o menos. "
+          "Valores altos (varios segundos) pueden deberse a red, embeddings o cold start; "
+          "úselo para comparar despliegues, no como SLA contractual."
+      ),
+  )}
 </div>"""
 
     smoke_table = _data_table(
