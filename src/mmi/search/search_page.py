@@ -50,7 +50,8 @@ def render_search_vitrina_html(out_dir: Path | None = None) -> str:
   </div>
   <p class="text-body-md text-on-surface-variant mt-stack-md">
     Búsqueda híbrida Qdrant + Supabase · respuestas con citas en
-    <a href="/rag.html" class="text-primary font-semibold hover:underline">Consulta RAG</a>
+    <a href="/rag.html" class="text-primary font-semibold hover:underline">Consulta RAG</a>.
+    Al buscar verá <strong class="text-on-surface">Analizando…</strong> — espere el resultado.
   </p>
 </div>
 
@@ -61,13 +62,27 @@ def render_search_vitrina_html(out_dir: Path | None = None) -> str:
 </div>
 
 <div id="status" class="text-body-md text-on-surface-variant min-h-[1.25rem]"></div>
+<div id="analyzing" class="hidden bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
+  <div class="flex items-center gap-stack-md">
+    <div class="w-12 h-12 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center animate-pulse shrink-0">
+      <span class="material-symbols-outlined">hourglass_top</span>
+    </div>
+    <div>
+      <p class="text-body-lg font-semibold text-primary">Analizando…</p>
+      <p class="text-body-md text-on-surface-variant">Recuperando fragmentos del corpus. Espere un momento.</p>
+    </div>
+  </div>
+  <div class="mt-stack-md h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+    <div class="h-full bg-primary rounded-full animate-pulse" style="width:65%"></div>
+  </div>
+</div>
 <div id="results" class="space-y-stack-md"></div>
 
 <details class="bg-surface-container-lowest rounded-xl border border-outline/20 overflow-hidden group" open>
   <summary class="cursor-pointer list-none px-stack-lg py-stack-md flex items-center justify-between gap-stack-md border-b border-outline/10">
     <div>
       <h2 class="text-headline-md font-semibold text-primary">Ejemplos del corpus</h2>
-      <p class="text-body-md text-on-surface-variant mt-1">Clic azul → Consulta RAG · verde → buscar fragmentos aquí</p>
+      <p class="text-body-md text-on-surface-variant mt-1">Clic azul → Consulta RAG · verde → buscar aquí. Espere <strong class="text-on-surface">Analizando…</strong> antes del resultado.</p>
     </div>
     <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
   </summary>
@@ -91,8 +106,17 @@ const q = document.getElementById('q');
 const go = document.getElementById('go');
 const askBtn = document.getElementById('ask');
 const status = document.getElementById('status');
+const analyzing = document.getElementById('analyzing');
 const results = document.getElementById('results');
 let lastSearch = null;
+const MIN_ANALYZE_MS = 1400;
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function setAnalyzing(on) {
+  if (!analyzing) return;
+  analyzing.classList.toggle('hidden', !on);
+}
 
 function goRag(query) {
   const text = (query != null ? query : q.value).trim();
@@ -123,6 +147,7 @@ async function apiError(res, fallback) {
 }
 
 function showError(err) {
+  setAnalyzing(false);
   const hint = location.protocol === 'file:'
     ? ' Abre http://127.0.0.1:8773/search.html (no el archivo HTML directo).'
     : '';
@@ -133,10 +158,13 @@ function showError(err) {
 async function runSearch() {
   const query = q.value.trim();
   if (!query) return;
-  status.textContent = 'Buscando…';
-  status.className = 'text-body-md text-on-surface-variant min-h-[1.25rem]';
+  const started = Date.now();
+  status.textContent = 'Analizando…';
+  status.className = 'text-body-md text-primary font-semibold min-h-[1.25rem]';
   results.innerHTML = '';
+  setAnalyzing(true);
   lastSearch = null;
+  go.disabled = true;
   try {
     const res = await fetch('/api/search', {
       method: 'POST',
@@ -145,12 +173,17 @@ async function runSearch() {
     });
     if (!res.ok) throw new Error(await apiError(res));
     const data = await res.json();
+    const wait = Math.max(0, MIN_ANALYZE_MS - (Date.now() - started));
+    if (wait) await sleep(wait);
+    setAnalyzing(false);
     status.textContent = data.count + ' resultados · ' + (data.elapsed_ms || '?') + ' ms';
     status.className = 'text-body-md text-primary font-semibold min-h-[1.25rem]';
     lastSearch = { results: data.results || [], loaded: false };
     mountSearchResultsPlaceholder(data.count || 0);
   } catch (err) {
     showError(err);
+  } finally {
+    go.disabled = false;
   }
 }
 
@@ -159,7 +192,6 @@ function mountSearchResultsPlaceholder(count) {
     results.innerHTML = '<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg text-body-md text-on-surface-variant">Sin resultados para esta consulta.</div>';
     return;
   }
-  results.innerHTML = '<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg"><p class="text-body-md text-on-surface-variant italic">Cargando resultados…</p></div>';
   loadSearchResults();
 }
 

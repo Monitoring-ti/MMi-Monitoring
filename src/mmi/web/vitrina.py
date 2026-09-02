@@ -156,12 +156,17 @@ def _ejemplo_card(cat: dict[str, Any]) -> str:
         search_only = ex.get("action") == "search"
         page = "search.html" if search_only else "rag.html"
         chip_cls = (
-            "bg-green-50 text-green-900 border-green-200"
+            "bg-green-50 text-green-900 border-green-200 hover:bg-green-100"
             if search_only
-            else "bg-primary-fixed/30 text-primary border-primary-fixed"
+            else "bg-primary-fixed/30 text-primary border-primary-fixed hover:bg-primary-fixed/50"
         )
+        mode_label = "solo búsqueda" if search_only else "Consulta RAG"
         chips.append(
-            f'<a href="{_href(page, ex["query"])}" class="inline-flex items-center px-stack-sm py-1 rounded-lg border text-label-sm font-semibold {chip_cls} hover:opacity-90 transition-opacity">{escape(ex["label"])}</a>'
+            f'<button type="button" data-ejemplo-go data-page="{escape(page)}" '
+            f'data-q="{escape(ex["query"], quote=True)}" '
+            f'title="{escape(ex["query"])} · {escape(mode_label)}" '
+            f'class="inline-flex items-center px-stack-sm py-1 rounded-lg border text-label-sm font-semibold {chip_cls} transition-colors">'
+            f"{escape(ex['label'])}</button>"
         )
     return f"""
 <article class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline/20 shadow-sm hover:shadow-md transition-shadow">
@@ -483,8 +488,29 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
     tips = "".join(_ejemplo_card(c) for c in _TIPS)
 
     content = f"""
-<div class="bg-surface-container-low p-stack-md rounded-xl border border-outline/20 text-body-md text-on-surface-variant">
-  <strong class="text-primary">{docs}</strong> documentos indexados · clic azul = <strong>Consulta RAG</strong> · clic verde = <strong>solo búsqueda</strong>
+<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
+  <div class="flex items-start gap-stack-md">
+    <div class="p-stack-sm bg-primary-fixed rounded-xl text-on-primary-fixed shrink-0">
+      <span class="material-symbols-outlined">touch_app</span>
+    </div>
+    <div class="min-w-0 space-y-stack-sm">
+      <h2 class="text-headline-md font-semibold text-primary">Qué pasa al pulsar un ejemplo</h2>
+      <p class="text-body-md text-on-surface-variant">
+        Corpus: <strong class="text-primary">{escape(str(docs))}</strong> documentos · lote {escape(lote)}.
+        Elija un chip; verá <strong class="text-on-surface">Analizando…</strong> unos segundos y luego el resultado.
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md pt-stack-sm">
+        <div class="rounded-lg border border-primary-fixed bg-primary-fixed/20 p-stack-md">
+          <p class="text-label-sm font-bold uppercase tracking-wider text-primary mb-base">Chip azul</p>
+          <p class="text-body-md text-on-surface-variant">Abre <strong class="text-on-surface">Consulta RAG</strong>: recupera evidencia del corpus, genera respuesta con citas y muestra referencias. Puede tardar varios segundos — no cierre la pestaña.</p>
+        </div>
+        <div class="rounded-lg border border-green-200 bg-green-50 p-stack-md">
+          <p class="text-label-sm font-bold uppercase tracking-wider text-green-900 mb-base">Chip verde</p>
+          <p class="text-body-md text-green-900/80">Abre <strong class="text-green-950">solo búsqueda</strong>: lista fragmentos híbridos (Qdrant + Supabase) sin generar texto. Más rápido, sin respuesta narrativa.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <div>
   <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Corpus del proyecto</h2>
@@ -493,7 +519,53 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
 <div>
   <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Consejos de consulta</h2>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">{tips}</div>
+</div>
+<div id="analyzing-overlay" class="fixed inset-0 z-[100] hidden items-center justify-center bg-primary/50 backdrop-blur-sm p-margin-mobile" aria-live="polite" aria-busy="true">
+  <div class="w-full max-w-md bg-surface-container-lowest rounded-xl border border-outline/20 shadow-xl p-stack-lg text-center">
+    <div class="mx-auto mb-stack-md w-14 h-14 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed animate-pulse">
+      <span class="material-symbols-outlined" style="font-size:28px">hourglass_top</span>
+    </div>
+    <p id="analyzing-title" class="text-headline-md font-semibold text-primary mb-stack-sm">Analizando…</p>
+    <p id="analyzing-sub" class="text-body-md text-on-surface-variant">Preparando la consulta. Espere un momento.</p>
+    <div class="mt-stack-md h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+      <div class="h-full bg-primary rounded-full animate-pulse" style="width:70%"></div>
+    </div>
+  </div>
 </div>"""
+
+    scripts = """
+<script>
+(function () {
+  var overlay = document.getElementById('analyzing-overlay');
+  var titleEl = document.getElementById('analyzing-title');
+  var subEl = document.getElementById('analyzing-sub');
+  var DELAY_MS = 1600;
+
+  function showAnalyzing(isSearch, query) {
+    if (!overlay) return;
+    titleEl.textContent = 'Analizando…';
+    subEl.textContent = isSearch
+      ? 'Búsqueda híbrida de fragmentos. Espere…'
+      : 'Consulta RAG con citas. Esto puede tardar varios segundos…';
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+  }
+
+  document.querySelectorAll('[data-ejemplo-go]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var page = btn.getAttribute('data-page') || 'rag.html';
+      var query = btn.getAttribute('data-q') || '';
+      if (!query) return;
+      var isSearch = page.indexOf('search') === 0;
+      showAnalyzing(isSearch, query);
+      btn.disabled = true;
+      setTimeout(function () {
+        location.href = '/' + page + '?q=' + encodeURIComponent(query);
+      }, DELAY_MS);
+    });
+  });
+})();
+</script>"""
 
     return render_shell(
         active="ejemplos",
@@ -501,6 +573,7 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
         header_subtitle=f"{PROJECT_SHORT} · consultas predefinidas",
         content=content,
         corpus_lote=PROJECT_SHORT,
+        footer_scripts=scripts,
     )
 
 

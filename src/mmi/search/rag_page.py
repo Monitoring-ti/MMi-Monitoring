@@ -58,11 +58,8 @@ def render_rag_vitrina_html(out_dir: Path | None = None) -> str:
   </div>
   <p class="text-body-md text-on-surface-variant mt-stack-md">
     Respuesta con <strong class="text-on-surface">OpenRouter</strong> y citas documentales ·
-    <a href="/search.html" class="text-primary font-semibold hover:underline">solo fragmentos → Búsqueda</a>
-  </p>
-  <p class="mt-stack-md inline-flex items-center gap-base rounded-lg border border-secondary-container/40 bg-secondary-fixed/30 px-stack-md py-stack-sm text-label-sm font-bold uppercase tracking-widest text-secondary">
-    <span class="material-symbols-outlined text-secondary" style="font-size:18px">flag</span>
-    Aca Vamos
+    <a href="/search.html" class="text-primary font-semibold hover:underline">solo fragmentos → Búsqueda</a>.
+    Tras preguntar verá <strong class="text-on-surface">Analizando…</strong> — espere; la generación puede tardar varios segundos.
   </p>
 </div>
 
@@ -113,7 +110,7 @@ def render_rag_vitrina_html(out_dir: Path | None = None) -> str:
   <summary class="cursor-pointer list-none px-stack-lg py-stack-md flex items-center justify-between gap-stack-md border-b border-outline/10">
     <div>
       <h2 class="text-headline-md font-semibold text-primary">Ejemplos de consulta</h2>
-      <p class="text-body-md text-on-surface-variant mt-1">Un clic ejecuta la consulta RAG con citas</p>
+      <p class="text-body-md text-on-surface-variant mt-1">Un clic abre Analizando… y luego la respuesta con citas. Espere el resultado.</p>
     </div>
     <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
   </summary>
@@ -136,6 +133,24 @@ const questionText = document.getElementById('question-text');
 const conflictBannerEl = document.getElementById('conflict-banner');
 const conflictsEl = document.getElementById('conflicts');
 let lastAsk = null;
+const MIN_ANALYZE_MS = 1800;
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function analyzingMarkup() {
+  return `
+    <div class="flex items-center gap-stack-md not-italic">
+      <div class="w-11 h-11 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center animate-pulse shrink-0">
+        <span class="material-symbols-outlined">hourglass_top</span>
+      </div>
+      <div>
+        <p class="text-body-lg font-semibold text-primary">Analizando…</p>
+        <p class="text-body-md text-on-surface-variant">Recuperando evidencia y generando respuesta con citas. Espere…</p>
+      </div>
+    </div>
+    <div class="mt-stack-md h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+      <div class="h-full bg-primary rounded-full animate-pulse" style="width:70%"></div>
+    </div>`;
+}
 
 document.querySelectorAll('[data-q]').forEach(b => {
   b.onclick = () => {
@@ -317,13 +332,14 @@ async function fetchAskDetails(section) {
 async function runAsk() {
   const query = q.value.trim();
   if (!query) return;
+  const started = Date.now();
   askBtn.disabled = true;
-  setStatus('Recuperando evidencia y generando respuesta…', false);
-  answerEl.innerHTML = '<p class="text-on-surface-variant italic">Generando…</p>';
+  setStatus('Analizando…', false);
+  answerEl.innerHTML = analyzingMarkup();
   answerEl.className = '';
   refsEl.innerHTML = '';
   refsEmpty.classList.add('hidden');
-  evidenceEl.innerHTML = '<p class="text-on-surface-variant italic">Cargando…</p>';
+  evidenceEl.innerHTML = '<p class="text-on-surface-variant italic">Analizando evidencia…</p>';
   conflictBannerEl.classList.add('hidden');
   conflictsEl.classList.add('hidden');
   questionBox.classList.remove('hidden');
@@ -340,6 +356,8 @@ async function runAsk() {
       throw new Error(apiError(res, err.error));
     }
     const data = await res.json();
+    const wait = Math.max(0, MIN_ANALYZE_MS - (Date.now() - started));
+    if (wait) await sleep(wait);
     lastAsk = { ask_id: data.ask_id, cited_indices: data.cited_indices || [] };
     answerEl.innerHTML = renderAnswer(data.answer || '');
     answerEl.className = '';
