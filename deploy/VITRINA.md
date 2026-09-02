@@ -3,7 +3,9 @@
 Web pública **solo lectura + consultas**: dashboard, pruebas estáticas, ejemplos, búsqueda y RAG.  
 **No** incluye ingesta, review, motor ni mapa en el sitio.
 
-Dominio objetivo: `https://mmi.monitoring.lat` · VPS: ver [`VPS-N8N.md`](VPS-N8N.md)
+**Camino principal:** [Railway](RAILWAY.md) · Alternativa VPS: [VPS-N8N.md](VPS-N8N.md)
+
+Dominio objetivo: `https://mmi.monitoring.lat`
 
 ---
 
@@ -13,9 +15,9 @@ Dominio objetivo: `https://mmi.monitoring.lat` · VPS: ver [`VPS-N8N.md`](VPS-N8
 |---------|-------------------------|
 | `src/mmi/web/` · `search_page.py` · `vitrina_examples.py` | `app/` · `lib/` · Next.js |
 | `src/mmi/tools/vitrina.py` · `serve_local.py` · `search_cli.py` | Portal dev / landing operativa |
-| `src/mmi/search/rag_page.py` · `review_shell.py` | Ingesta en VPS |
-| `deploy/` · `scripts/publish_vitrina.ps1` | `out/` en git (se sincroniza por SCP) |
-| `public/monitoring-logo-*.svg` · logos actualizados | Secretos `.env` |
+| `src/mmi/search/rag_page.py` · `review_shell.py` | Ingesta en el servidor |
+| `deploy/` · `railway.toml` · `deploy/railway-seed/` | Secretos `.env` |
+| `public/monitoring-logo-*.svg` | |
 
 ---
 
@@ -34,46 +36,28 @@ Páginas generadas en `out/`:
 
 ---
 
-## 3. Publicar al VPS
+## 3. Publicar — Railway (recomendado)
 
-Script todo-en-uno (desde Windows):
-
-```powershell
-.\scripts\publish_vitrina.ps1 -Host root@2.25.197.231 -RemoteDir /opt/mmi
-```
-
-Manual:
+Guía completa: [`RAILWAY.md`](RAILWAY.md)
 
 ```powershell
-# 1) Código
+# Actualizar seed de métricas + push
+Copy-Item out\query-smoke.json,out\golden-set-eval.json,out\rag-validation.json,out\load-test-report.json,out\analysis-status.json,out\ingestion-results.json deploy\railway-seed\ -Force
 git push origin feature/mmi-operational-web
-ssh root@2.25.197.231 "cd /opt/mmi && git fetch && git checkout feature/mmi-operational-web && git pull && .venv/bin/pip install -e ."
-
-# 2) JSON de pruebas + corpus (desde local)
-scp out/query-smoke.json out/golden-set-eval.json out/rag-validation.json `
-    out/load-test-report.json out/analysis-status.json out/ingestion-results.json `
-    root@2.25.197.231:/opt/mmi/out/
-
-# 3) Logos
-scp public/monitoring-logo-horizontal.svg public/monitoring-logo-circular.svg `
-    root@2.25.197.231:/opt/mmi/public/
-
-# 4) Regenerar vitrina en el servidor
-ssh root@2.25.197.231 @"
-cd /opt/mmi
-export MMI_DEPLOY_MODE=vitrina
-.venv/bin/python -m mmi.tools.vitrina
-systemctl restart mmi-api
-"@
-
-# 5) Comprobar
-curl -s -u USUARIO:CLAVE https://mmi.monitoring.lat/api/motor/health
-curl -s -u USUARIO:CLAVE -o /dev/null -w "%{http_code}" https://mmi.monitoring.lat/search.html
 ```
+
+En Railway: deploy desde GitHub · vars Qdrant/Supabase/OpenRouter · `MMI_DEPLOY_MODE=vitrina` · custom domain `mmi.monitoring.lat`.
 
 ---
 
-## 4. `.env` en producción (VPS)
+## 4. Alternativa — VPS Hostinger
+
+Script: `.\scripts\publish_vitrina.ps1 -Host root@2.25.197.231`  
+Detalle: [`VPS-N8N.md`](VPS-N8N.md)
+
+---
+
+## 5. `.env` en producción
 
 ```env
 MMI_DEPLOY_MODE=vitrina
@@ -88,31 +72,14 @@ OPENROUTER_API_KEY=...
 OPENROUTER_MODEL=openai/gpt-4o-mini
 ```
 
-systemd: descomentar / fijar `MMI_DEPLOY_MODE=vitrina` en `mmi-api.service` (ver `VPS-N8N.md` §6).
-
 ---
 
-## 5. Checklist de cierre
+## 6. Checklist de cierre
 
 - [ ] Logos en `public/` actualizados
 - [ ] `python -m mmi.tools.vitrina` sin errores
-- [ ] Links internos OK (`verify_vitrina_links.py`)
-- [ ] Rama pusheada · VPS en `feature/mmi-operational-web`
-- [ ] JSON de pruebas en `/opt/mmi/out/`
-- [ ] `MMI_DEPLOY_MODE=vitrina` en VPS
-- [ ] nginx Basic Auth activo
+- [ ] Seed JSON en `deploy/railway-seed/`
+- [ ] Servicio Railway healthy (`/api/motor/health`)
+- [ ] DNS `mmi.monitoring.lat` → Railway
+- [ ] Auth (Cloudflare Access o equivalente)
 - [ ] `/robots.txt` → `Disallow: /`
-- [ ] n8n intacto (`docker ps | grep n8n`)
-
----
-
-## 6. Actualizar resultados (sin redeploy de código)
-
-Tras nuevas pruebas locales:
-
-```powershell
-.venv\Scripts\python -m mmi.tools.query_smoke    # si aplica
-$env:MMI_DEPLOY_MODE = "vitrina"
-.venv\Scripts\python -m mmi.tools.vitrina
-.\scripts\publish_vitrina.ps1 -Host root@2.25.197.231 -JsonOnly
-```

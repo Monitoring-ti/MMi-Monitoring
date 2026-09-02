@@ -42,7 +42,7 @@ $env:MMI_DEPLOY_MODE = "vitrina"
 
 Páginas: `/` · `/pruebas.html` · `/ejemplos.html` · `/search.html` · `/rag.html`
 
-Publicar al VPS: [`deploy/VITRINA.md`](deploy/VITRINA.md) · `.\scripts\publish_vitrina.ps1`
+**Deploy:** [Railway](deploy/RAILWAY.md) (camino principal) · [Vitrina overview](deploy/VITRINA.md) · [VPS + n8n](deploy/VPS-N8N.md)
 
 
 ```bash

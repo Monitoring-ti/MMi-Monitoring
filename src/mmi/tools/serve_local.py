@@ -222,16 +222,25 @@ def free_listening_port(port: int) -> list[int]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    import os
+
+    # Railway / Render inyectan PORT; en contenedor conviene 0.0.0.0
+    default_port = int(os.environ.get("PORT") or "8773")
+    default_host = os.environ.get("MMI_BIND_HOST") or (
+        "0.0.0.0" if os.environ.get("PORT") or os.environ.get("RAILWAY_ENVIRONMENT") else "127.0.0.1"
+    )
+    default_replace = not bool(os.environ.get("PORT") or os.environ.get("RAILWAY_ENVIRONMENT"))
+
     parser = argparse.ArgumentParser(description="Servidor local MMI (búsqueda + out/)")
-    parser.add_argument("--port", type=int, default=8773)
-    parser.add_argument("--host", default="127.0.0.1", help="Interfaz de escucha (0.0.0.0 en Docker)")
+    parser.add_argument("--port", type=int, default=default_port)
+    parser.add_argument("--host", default=default_host, help="Interfaz de escucha (0.0.0.0 en Docker/Railway)")
     parser.add_argument("--out", type=Path, default=Path("out"))
     parser.add_argument("--tenant", default="monitoring")
     parser.add_argument(
         "--replace",
         action="store_true",
-        default=True,
-        help="Detener proceso previo en el puerto (default: sí)",
+        default=default_replace,
+        help="Detener proceso previo en el puerto (default: sí en local)",
     )
     parser.add_argument(
         "--no-replace",

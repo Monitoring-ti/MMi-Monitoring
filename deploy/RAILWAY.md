@@ -1,0 +1,147 @@
+# Railway — despliegue vitrina MMI
+
+Un solo servicio: HTML (dashboard / pruebas / ejemplos / búsqueda / RAG) + API.
+
+Dominio: `mmi.monitoring.lat` → CNAME al dominio Railway (o custom domain en el dashboard).
+
+---
+
+## 1. Crear el proyecto
+
+1. [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub**
+2. Repo: `Monitoring-ti/MMi-Monitoring` · rama `feature/mmi-operational-web` (o `main` tras merge)
+3. **Root Directory:** vacío (raíz del repo)
+4. Railway detecta `railway.toml` → build con `deploy/Dockerfile`
+
+Si no auto-detecta:
+
+- Settings → Build → **Dockerfile path:** `deploy/Dockerfile`
+- Settings → Deploy → **Custom start command:** vacío (usa `ENTRYPOINT`)
+
+---
+
+## 2. Variables de entorno
+
+En el servicio → **Variables** (nunca en el repo):
+
+```env
+MMI_DEPLOY_MODE=vitrina
+
+QDRANT_URL=https://...
+QDRANT_API_KEY=...
+QDRANT_COLLECTION=mmi_chunks
+
+SUPABASE_URL=https://...
+SUPABASE_SERVICE_ROLE_KEY=...
+
+OPENAI_API_KEY=...
+OPENROUTER_API_KEY=...
+OPENROUTER_MODEL=openai/gpt-4o-mini
+```
+
+`PORT` lo inyecta Railway solo — no lo fijéis.
+
+Opcional:
+
+```env
+MMI_BIND_HOST=0.0.0.0
+```
+
+---
+
+## 3. Dominio y HTTPS
+
+1. Settings → **Networking** → **Generate Domain** → `*.up.railway.app`
+2. **Custom Domain** → `mmi.monitoring.lat`
+3. En Hostinger DNS:
+
+| Tipo | Nombre | Valor |
+|------|--------|-------|
+| **CNAME** | `mmi` | el hostname que indique Railway (ej. `xxx.up.railway.app`) |
+
+Railway gestiona el certificado TLS.
+
+---
+
+## 4. Auth (acceso restringido)
+
+Railway **no** trae Basic Auth nativo. Opciones:
+
+| Opción | Cómo |
+|--------|------|
+| **A. Cloudflare Access** (recomendado) | Dominio detrás de Cloudflare + Access policy (email equipo) |
+| **B. Password en proxy** | Cloudflare / nginx delante |
+| **C. Sin auth pública** | Solo `robots.txt` + `noindex` (ya en vitrina) — solo si el enlace es privado |
+
+---
+
+## 5. Datos de pruebas (JSON)
+
+Al arrancar, si `out/` está vacío, el entrypoint copia `deploy/railway-seed/*.json` y regenera la vitrina.
+
+Actualizar métricas tras nuevas pruebas locales:
+
+```powershell
+$env:MMI_DEPLOY_MODE = "vitrina"
+.venv\Scripts\python -m mmi.tools.vitrina
+Copy-Item out\query-smoke.json,out\golden-set-eval.json,out\rag-validation.json,out\load-test-report.json,out\analysis-status.json,out\ingestion-results.json deploy\railway-seed\ -Force
+git add deploy/railway-seed
+git commit -m "Update vitrina seed stats"
+git push
+```
+
+Railway redeploya y el seed queda en la imagen.
+
+**Volumen opcional:** Settings → Volumes → montar `/app/out` para persistir JSON sin rebuild (luego subir archivos con Railway CLI o un job).
+
+---
+
+## 6. Comprobar
+
+```bash
+curl -s https://TU-SERVICIO.up.railway.app/api/motor/health
+curl -s -o /dev/null -w "%{http_code}" https://TU-SERVICIO.up.railway.app/
+curl -s -o /dev/null -w "%{http_code}" https://TU-SERVICIO.up.railway.app/search.html
+curl -s -o /dev/null -w "%{http_code}" https://TU-SERVICIO.up.railway.app/rag.html
+```
+
+En el navegador: Inicio · Pruebas · Ejemplos · Búsqueda · Consulta RAG.
+
+---
+
+## 7. Coste y sizing
+
+| | Orientativo |
+|--|-------------|
+| Plan Hobby / Trial | Suficiente para demo interna |
+| RAM | 512 MB–1 GB (API + HTML) |
+| Sleep | En Hobby el servicio puede dormir; Pro evita cold starts en demos |
+
+Qdrant Cloud + Supabase + OpenRouter siguen siendo servicios externos (mismas keys que local).
+
+---
+
+## 8. Checklist
+
+- [ ] Push rama con `deploy/Dockerfile`, `railway.toml`, `entrypoint.sh`
+- [ ] Variables Qdrant / Supabase / OpenAI / OpenRouter
+- [ ] `MMI_DEPLOY_MODE=vitrina`
+- [ ] Domain `mmi.monitoring.lat` + CNAME Hostinger
+- [ ] Health `/api/motor/health` OK
+- [ ] Búsqueda y RAG responden
+- [ ] Auth (Cloudflare Access u otra)
+- [ ] Seed JSON al día en `deploy/railway-seed/`
+
+---
+
+## 9. Troubleshooting
+
+| Síntoma | Acción |
+|---------|--------|
+| Build falla en `pip install` | Ver logs; falta `build-essential` (ya en Dockerfile) |
+| 502 / health fail | Revisar vars Qdrant; logs del deploy |
+| HTML sin métricas | Falta seed JSON → copiar a `deploy/railway-seed/` y redeploy |
+| Logos rotos | Asegurar `public/monitoring-logo-horizontal.svg` en el repo |
+| Consultas vacías | Keys de producción ≠ local o colección distinta |
+
+CLI útil: `railway logs` · `railway up` (con [Railway CLI](https://docs.railway.com/guides/cli)).

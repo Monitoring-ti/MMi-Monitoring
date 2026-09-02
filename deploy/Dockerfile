@@ -8,11 +8,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY pyproject.toml README.md ./
 COPY src ./src
+COPY public ./public
+COPY deploy/entrypoint.sh ./deploy/entrypoint.sh
+COPY deploy/railway-seed ./deploy/railway-seed
 
-RUN pip install --no-cache-dir -e .
+RUN pip install --no-cache-dir -e . \
+    && chmod +x /app/deploy/entrypoint.sh
 
 ENV PYTHONUNBUFFERED=1
+ENV MMI_DEPLOY_MODE=vitrina
+ENV MMI_BIND_HOST=0.0.0.0
 EXPOSE 8773
 
-# Generación de HTML al arrancar (stats + portal)
-CMD ["python", "-m", "mmi.tools.serve_local", "--port", "8773", "--host", "0.0.0.0", "--no-replace"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:'+__import__('os').environ.get('PORT','8773')+'/api/motor/health')" || exit 1
+
+ENTRYPOINT ["/app/deploy/entrypoint.sh"]

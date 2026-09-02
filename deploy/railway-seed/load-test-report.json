@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-08-31T11:16:05.379680+00:00",
+  "config": {
+    "tenant": "monitoring",
+    "requests_per_scenario": 10,
+    "concurrency": 3,
+    "search_limit": 6,
+    "base_url": "http://127.0.0.1:8773",
+    "queries_count": 10
+  },
+  "index_snapshot": {
+    "tenant": "monitoring",
+    "documents": 8,
+    "chunks": 608
+  },
+  "scenarios": [
+    {
+      "name": "search-direct",
+      "target": "HybridSearchEngine",
+      "stats": {
+        "count": 10,
+        "ok": 10,
+        "errors": 0,
+        "error_rate_pct": 0.0,
+        "min_ms": 1584.8,
+        "max_ms": 3719.5,
+        "mean_ms": 2276.7,
+        "p50_ms": 1740.4,
+        "p95_ms": 3660.5,
+        "p99_ms": 3707.7,
+        "total_ms": 8467.3,
+        "rps": 1.18
+      },
+      "sample_errors": []
+    },
+    {
+      "name": "extract-chunk",
+      "target": "process-manifest.json",
+      "stats": {
+        "count": 10,
+        "ok": 10,
+        "errors": 0,
+        "error_rate_pct": 0.0,
+        "min_ms": 4591.8,
+        "max_ms": 5018.5,
+        "mean_ms": 4811.7,
+        "p50_ms": 4801.3,
+        "p95_ms": 5007.1,
+        "p99_ms": 5016.2,
+        "total_ms": 48227.5,
+        "rps": 0.21
+      },
+      "sample_errors": []
+    }
+  ],
+  "notes": []
+}

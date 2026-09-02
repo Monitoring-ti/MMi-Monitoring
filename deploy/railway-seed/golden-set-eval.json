@@ -1,0 +1,1993 @@
+{
+  "generated_at": "2026-09-01T16:11:36.985255+00:00",
+  "tenant": "monitoring",
+  "k_max": 8,
+  "case_count": 35,
+  "summary": {
+    "total": 35,
+    "mrr": 0.9071,
+    "recall@1": 0.8286,
+    "precision@1": 0.8286,
+    "recall@3": 0.9714,
+    "precision@3": 0.8571,
+    "recall@5": 1.0,
+    "precision@5": 0.8343,
+    "recall@8": 1.0,
+    "precision@8": 0.7857,
+    "by_category": {
+      "norma": {
+        "count": 3,
+        "mrr": 1.0,
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 1.0,
+        "recall@8": 1.0,
+        "precision@8": 0.9583
+      },
+      "guia": {
+        "count": 15,
+        "mrr": 1.0,
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 0.9778,
+        "recall@5": 1.0,
+        "precision@5": 0.9333,
+        "recall@8": 1.0,
+        "precision@8": 0.875
+      },
+      "tabla": {
+        "count": 6,
+        "mrr": 0.75,
+        "recall@1": 0.5,
+        "precision@1": 0.5,
+        "recall@3": 1.0,
+        "precision@3": 0.6667,
+        "recall@5": 1.0,
+        "precision@5": 0.7,
+        "recall@8": 1.0,
+        "precision@8": 0.5833
+      },
+      "presentacion": {
+        "count": 2,
+        "mrr": 1.0,
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 1.0,
+        "recall@8": 1.0,
+        "precision@8": 1.0
+      },
+      "plano": {
+        "count": 2,
+        "mrr": 1.0,
+        "recall@1": 1.0,
+        "precision@1": 1.0,
+        "recall@3": 1.0,
+        "precision@3": 1.0,
+        "recall@5": 1.0,
+        "precision@5": 0.9,
+        "recall@8": 1.0,
+        "precision@8": 0.875
+      },
+      "motor": {
+        "count": 7,
+        "mrr": 0.75,
+        "recall@1": 0.5714,
+        "precision@1": 0.5714,
+        "recall@3": 0.8571,
+        "precision@3": 0.619,
+        "recall@5": 1.0,
+        "precision@5": 0.6,
+        "recall@8": 1.0,
+        "precision@8": 0.6071
+      }
+    },
+    "passed_recall@5": 35,
+    "pass_rate_recall@5": 1.0
+  },
+  "cases": [
+    {
+      "id": "ncc-criticidad",
+      "category": "norma",
+      "query": "NCC-030 requisitos criticidad mantenibilidad confiabilidad",
+      "original_query": "NCC-030 requisitos criticidad mantenibilidad confiabilidad",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.875,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050-06951-INFMC-00003_2 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502289095-03615-INFMC-00013 ODS 20 INFORME FINAL NCC30  REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "4502302986-70110-INFMC-00013 INFORME FINAL NCC30 - AMPLIACIÓN BOTADERO RIPIOS FASE IX – DRT REV 2.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.22,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV A.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "guigs-alcance",
+      "category": "guia",
+      "query": "SGP-07MYC-GUIGS-00001 Rev 6 alcance mantenibilidad confiabilidad proyectos",
+      "original_query": "SGP-07MYC-GUIGS-00001 Rev 6 alcance mantenibilidad confiabilidad proyectos",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.6,
+      "recall@8": 1.0,
+      "precision@8": 0.625,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "NCC-030_REV02.pdf",
+          "tipo": "norma",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "SGPD-07MYC-FRMGS-0016.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00010 ACCV  REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "SGPD-07MYC-FRMGS-0019.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "4600029050_ODS1-06952-INFMC-0009 ACCV  REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "progs-etapas",
+      "category": "guia",
+      "query": "SGPD-07MYC-PROGS-0001 procedimiento mantenibilidad estudios proyectos pasos etapas",
+      "original_query": "SGPD-07MYC-PROGS-0001 procedimiento mantenibilidad estudios proyectos pasos etapas",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+          "tipo": "sop",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+          "tipo": "sop",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "INFORME TALLER M&C PROYECTO REEMPLAZO SISTEMA DE ENFRIAMIENTO PLANTA TERMOELÉCTRICA DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "xxx_ODS1-06951-INFMC-00005 FMECA REEMP SIST ENFR CTS ODS1 REV x.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.3422,
+          "titulo": "4600029050_ODS01-06951-INFMC-00007 INF ATM REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "progs-diagramas",
+      "category": "guia",
+      "query": "PROGS diagramas documentación ingeniería mantenibilidad",
+      "original_query": "PROGS diagramas documentación ingeniería mantenibilidad",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.75,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.6233,
+          "titulo": "SGPD-07MYC-FRMGS-0016.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050-06951-INFMC-00009_4 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00004 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4502302986-70110-INFMC-00012 INFORME TALLER M&C AMPLIACION BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "SGPD-07MYC-FRMGS-0020.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "fmeca-enfriamiento",
+      "category": "guia",
+      "query": "FMECA modos falla efectos criticidad sistema enfriamiento torre DCH",
+      "original_query": "FMECA modos falla efectos criticidad sistema enfriamiento torre DCH",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.825,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "Bases tecnicas servicio de estudio M&C Sist, enfriamiento DCH.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.5238,
+          "titulo": "ANEXO A TALLER  FINAL NCC30 STMA. DE ENFRIAMIENTO REV B.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.2986,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "fmeca-anexo-mec",
+      "category": "guia",
+      "query": "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH modos falla",
+      "original_query": "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH modos falla",
+      "hit_count": 7,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.875,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.6286,
+          "titulo": "INFORME FMECA REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "xxx_ODS1-06951-INFMC-00005 FMECA REEMP SIST ENFR CTS ODS1 REV x.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00005 INFORME FMECA REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "4600029050_ODS1-06951-INFMC-00005 INFORME FMECA REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "atm-enfriamiento",
+      "category": "guia",
+      "query": "ANEXO A ATM sistema enfriamiento torre DCH operación temperatura",
+      "original_query": "ANEXO A ATM sistema enfriamiento torre DCH operación temperatura",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "ANEXO D PROCED ACT CRITICA TORRE ENFR ODS 1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "Bases tecnicas servicio de estudio M&C Sist, enfriamiento DCH.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ANEXO C PROCED ACT CRITICA TORRE ENFR ODS 1 REV A..docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "ANEXO D INFORME ACT CRITICA TORRE ENFR ODS 1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "INFORME TALLER M&C SIST ENFRIAMIENTO PTS DCH REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "checklist-mc",
+      "category": "guia",
+      "query": "check list reemplazo sistema enfriamiento M&C ODS1",
+      "original_query": "check list reemplazo sistema enfriamiento M&C ODS1",
+      "hit_count": 6,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.75,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV A.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00002 ICHECK LIST M&C SIST ENFR CTS REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.275,
+          "titulo": "INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV 0 05022025.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "rcm-plantilla",
+      "category": "tabla",
+      "query": "SGPD-07MYC-FRMGS-0036 RCM tareas mantenimiento recomendadas",
+      "original_query": "SGPD-07MYC-FRMGS-0036 RCM tareas mantenimiento recomendadas",
+      "hit_count": 7,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.875,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.7333,
+          "titulo": "SGPD-07MYC-FRMGS-0020.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+          "tipo": "sop",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "SGPD-07MYC-FRMGS-0025.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "SGPD-07MYC-FRMGS-0019.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.1571,
+          "titulo": "SGPD-07MYC-FRMGS-0022.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "matriz-mri",
+      "category": "tabla",
+      "query": "matriz planes MRI mantenimiento preventivo ODS21",
+      "original_query": "matriz planes MRI mantenimiento preventivo ODS21",
+      "hit_count": 8,
+      "mrr": 0.5,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.5,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.6188,
+          "titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.275,
+          "titulo": "4502302986-70110-INFMC-00010 INFORME RRHH Y CAPACITACION ODS21 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.1833,
+          "titulo": "INFORME RCM REEMP SIST ENFR CTS ODS1 REV A.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.1571,
+          "titulo": "INFORME RCM REEMP SIST ENFR CTS ODS1 REV A - copia.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "matriz-mso",
+      "category": "tabla",
+      "query": "matriz planes MSO operación mantenimiento sistema",
+      "original_query": "matriz planes MSO operación mantenimiento sistema",
+      "hit_count": 8,
+      "mrr": 0.5,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 1.0,
+      "precision@3": 0.3333333333333333,
+      "recall@5": 1.0,
+      "precision@5": 0.2,
+      "recall@8": 1.0,
+      "precision@8": 0.125,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00010 ACCV  REV 1.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ANEXO C TALLER FINAL NCC30 Y ANALISIS M&C SPCI REV 1.pptx",
+          "tipo": "presentacion",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06952-INFMC-0009 ACCV  REV B.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "LIBRO SOMA DIGITAL FINAL.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "matriz-criticidad",
+      "category": "tabla",
+      "query": "matriz criticidad equipos ODS1 mantenimiento",
+      "original_query": "matriz criticidad equipos ODS1 mantenimiento",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "20180430 Documento SOMA (1).pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00003 INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.4217,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV A.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "LIBRO SOMA DIGITAL FINAL.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV A (1).docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "taller-ncc30",
+      "category": "presentacion",
+      "query": "taller final NCC30 ODS21 mantenibilidad confiabilidad capacitación",
+      "original_query": "taller final NCC30 ODS21 mantenibilidad confiabilidad capacitación",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 1.1,
+          "titulo": "ANEXO A TALLER FINAL NCC30 ODS21 REV 2.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.3667,
+          "titulo": "4502289095-03615-INFMC-00013 ODS 20 INFORME FINAL NCC30  REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ANEXO A TALLER FINAL NCC30 ODS21 REV 2.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "ANEXO A TALLER FINAL NCC30 ODS21 REV 2.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.2567,
+          "titulo": "ANEXO A TALLER  FINAL NCC30 NUEVA SALA HIDRAULICA REV B.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "presentacion-operacion",
+      "category": "presentacion",
+      "query": "presentación operación mantenimiento sistema eléctrico sala",
+      "original_query": "presentación operación mantenimiento sistema eléctrico sala",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "SIGO-ECC-003-01 Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "9 - RC01 MPL 4S ELE SALA ELECTRICA TORRE OPE.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "9.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "SIGO-ECC-003-01Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "ANEXO A TALLER  FINAL NCC30 NUEVA SALA HIDRAULICA REV B.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "plano-diagrama",
+      "category": "plano",
+      "query": "diagrama unifilar sistema eléctrico torre enfriamiento",
+      "original_query": "diagrama unifilar sistema eléctrico torre enfriamiento",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.75,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "LICITACION TORRES 4600026374-06951-INFPR-00003.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "DETALLE INFORMACION FALTANTE ODS 1 REV B.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "DIAG_FLUJO DE PROCESO SIST ENFR CTS ODS1 REV A.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "FILOSOFIA OPERACION 4600026374-06951-INFPR-00001.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "TFDCH-P-024-030 REV_B MANUAL MANTENIMIENTO port.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "plano-pid",
+      "category": "plano",
+      "query": "P&ID lubricación circuito enfriamiento válvulas",
+      "original_query": "P&ID lubricación circuito enfriamiento válvulas",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "Presentacion Filosofia de Opercion REV2.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "FILOSOFIA OPERACION 4600026374-06951-INFPR-00001.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600026374-06951-201CA-00001-REV_1 (1 DE 2).pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "FILOSOFIA OPERACION 4600026374-06951-INFPR-00001.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.3667,
+          "titulo": "Presentacion Filosofia de Opercion REV2.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "manual-oem",
+      "category": "guia",
+      "query": "manual OEM equipos sala eléctrica operación mantenimiento",
+      "original_query": "manual OEM equipos sala eléctrica operación mantenimiento",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.75,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "SIGO-ECC-003-01Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "9.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "SIGO-ECC-003-01 Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "19.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "ANEXO A ANÁLISIS M&C Y CTRL CAMBIO BOTADERO FASE IX ODS21 REV 0.pptx",
+          "tipo": "presentacion",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "ods21-diseno",
+      "category": "guia",
+      "query": "ODS21 diseño constructivo especificaciones técnicas",
+      "original_query": "ODS21 diseño constructivo especificaciones técnicas",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.875,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.77,
+          "titulo": "4502281710-06940-INFMC-00002 INFORME CHECK LIST M&C ODS21 REV  0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "SIGO-ECC-003-07 Pérdida de Control de Manejo de Sustancias Químicas Peligrosas, V.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "SIGO-ECC-003-07 Pérdida de Control de Manejo de Sustancias Químicas Peligrosas, V.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "4600029050_ODS1-06951-INFMC-00008 INF APOYO LOGISTICO REEMP SIST ENFR CTS DCH ODS 1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "SIGO-ECC-003-07 Pérdida de Control de Manejo de Sustancias Químicas Peligrosas, V.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "ods1-reemplazo",
+      "category": "guia",
+      "query": "reemplazo sistema enfriamiento CTS DCH ODS1 especificaciones",
+      "original_query": "reemplazo sistema enfriamiento CTS DCH ODS1 especificaciones",
+      "hit_count": 5,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.625,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.7333,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "ANEXO B ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 1.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ANEXO B ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 1 - EAD.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "4600029050_ODS1-06951-INFMC-00012 INFORME TALLER M&C SIST ENFRIAMIENTO PTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.0786,
+          "titulo": "DIAG_FLUJO DE PROCESO SIST ENFR CTS ODS1 REV A.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "sop-bloqueo",
+      "category": "guia",
+      "query": "procedimiento bloqueo etiquetado LOTO seguridad operación",
+      "original_query": "procedimiento bloqueo etiquetado LOTO seguridad operación",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.825,
+          "titulo": "ANEXO D PROCED ACT CRITICA TORRE ENFR ODS 1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.825,
+          "titulo": "ANEXO D PROCED ACT CRITICA TORRE ENFR ODS 1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.55,
+          "titulo": "ANEXO D INFORME ACT CRITICA TORRE ENFR ODS 1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.55,
+          "titulo": "ANEXO D INFORME ACT CRITICA TORRE ENFR ODS 1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.4125,
+          "titulo": "ANEXO C PROCED ACT CRITICA TORRE ENFR ODS 1 REV A..docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "cronograma-estudios",
+      "category": "tabla",
+      "query": "cronograma estudios mantenibilidad confiabilidad proyecto",
+      "original_query": "cronograma estudios mantenibilidad confiabilidad proyecto",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.8,
+      "recall@8": 1.0,
+      "precision@8": 0.625,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00002 INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV 0.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "Of Tec ODS N°26  SISTEMA  ENFRIAMIENTO DCH.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "NCC-030_REV02.pdf",
+          "tipo": "norma",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00002 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "4600029050_ODS1-06951-INFMC-00002 INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV 0.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "adenda-ncc30",
+      "category": "norma",
+      "query": "adenda NCC30 revisión requisitos normativos",
+      "original_query": "adenda NCC30 revisión requisitos normativos",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4502289095-03615-INFMC-00013 ODS 20 INFORME FINAL NCC30  REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502289095-03615-INFMC-00013 ODS 20 INFORME FINAL NCC30  REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4502302986-70110-INFMC-00013 INFORME FINAL NCC30 - AMPLIACIÓN BOTADERO RIPIOS FASE IX – DRT REV 2.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "ANEXO C TALLER FINAL NCC30 Y ANALISIS M&C SPCI REV 1.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "NCC-030_REV02.pdf",
+          "tipo": "norma",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "formulario-frmgs",
+      "category": "tabla",
+      "query": "FRMGS formulario registro mantenimiento preventivo",
+      "original_query": "FRMGS formulario registro mantenimiento preventivo",
+      "hit_count": 8,
+      "mrr": 0.5,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 1.0,
+      "precision@3": 0.3333333333333333,
+      "recall@5": 1.0,
+      "precision@5": 0.4,
+      "recall@8": 1.0,
+      "precision@8": 0.375,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "SIGO-ECC-003-01Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00002 ICHECK LIST M&C SIST ENFR CTS REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "SIGO-ECC-003-01 Interacción con Energía Eléctrica v.1.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00005 INFORME FMECA REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.3329,
+          "titulo": "4502281710-06940-INFMC-00002 INFORME CHECK LIST M&C ODS21 REV  0.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "transformador-sala",
+      "category": "guia",
+      "query": "transformador sala eléctrica mantenimiento inspección",
+      "original_query": "transformador sala eléctrica mantenimiento inspección",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "RCM N°1 ELECT INST REEMP SIST ENFR CTS DCH REV A.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "17-RC01 INS 48S ELE TRANSFORMADOR DET.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "17.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "RIESGOS CRITICOS RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV B.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "16.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "interruptor-media",
+      "category": "guia",
+      "query": "interruptor media tensión mantenimiento pruebas",
+      "original_query": "interruptor media tensión mantenimiento pruebas",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 0.875,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "LIBRO SOMA DIGITAL FINAL.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "AVANCE PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 11022025.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "RCM N°1 ELECT INST REEMP SIST ENFR CTS DCH REV A.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 18022025.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.22,
+          "titulo": "21-RC01 MPL 48S ELE CENTRO CONTROL MTR DET.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "fmeca-sala-electrica",
+      "category": "guia",
+      "query": "FMECA sala eléctrica equipos auxiliares modos falla",
+      "original_query": "FMECA sala eléctrica equipos auxiliares modos falla",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "ANEXO B FMECA MANEJO DE SOLUCIONES ODS21 REV B.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "INFORME FMECA REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.275,
+          "titulo": "xxx_ODS1-06951-INFMC-00005 FMECA REEMP SIST ENFR CTS ODS1 REV x.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.22,
+          "titulo": "xxx_ODS1-06951-INFMC-00005 FMECA REEMP SIST ENFR CTS ODS1 REV x.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "politica-mantenimiento",
+      "category": "norma",
+      "query": "política mantenimiento confiabilidad activos críticos",
+      "original_query": "política mantenimiento confiabilidad activos críticos",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "Of Tec ODS N°26  SISTEMA  ENFRIAMIENTO DCH.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "GCM-M-001_REV00.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00003 INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "20180430 Documento SOMA (1).pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+          "tipo": "sop",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-cts-temperatura-caudal",
+      "category": "motor",
+      "query": "alta temperatura y caída de caudal en circuito de enfriamiento activo Sistema enfriamiento CTS DCH ODS1 ODS1",
+      "original_query": "alta temperatura caída caudal circuito enfriamiento CTS DCH activo ODS1",
+      "asset_id": "CTS-DCH-ENF",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.7071,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.3667,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV A FINAL.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.275,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.22,
+          "titulo": "4600029050_ODS1-06951-INFMC-00003 INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.22,
+          "titulo": "4600029050_ODS1-06951-INFMC-00003 INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-cts-intercambiador",
+      "category": "motor",
+      "query": "temperatura salida intercambiador elevada activo Sistema enfriamiento CTS DCH ODS1 ODS1",
+      "original_query": "restricción flujo intercambiador temperatura salida enfriamiento",
+      "asset_id": "CTS-DCH-ENF",
+      "hit_count": 8,
+      "mrr": 0.5,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 1.0,
+      "precision@3": 0.3333333333333333,
+      "recall@5": 1.0,
+      "precision@5": 0.6,
+      "recall@8": 1.0,
+      "precision@8": 0.625,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "INFORME ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00003 INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00006 INFORME ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "INF CRITICIDAD REEMP SIST ENFR CTS ODS1 REV A FINAL.docx",
+          "tipo": "guia",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-bomba-vibracion",
+      "category": "motor",
+      "query": "vibración elevada en bomba con caudal bajo activo Sistema enfriamiento CTS DCH ODS1 ODS1",
+      "original_query": "vibración bomba circulación caudal reducido enfriamiento",
+      "asset_id": "CTS-DCH-ENF",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "ANEXO A RCM MEC REEMP SIST ENFR CTS DCH ODS 1 REV A (Actualizar).xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ODS-N°1 RCM MECANICO PTS DCH Rev.A.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "RCM MECANICO ODS N°1 PTS DCH.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-mri-preventivo",
+      "category": "motor",
+      "query": "tareas preventivas MRI pendientes o vencidas activo Matriz MRI mantenimiento preventivo ODS21",
+      "original_query": "matriz MRI mantenimiento preventivo ODS21 tareas vencidas",
+      "asset_id": "MRI-ODS21",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.4,
+      "recall@8": 1.0,
+      "precision@8": 0.375,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "20180430 Documento SOMA (1).pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00011 INFORME RCM REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.22,
+          "titulo": "4600029050_ODS01-06951-INFMC-00007 INF ATM REV 1.docx",
+          "tipo": "guia",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-valvula-control",
+      "category": "motor",
+      "query": "válvula de control no responde caudal inestable activo Sistema enfriamiento CTS DCH ODS1 ODS1",
+      "original_query": "válvula control FT caudal circuito enfriamiento posición",
+      "asset_id": "CTS-DCH-ENF",
+      "hit_count": 8,
+      "mrr": 0.25,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 0.0,
+      "precision@3": 0.0,
+      "recall@5": 1.0,
+      "precision@5": 0.2,
+      "recall@8": 1.0,
+      "precision@8": 0.125,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00011 INFORME RCM REEMP SIST ENFR CTS ODS1 REV B.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "ANEXO B ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 1.pptx",
+          "tipo": "presentacion",
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "ANEXO B ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 1 - EAD.pptx",
+          "tipo": "presentacion",
+          "relevant": false
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "RCM N° 1 MECA SIST ENFR CTS DCH REV A..xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "DIAG_FLUJO DE PROCESO SIST ENFR CTS ODS1 REV A.pptx",
+          "tipo": "presentacion",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-presion-instrumento",
+      "category": "motor",
+      "query": "lectura presión fuera de tolerancia calibración vencida activo Sistema enfriamiento CTS DCH ODS1 ODS1",
+      "original_query": "transmisor presión PT calibración tolerancia metrología",
+      "asset_id": "CTS-DCH-ENF",
+      "hit_count": 8,
+      "mrr": 0.5,
+      "recall@1": 0.0,
+      "precision@1": 0.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.6,
+      "recall@8": 1.0,
+      "precision@8": 0.75,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050_ODS1-06951-INFMC-00012 INFORME TALLER M&C SIST ENFRIAMIENTO PTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "INF SEMANAL 07 ODS1 SIST ENFR PTS DCH 310125 REV A.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "INF SEMANAL 06 ODS1 SIST ENFR PTS DCH 240125 REV A.pptx",
+          "tipo": "presentacion",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00004 INFORME MODELAMIENTO D&C REEMPLAZO SIST ENFRIAMIENTO CTS DCH REV 0.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "41-RC01 INS 4S INST SENSOR VENTILOR OPE.xlsx",
+          "tipo": "tabla",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "motor-stg-referencia",
+      "category": "motor",
+      "query": "alta temperatura y vibración en turbina activo Turbina STG-01-X (mock referencia) DCH",
+      "original_query": "alta temperatura vibración turbina cojinete lubricación",
+      "asset_id": "STG-01-X",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 0.6666666666666666,
+      "recall@5": 1.0,
+      "precision@5": 0.4,
+      "recall@8": 1.0,
+      "precision@8": 0.375,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.55,
+          "titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.55,
+          "titulo": "4502289095-03615-INFMC-0009 ACCV ODS20 REV 1.docx",
+          "tipo": "guia",
+          "relevant": false
+        },
+        {
+          "rank": 3,
+          "score": 0.3667,
+          "titulo": "4600029050-06951-INFMC-00008 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.3667,
+          "titulo": "4600029050_ODS1-06951-INFMC-00006 INFORME ANALISIS M&C Y CTRL REEMP SIST ENFR CTS DCH ODS1 REV 0.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        },
+        {
+          "rank": 5,
+          "score": 0.275,
+          "titulo": "4600029050-06951-INFMC-00006 INFORME CON OBSERVACIONES.pdf",
+          "tipo": "manual_oem",
+          "relevant": false
+        }
+      ],
+      "ok": true
+    },
+    {
+      "id": "safety-procedimiento",
+      "category": "guia",
+      "query": "procedimiento seguridad antes de intervenir equipo energizado",
+      "original_query": "procedimiento seguridad antes de intervenir equipo energizado",
+      "hit_count": 8,
+      "mrr": 1.0,
+      "recall@1": 1.0,
+      "precision@1": 1.0,
+      "recall@3": 1.0,
+      "precision@3": 1.0,
+      "recall@5": 1.0,
+      "precision@5": 1.0,
+      "recall@8": 1.0,
+      "precision@8": 1.0,
+      "top_hits": [
+        {
+          "rank": 1,
+          "score": 0.825,
+          "titulo": "ANEXO C PROCED ACT CRITICA TORRE ENFR ODS 1 REV A..docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 2,
+          "score": 0.825,
+          "titulo": "ANEXO D PROCED ACT CRITICA TORRE ENFR ODS 1 REV B.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 3,
+          "score": 0.55,
+          "titulo": "ANEXO H PROCED ACT CRITICA TORRE ENFR ODS 1 REV A..docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 4,
+          "score": 0.55,
+          "titulo": "ANEXO D INFORME ACT CRITICA TORRE ENFR ODS 1 REV 0.docx",
+          "tipo": "guia",
+          "relevant": true
+        },
+        {
+          "rank": 5,
+          "score": 0.5042,
+          "titulo": "SIGO-ECC-003-04 Pérdida de Control de Energía de Alta Intensidad, versión 1.pdf",
+          "tipo": "manual_oem",
+          "relevant": true
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

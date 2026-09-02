@@ -1,0 +1,60 @@
+{
+  "generated_at": "2026-09-02T06:46:36.066981+00:00",
+  "tenant": "monitoring",
+  "limit": 5,
+  "skip_ask": true,
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "search_ok": 3,
+    "ask_ok": null,
+    "pass_rate": 1.0
+  },
+  "cases": [
+    {
+      "id": "ncc",
+      "category": "norma",
+      "query": "NCC-030 criticidad mantenibilidad",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.71,
+        "top_titulo": "4600029050-06951-INFMC-00003_2 INFORME CON OBSERVACIONES.pdf",
+        "count": 5
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "fmeca",
+      "category": "guia",
+      "query": "FMECA modos falla sistema enfriamiento",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.8225,
+        "top_titulo": "Bases tecnicas servicio de estudio M&C Sist, enfriamiento DCH.docx",
+        "count": 5
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "guigs",
+      "category": "guia",
+      "query": "GUIGS alcance mantenibilidad proyectos",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.8225,
+        "top_titulo": "SGP-07MYC-GUIGS-00001_REV4.pdf",
+        "count": 5
+      },
+      "ask": {
+        "skipped": true
+      }
+    }
+  ]
+}

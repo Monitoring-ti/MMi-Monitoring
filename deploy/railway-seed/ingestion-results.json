@@ -1,0 +1,2380 @@
+{
+  "generated_at": "2026-09-02T09:34:14.962338+00:00",
+  "meta": {
+    "lote": "ods1-full",
+    "policy": "Todos los tipos ready en file_types.py; selección fina vía corpus_picker",
+    "corpus_root": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\ODS1 TORR ENF DCH",
+    "generated_at_status": "2026-09-01T21:52:12.415353+00:00"
+  },
+  "summary": {
+    "total": 1582,
+    "uploaded": 1582,
+    "pass": 1435,
+    "review": 1,
+    "reject": 46,
+    "error": 0,
+    "excluidos": 100,
+    "pendiente": 0,
+    "pendiente_extractor": 0,
+    "indexable": 1435,
+    "indexados": 1274,
+    "index_duplicados": 250,
+    "index_mismo_contenido": 0,
+    "index_needs_review": 0,
+    "index_errores": 0,
+    "index_pendientes": 0
+  },
+  "index_summary": {
+    "total": 1331,
+    "indexados": 1096,
+    "chunks": 65336,
+    "tokens": 13133820,
+    "duplicados": 235,
+    "mismo_contenido": 0,
+    "needs_review": 0,
+    "errores": 0
+  },
+  "token_summary": {
+    "index_tokens": 13133820,
+    "index_tokens_fmt": "13.13M",
+    "index_chunks": 65336,
+    "index_docs": 1096,
+    "avg_tokens_per_chunk": 201,
+    "ai_reviews": 0,
+    "ai_prompt_tokens": 0,
+    "ai_completion_tokens": 0,
+    "ai_total_tokens": 0,
+    "ai_total_tokens_fmt": "0",
+    "updated_at": "2026-09-01T08:54:56.373422+00:00",
+    "progress": "1331/1331",
+    "top_docs": [
+      {
+        "archivo": "ANEXO F MATRIZ DE PLANES MRI ODS21 REV 1.xlsx",
+        "tokens": 725096,
+        "chunks": 553
+      },
+      {
+        "archivo": "ANEXO C MATRIZ DE PLANES MSO ODS21 REV 1.xlsx",
+        "tokens": 503748,
+        "chunks": 460
+      },
+      {
+        "archivo": "ANEXO H MATRIZ DE PLANES SPCI ODS21 REV 1.xlsx",
+        "tokens": 472141,
+        "chunks": 369
+      },
+      {
+        "archivo": "ANEXO A ATM SISTEMA ENFRIAMIENTO  REV 1.xlsx",
+        "tokens": 324893,
+        "chunks": 871
+      },
+      {
+        "archivo": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV B.xlsx",
+        "tokens": 324223,
+        "chunks": 913
+      },
+      {
+        "archivo": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV A.xlsx",
+        "tokens": 323992,
+        "chunks": 913
+      },
+      {
+        "archivo": "PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 18022025.xlsx",
+        "tokens": 280947,
+        "chunks": 915
+      },
+      {
+        "archivo": "ANEXO B RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV B.xlsx",
+        "tokens": 252720,
+        "chunks": 177
+      }
+    ]
+  },
+  "ocr": {
+    "staged_documents": 2,
+    "staged_pages_processed": 4,
+    "pilot_pages": 2,
+    "planos_detected": 50,
+    "planos_pages_needs_ocr": 98,
+    "staging_summary": {
+      "count": 2,
+      "pass": 0,
+      "review": 2,
+      "reject": 0,
+      "documents": [
+        {
+          "document_id": "4600027995-06950-201ME-00001",
+          "quality": "review",
+          "page_count": 2,
+          "avg_confidence": 0.8034357946724962,
+          "engine": "azure-document-intelligence",
+          "staging_path": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\out\\ocr-staging\\4600027995-06950-201ME-00001",
+          "review_url": "ocr-review.html",
+          "validations": [
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "20/06/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "24/07/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "07/08/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "page_confidence",
+              "status": "review",
+              "field_name": "page_confidence",
+              "raw_value": "0.666",
+              "normalized_value": "0.75",
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "threshold": 0.75
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "BAS-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-000-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-0001-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-1047-4",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HWY-2004-M",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "VC-10-20",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "07-06-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "25-08-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "25-06-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-0001-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 20
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-000-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 21
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-1047-4",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 23
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HWY-2004-M",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 24
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 75
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 76
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 77
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 78
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 79
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 80
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 81
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 82
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "VC-10-20",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 84
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "BAS-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 85
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 88
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 89
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 90
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 91
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 92
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 93
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 94
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 95
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            }
+          ]
+        },
+        {
+          "document_id": "IFC-078",
+          "quality": "review",
+          "page_count": 2,
+          "avg_confidence": 0.8034357946724962,
+          "engine": "azure-document-intelligence",
+          "staging_path": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\out\\ocr-staging\\IFC-078",
+          "review_url": "ocr-review.html",
+          "validations": [
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "20/06/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "24/07/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "pass",
+              "field_name": "date",
+              "raw_value": "07/08/2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.940463768115942,
+              "diff": null,
+              "page_number": 1,
+              "block_index": null
+            },
+            {
+              "rule": "page_confidence",
+              "status": "review",
+              "field_name": "page_confidence",
+              "raw_value": "0.666",
+              "normalized_value": "0.75",
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "threshold": 0.75
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "BAS-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-000-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-0001-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-1047-4",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HWY-2004-M",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "VC-10-20",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "07-06-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "25-08-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "date_field",
+              "status": "review",
+              "field_name": "date",
+              "raw_value": "25-06-2024",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": 0.6664078212290503,
+              "diff": null,
+              "page_number": 2,
+              "block_index": null
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-0001-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 20
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-000-N",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 21
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HW-1047-4",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 23
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "HWY-2004-M",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 24
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 75
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 76
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 77
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 78
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 79
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 80
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 81
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 82
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "VC-10-20",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 84
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "BAS-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 85
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 88
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 89
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 90
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 91
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 92
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 93
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 94
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 95
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0001",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0002",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0003",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0004",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0005",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0006",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0007",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            },
+            {
+              "rule": "technical_tag",
+              "status": "review",
+              "field_name": "asset_tag",
+              "raw_value": "TDE-0008",
+              "normalized_value": null,
+              "expected_value": null,
+              "confidence": null,
+              "diff": {
+                "catalog_match": false
+              },
+              "page_number": 2,
+              "block_index": 1001
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "phase0_by_extension": {
+    "pdf": {
+      "pass": 775,
+      "review": 1,
+      "reject": 35,
+      "excluido": 12
+    },
+    "pptx": {
+      "excluido": 4,
+      "pass": 75,
+      "reject": 1
+    },
+    "xlsx": {
+      "pass": 287,
+      "reject": 10,
+      "excluido": 37
+    },
+    "docx": {
+      "pass": 298,
+      "excluido": 47
+    }
+  },
+  "status_by_tipo": {
+    "manual_oem": {
+      "pass": 749,
+      "review": 1,
+      "reject": 35,
+      "excluido": 12
+    },
+    "presentacion": {
+      "excluido": 4,
+      "pass": 75,
+      "reject": 1
+    },
+    "tabla": {
+      "pass": 288,
+      "reject": 10,
+      "excluido": 37
+    },
+    "guia": {
+      "pass": 302,
+      "excluido": 47
+    },
+    "sop": {
+      "pass": 11
+    },
+    "norma": {
+      "pass": 2
+    },
+    "plano": {
+      "pass": 8
+    }
+  },
+  "coverage_by_folder": [
+    {
+      "folder": "07 ENTREGABLES",
+      "total": 956,
+      "pass": 956,
+      "reject": 0,
+      "review": 0,
+      "indexados": 768,
+      "index_pct": 80.3
+    },
+    {
+      "folder": "02 INF TEC",
+      "total": 316,
+      "pass": 279,
+      "reject": 36,
+      "review": 1,
+      "indexados": 305,
+      "index_pct": 96.5
+    },
+    {
+      "folder": "04 MINUTAS (CP)",
+      "total": 74,
+      "pass": 74,
+      "reject": 0,
+      "review": 0,
+      "indexados": 39,
+      "index_pct": 52.7
+    },
+    {
+      "folder": "00 DOCUMENTOS NCC30",
+      "total": 62,
+      "pass": 52,
+      "reject": 10,
+      "review": 0,
+      "indexados": 48,
+      "index_pct": 77.4
+    },
+    {
+      "folder": "05 GANTT",
+      "total": 33,
+      "pass": 33,
+      "reject": 0,
+      "review": 0,
+      "indexados": 33,
+      "index_pct": 100.0
+    },
+    {
+      "folder": "06 INFORME SEMANAL",
+      "total": 32,
+      "pass": 32,
+      "reject": 0,
+      "review": 0,
+      "indexados": 32,
+      "index_pct": 100.0
+    },
+    {
+      "folder": "03 KOM",
+      "total": 5,
+      "pass": 5,
+      "reject": 0,
+      "review": 0,
+      "indexados": 3,
+      "index_pct": 60.0
+    },
+    {
+      "folder": "01 BASES Y PROPUESTA",
+      "total": 4,
+      "pass": 4,
+      "reject": 0,
+      "review": 0,
+      "indexados": 4,
+      "index_pct": 100.0
+    }
+  ],
+  "reject_top": [
+    {
+      "reason": "Página 1: sin texto nativo (candidata OCR)",
+      "count": 32,
+      "samples": [
+        "4400285992-06500-402EL-00013_3(203520-03615TDI13-0321-001) Tablero Intrumentación.pdf",
+        "06951-202EL-00001-RA --- Diagrama Unilineal CCM 400-231V N° 6951-CCM-002.pdf",
+        "Disposición de Equipos.pdf"
+      ]
+    },
+    {
+      "reason": "Solo cabecera (sin filas de datos): Hoja1",
+      "count": 10,
+      "samples": [
+        "SGPD-07MYC-FRMGS-0003.xlsx",
+        "SGPD-07MYC-FRMGS-0006.xlsx",
+        "SGPD-07MYC-FRMGS-0007.xlsx"
+      ]
+    },
+    {
+      "reason": "PDF sin páginas",
+      "count": 3,
+      "samples": [
+        "4.10.5.-Cert Soldadura Varilla 0,9 MyH.pdf",
+        "LIQUIDOS PENETRANTES NIVEL II JPQC.pdf",
+        "Certificato di Conformità_AA080005-4.pdf"
+      ]
+    },
+    {
+      "reason": "0/6 diapositivas con contenido indexable",
+      "count": 1,
+      "samples": [
+        "Parte presentacion cliente ods 1 17122024.pptx"
+      ]
+    }
+  ],
+  "planos": {
+    "total": 50,
+    "scanned": 309,
+    "by_subdir": [
+      {
+        "subdir": "02 INF TEC",
+        "planos": 50,
+        "avg_confidence": 0.93,
+        "avg_pages": 2.1,
+        "top": [
+          {
+            "path": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\ODS1 TORR ENF DCH\\02 INF TEC\\08-01-2025 FT\\4600027995-06950-201ME-00001 Diagrama Instrumentación.pdf",
+            "is_plano": true,
+            "kind": "plano",
+            "confidence": 0.98,
+            "suggested_tipo": "plano",
+            "suggested_phase0": "ocr",
+            "page_count": 2,
+            "pages_needs_ocr": 2,
+            "ocr_page_ratio": 1.0,
+            "avg_chars_per_page": 0.0,
+            "signals": [
+              "nombre:indicio_plano",
+              "nombre:codigo_ingenieria",
+              "estructura:ocr_ratio=1.00",
+              "estructura:baja_densidad_texto"
+            ],
+            "block_ocr": false,
+            "block_reason": "",
+            "name": "4600027995-06950-201ME-00001 Diagrama Instrumentación.pdf",
+            "relative_path": "02 INF TEC\\08-01-2025 FT\\4600027995-06950-201ME-00001 Diagrama Instrumentación.pdf"
+          },
+          {
+            "path": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\ODS1 TORR ENF DCH\\02 INF TEC\\08-01-2025 VB\\4400285992-06500-100EL-00001 Equipos Sala eléctrica.pdf",
+            "is_plano": true,
+            "kind": "plano",
+            "confidence": 0.98,
+            "suggested_tipo": "plano",
+            "suggested_phase0": "ocr",
+            "page_count": 2,
+            "pages_needs_ocr": 1,
+            "ocr_page_ratio": 0.5,
+            "avg_chars_per_page": 262.5,
+            "signals": [
+              "nombre:codigo_ingenieria",
+              "estructura:ocr_ratio=0.50"
+            ],
+            "block_ocr": false,
+            "block_reason": "",
+            "name": "4400285992-06500-100EL-00001 Equipos Sala eléctrica.pdf",
+            "relative_path": "02 INF TEC\\08-01-2025 VB\\4400285992-06500-100EL-00001 Equipos Sala eléctrica.pdf"
+          },
+          {
+            "path": "C:\\Users\\User Monitoring\\mmi-by-monitoring\\ODS1 TORR ENF DCH\\02 INF TEC\\08-01-2025 VB\\4400285992-06500-208EL-00001 Interconexion Fuerza y Control.pdf",
+            "is_plano": true,
+            "kind": "plano",
+            "confidence": 0.98,
+            "suggested_tipo": "plano",
+            "suggested_phase0": "ocr",
+            "page_count": 2,
+            "pages_needs_ocr": 1,
+            "ocr_page_ratio": 0.5,
+            "avg_chars_per_page": 26.0,
+            "signals": [
+              "nombre:codigo_ingenieria",
+              "estructura:ocr_ratio=0.50",
+              "estructura:baja_densidad_texto"
+            ],
+            "block_ocr": false,
+            "block_reason": "",
+            "name": "4400285992-06500-208EL-00001 Interconexion Fuerza y Control.pdf",
+            "relative_path": "02 INF TEC\\08-01-2025 VB\\4400285992-06500-208EL-00001 Interconexion Fuerza y Control.pdf"
+          }
+        ]
+      }
+    ]
+  },
+  "retrieval": {
+    "golden": {
+      "total": 35,
+      "mrr": 0.9071,
+      "recall@1": 0.8286,
+      "precision@1": 0.8286,
+      "recall@3": 0.9714,
+      "precision@3": 0.8571,
+      "recall@5": 1.0,
+      "precision@5": 0.8343,
+      "recall@8": 1.0,
+      "precision@8": 0.7857,
+      "by_category": {
+        "norma": {
+          "count": 3,
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 1.0,
+          "recall@8": 1.0,
+          "precision@8": 0.9583
+        },
+        "guia": {
+          "count": 15,
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 0.9778,
+          "recall@5": 1.0,
+          "precision@5": 0.9333,
+          "recall@8": 1.0,
+          "precision@8": 0.875
+        },
+        "tabla": {
+          "count": 6,
+          "mrr": 0.75,
+          "recall@1": 0.5,
+          "precision@1": 0.5,
+          "recall@3": 1.0,
+          "precision@3": 0.6667,
+          "recall@5": 1.0,
+          "precision@5": 0.7,
+          "recall@8": 1.0,
+          "precision@8": 0.5833
+        },
+        "presentacion": {
+          "count": 2,
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 1.0,
+          "recall@8": 1.0,
+          "precision@8": 1.0
+        },
+        "plano": {
+          "count": 2,
+          "mrr": 1.0,
+          "recall@1": 1.0,
+          "precision@1": 1.0,
+          "recall@3": 1.0,
+          "precision@3": 1.0,
+          "recall@5": 1.0,
+          "precision@5": 0.9,
+          "recall@8": 1.0,
+          "precision@8": 0.875
+        },
+        "motor": {
+          "count": 7,
+          "mrr": 0.75,
+          "recall@1": 0.5714,
+          "precision@1": 0.5714,
+          "recall@3": 0.8571,
+          "precision@3": 0.619,
+          "recall@5": 1.0,
+          "precision@5": 0.6,
+          "recall@8": 1.0,
+          "precision@8": 0.6071
+        }
+      },
+      "passed_recall@5": 35,
+      "pass_rate_recall@5": 1.0
+    },
+    "smoke": {
+      "total": 3,
+      "passed": 3,
+      "search_ok": 3,
+      "ask_ok": null,
+      "pass_rate": 1.0
+    },
+    "rag_validation": {
+      "total": 10,
+      "passed": 10,
+      "search_ok": 10,
+      "ask_ok": null,
+      "pass_rate": 1.0
+    }
+  },
+  "load_test": {
+    "generated_at": "2026-08-31T11:16:05.379680+00:00",
+    "config": {
+      "tenant": "monitoring",
+      "requests_per_scenario": 10,
+      "concurrency": 3,
+      "search_limit": 6,
+      "base_url": "http://127.0.0.1:8773",
+      "queries_count": 10
+    },
+    "index_snapshot": {
+      "tenant": "monitoring",
+      "documents": 8,
+      "chunks": 608
+    },
+    "scenarios": [
+      {
+        "name": "search-direct",
+        "target": "HybridSearchEngine",
+        "stats": {
+          "count": 10,
+          "ok": 10,
+          "errors": 0,
+          "error_rate_pct": 0.0,
+          "min_ms": 1584.8,
+          "max_ms": 3719.5,
+          "mean_ms": 2276.7,
+          "p50_ms": 1740.4,
+          "p95_ms": 3660.5,
+          "p99_ms": 3707.7,
+          "total_ms": 8467.3,
+          "rps": 1.18
+        },
+        "sample_errors": []
+      },
+      {
+        "name": "extract-chunk",
+        "target": "process-manifest.json",
+        "stats": {
+          "count": 10,
+          "ok": 10,
+          "errors": 0,
+          "error_rate_pct": 0.0,
+          "min_ms": 4591.8,
+          "max_ms": 5018.5,
+          "mean_ms": 4811.7,
+          "p50_ms": 4801.3,
+          "p95_ms": 5007.1,
+          "p99_ms": 5016.2,
+          "total_ms": 48227.5,
+          "rps": 0.21
+        },
+        "sample_errors": []
+      }
+    ],
+    "notes": []
+  },
+  "registry": {
+    "updated_at": "2026-09-01T19:18:53.390002+00:00",
+    "job_count": 2600,
+    "recent_jobs": [
+      {
+        "archivo": "4600027995-06950-201ME-00001 Diagrama Instrumentación.pdf",
+        "document_key": "4600027995-06950-201ME-00001 P&ID",
+        "estado": "duplicado",
+        "file_hash": "8009be180299a45d24b6e0c7a1afe0d6e8873e8324f0fdbe5d17d756194ecb5c",
+        "document_id": "ba2de0c4-32e1-44e8-ba98-c1d44af623bb",
+        "stage": "skip",
+        "id": "21cb0cc8-f362-4762-a296-1e5e42164138",
+        "recorded_at": "2026-09-01T19:18:53.390002+00:00"
+      },
+      {
+        "archivo": "IFC 078_REV15 28122020 (1).pdf",
+        "document_key": "IFC-078",
+        "estado": "duplicado",
+        "file_hash": "281d859671beb4bafd079a4daf75b5ee4737d0604637ec9ca591a2e7a08f9f5a",
+        "document_id": "012264d8-ddea-4520-9de1-ef1fdf0fd550",
+        "stage": "skip",
+        "id": "880c777c-93d5-43e6-a509-6ed088b037fe",
+        "recorded_at": "2026-09-01T17:40:22.052120+00:00"
+      },
+      {
+        "archivo": "xxx_ODS1-06951-INFMC-00005 FMECA REEMP SIST ENFR CTS ODS1 REV x.docx",
+        "document_key": "monitoring|xxx ods1 06951 infmc 00005 fmeca reemp sist enfr cts ods1|ods1 rev|enf",
+        "estado": "active",
+        "file_hash": "dfda9bc86a42841fc359912f8e5b03fc2fd57f7b42f834c812948c7581a5d77d",
+        "document_id": "8059454e-2c96-4c19-930d-f73d89306dad",
+        "catalog_id": "fbddd082-8823-42ca-b428-7adb41df059a",
+        "chunks": 163,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 163,
+          "tokens": 32183,
+          "elapsed_ms": 21501,
+          "content_hash": "4a20a7724dd6",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|xxx ods1 06951 infmc 00005 fmeca reemp sist enfr cts ods1|ods1 rev|enf",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "3221be7c-cc0a-46c8-a49e-aaefaab636e0",
+        "recorded_at": "2026-09-01T07:24:54.612134+00:00"
+      },
+      {
+        "archivo": "Informe Modelamiento D&C Meta Línea 4_ Rev. 1.docx",
+        "document_key": "monitoring|informe modelamiento d c meta linea 4",
+        "estado": "active",
+        "file_hash": "94ce527d9c65e6f1b3a871ed1096f86ea6ccc40f15a2953c2b26d7ce900bc0f2",
+        "document_id": "720f278c-b63a-4e56-a228-164e95debbc6",
+        "catalog_id": "5a72677b-3a45-48c8-bfa7-37bbbcfe8140",
+        "chunks": 316,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 316,
+          "tokens": 43595,
+          "elapsed_ms": 28091,
+          "content_hash": "077a9323a634",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe modelamiento d c meta linea 4",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "a9528235-6c8f-4827-8dce-94a1faf32a37",
+        "recorded_at": "2026-09-01T07:24:29.448787+00:00"
+      },
+      {
+        "archivo": "INFORME TALLER M&C PROYECTO REEMPLAZO SISTEMA DE ENFRIAMIENTO PLANTA TERMOELÉCTRICA DCH REV 0.docx",
+        "document_key": "monitoring|informe taller m c proyecto reemplazo sistema de enfriamiento planta termoelectrica dch|dch",
+        "estado": "active",
+        "file_hash": "b4eab1169969008eb07475cca0e9da71f13253400280b76a28f2127c55eff7b8",
+        "document_id": "41c13968-b568-4d39-8ffe-59d33c5012a3",
+        "catalog_id": "6acefd14-c005-4bf1-9d6e-7a6dc080fceb",
+        "chunks": 230,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 230,
+          "tokens": 41696,
+          "elapsed_ms": 23737,
+          "content_hash": "74dbd6d4b115",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe taller m c proyecto reemplazo sistema de enfriamiento planta termoelectrica dch|dch",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "239ce47c-ddf6-425e-9a1b-d238cd542981",
+        "recorded_at": "2026-09-01T07:23:57.519899+00:00"
+      },
+      {
+        "archivo": "INFORME RCM REEMP SIST ENFR CTS ODS1 REV A.docx",
+        "document_key": "monitoring|informe rcm reemp sist enfr cts ods1|ods1 rev|enf",
+        "estado": "active",
+        "file_hash": "7041d23d042ec82fb00dbf0ff5cb4e869ddfd0b8ad5b0a40cbf5700255351a66",
+        "document_id": "e5ca5b7b-4a7b-413b-a339-82614b6d684c",
+        "catalog_id": "616bc155-e1bb-4c1f-bb1c-6be6bb70c4e9",
+        "chunks": 302,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 302,
+          "tokens": 56361,
+          "elapsed_ms": 28290,
+          "content_hash": "75a4920b117e",
+          "identity_decision": "nueva_version",
+          "identity_reason": "logical_key igual, content_hash distinto (R2)",
+          "logical_key": "monitoring|informe rcm reemp sist enfr cts ods1|ods1 rev|enf",
+          "confidence": "high",
+          "supersedes_document_id": "c48e4139-06b2-47f5-8cb6-2772f248ad3d"
+        },
+        "identity_decision": "nueva_version",
+        "id": "fdcc077a-8a90-4470-b846-d176040f242d",
+        "recorded_at": "2026-09-01T07:23:29.517671+00:00"
+      },
+      {
+        "archivo": "INFORME RCM REEMP SIST ENFR CTS ODS1 REV A - copia.docx",
+        "document_key": "monitoring|informe rcm reemp sist enfr cts ods1 copia|ods1 rev|enf",
+        "estado": "active",
+        "file_hash": "bcf31ac71549685c09cba12186987030d890ab172ee8f1aa4723d5f8545c6a55",
+        "document_id": "bc27487b-b2e4-49d9-9fd2-986b745389dd",
+        "catalog_id": "8036fe98-b44e-4fc6-8b74-cb67af84b8ac",
+        "chunks": 302,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 302,
+          "tokens": 57871,
+          "elapsed_ms": 27908,
+          "content_hash": "e0377e015d6e",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe rcm reemp sist enfr cts ods1 copia|ods1 rev|enf",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "6e8d8159-f058-43ef-9cd4-8f4450c186c7",
+        "recorded_at": "2026-09-01T07:22:57.599089+00:00"
+      },
+      {
+        "archivo": "INFORME RCM REEMP SIST ENFR CTS ODS1 REV 0.docx",
+        "document_key": "monitoring|informe rcm reemp sist enfr cts ods1|ods1 rev 0|enf",
+        "estado": "active",
+        "file_hash": "24839d4f954db5f10c99bf9561d575599311152e16d2df481ebd709d2767fb37",
+        "document_id": "beb51137-3466-4621-9e3c-2c58ba8caa51",
+        "catalog_id": "b81594b7-0465-4fec-a774-66107b615399",
+        "chunks": 350,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 350,
+          "tokens": 62941,
+          "elapsed_ms": 28701,
+          "content_hash": "8278e230f807",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe rcm reemp sist enfr cts ods1|ods1 rev 0|enf",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "7c23a3ef-4acd-4da6-8c7f-ea0fcc1f4865",
+        "recorded_at": "2026-09-01T07:22:26.113324+00:00"
+      },
+      {
+        "archivo": "INFORME MODELAMIENTO REEMPLAZO SISTEMA DE ENFRIAMIENTO PTS.docx",
+        "document_key": "monitoring|informe modelamiento reemplazo sistema de enfriamiento pts|enf",
+        "estado": "active",
+        "file_hash": "75c4cc43bf0e993373ae94fc92e2f0bce7c27be499060c94f8fa220ef312dce6",
+        "document_id": "c0476c67-a576-449e-952a-c5fef614cddc",
+        "catalog_id": "72f025bf-5b50-40b5-bb79-68b8d09fdf0c",
+        "chunks": 195,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 195,
+          "tokens": 31120,
+          "elapsed_ms": 23273,
+          "content_hash": "85b55f649489",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe modelamiento reemplazo sistema de enfriamiento pts|enf",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "46e9e081-466e-4987-b5ac-8ec6685a5288",
+        "recorded_at": "2026-09-01T07:21:52.884524+00:00"
+      },
+      {
+        "archivo": "INFORME MODELAMIENTO REEMPLAZO SISTEMA DE ENFRIAMIENTO PTS REV B.docx",
+        "document_key": "monitoring|informe modelamiento reemplazo sistema de enfriamiento pts|enf",
+        "estado": "active",
+        "file_hash": "c88141944bf42164c0df2b1a263f8d62c64e39eeaf2f8461646fe09ae18532f8",
+        "document_id": "a360c75c-7918-4e08-ad4f-aa9d707a91ef",
+        "catalog_id": "72f025bf-5b50-40b5-bb79-68b8d09fdf0c",
+        "chunks": 191,
+        "stage": "activate",
+        "metrics": {
+          "chunks": 191,
+          "tokens": 31140,
+          "elapsed_ms": 24437,
+          "content_hash": "323e7cf1b637",
+          "identity_decision": "nuevo_documento",
+          "identity_reason": "logical_key nuevo (R3/R5)",
+          "logical_key": "monitoring|informe modelamiento reemplazo sistema de enfriamiento pts|enf",
+          "confidence": "high"
+        },
+        "identity_decision": "nuevo_documento",
+        "id": "e7ba7b5e-9dcb-406d-9c0d-800b653c3c9b",
+        "recorded_at": "2026-09-01T07:21:25.897420+00:00"
+      }
+    ]
+  },
+  "index_top_docs": [
+    {
+      "archivo": "ANEXO F MATRIZ DE PLANES MRI ODS21 REV 1.xlsx",
+      "estado": "active",
+      "chunks": 553,
+      "tokens": 725096,
+      "document_id": "c21001ad-4527-46b6-8c93-8d3817b2d78a",
+      "document_key": "ANEXO F MATRIZ DE PLANES MRI ODS21 REV 1",
+      "sha256": "fc8b15fa5cfa"
+    },
+    {
+      "archivo": "ANEXO C MATRIZ DE PLANES MSO ODS21 REV 1.xlsx",
+      "estado": "active",
+      "chunks": 460,
+      "tokens": 503748,
+      "document_id": "6f5ff457-5a4d-44c5-86ba-893780125fec",
+      "document_key": "ANEXO C MATRIZ DE PLANES MSO ODS21 REV 1",
+      "sha256": "edbccd1188f2"
+    },
+    {
+      "archivo": "ANEXO H MATRIZ DE PLANES SPCI ODS21 REV 1.xlsx",
+      "estado": "active",
+      "chunks": 369,
+      "tokens": 472141,
+      "document_id": "e7ced08f-0fb1-4d27-9d85-81dcc51184dc",
+      "document_key": "ANEXO H MATRIZ DE PLANES SPCI ODS21 REV 1",
+      "sha256": "2d733b016a05"
+    },
+    {
+      "archivo": "ANEXO A ATM SISTEMA ENFRIAMIENTO  REV 1.xlsx",
+      "estado": "active",
+      "chunks": 871,
+      "tokens": 324893,
+      "document_id": "8ecc27d0-a450-44a6-bbe1-65e138923483",
+      "document_key": "ANEXO A ATM SISTEMA ENFRIAMIENTO  REV 1",
+      "sha256": "8d8686c6f360"
+    },
+    {
+      "archivo": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV B.xlsx",
+      "estado": "active",
+      "chunks": 913,
+      "tokens": 324223,
+      "document_id": "7eeab1a6-19f7-4aa9-8176-10391fd11a8b",
+      "document_key": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV B",
+      "sha256": "d6828552e750"
+    },
+    {
+      "archivo": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV A.xlsx",
+      "estado": "active",
+      "chunks": 913,
+      "tokens": 323992,
+      "document_id": "2607a6bf-b3fa-492c-acbf-faf25ff41452",
+      "document_key": "ANEXO A -ATM ODS N°1 REEMPLAZO SISTEMA ENFRIAMIENTO  REV A",
+      "sha256": "9ac4f449a8c4"
+    },
+    {
+      "archivo": "PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 18022025.xlsx",
+      "estado": "active",
+      "chunks": 915,
+      "tokens": 280947,
+      "document_id": "8713e325-714b-4a0e-9735-3d65d82cc354",
+      "document_key": "PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 18022025",
+      "sha256": "6d8327ce2d82"
+    },
+    {
+      "archivo": "ANEXO B RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV B.xlsx",
+      "estado": "active",
+      "chunks": 177,
+      "tokens": 252720,
+      "document_id": "f177a1e8-d5b4-4554-ac13-63257ca6a743",
+      "document_key": "ANEXO B RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV B",
+      "sha256": "3aa14ba34125"
+    },
+    {
+      "archivo": "ANEXO B RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV A.xlsx",
+      "estado": "active",
+      "chunks": 177,
+      "tokens": 252720,
+      "document_id": "9983af33-0a39-4029-9cdc-145405e26c56",
+      "document_key": "ANEXO B RCM ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 REV A",
+      "sha256": "81cecc3b0585"
+    },
+    {
+      "archivo": "ANEXO A RCM MEC REEMP SIST ENFR CTS DCH ODS 1 REV B.xlsx",
+      "estado": "active",
+      "chunks": 174,
+      "tokens": 239154,
+      "document_id": "e0b53a6f-35c3-4253-933e-4befc2da4c8a",
+      "document_key": "ANEXO A RCM MEC REEMP SIST ENFR CTS DCH ODS 1 REV B",
+      "sha256": "4fe719146569"
+    },
+    {
+      "archivo": "ANEXO A RCM MEC REEMP SIST ENFR CTS DCH ODS 1 REV A.xlsx",
+      "estado": "active",
+      "chunks": 174,
+      "tokens": 239154,
+      "document_id": "d1dc78c9-ea8b-45e1-9f33-f2efb69b23fa",
+      "document_key": "ANEXO A RCM MEC REEMP SIST ENFR CTS DCH ODS 1 REV A",
+      "sha256": "c253019908c1"
+    },
+    {
+      "archivo": "ANEXO A TEMPLATE CARGA EDE ODS1.xlsx",
+      "estado": "active",
+      "chunks": 426,
+      "tokens": 201833,
+      "document_id": "6094990a-3497-41dd-802e-ace427668bec",
+      "document_key": "ANEXO A TEMPLATE CARGA EDE ODS1",
+      "sha256": "5faa47bfc94c"
+    },
+    {
+      "archivo": "03.- FOR-Template de Carga Planes y Posiciones.xlsx",
+      "estado": "active",
+      "chunks": 596,
+      "tokens": 186385,
+      "document_id": "ee582de7-a9dc-4b93-9df8-221b630d4f14",
+      "document_key": "03.- FOR-Template de Carga Planes y Posiciones",
+      "sha256": "c82334f27d58"
+    },
+    {
+      "archivo": "03.- FOR-Template de Carga Planes y Posiciones REV0.xlsx",
+      "estado": "active",
+      "chunks": 596,
+      "tokens": 186385,
+      "document_id": "200266fb-294c-4f9f-827c-683f8590aff5",
+      "document_key": "03.- FOR-Template de Carga Planes y Posiciones REV0",
+      "sha256": "5c81bf5e3d92"
+    },
+    {
+      "archivo": "ANEXO E FOR-Template de Carga Planes y Posiciones REV 0.xlsx",
+      "estado": "active",
+      "chunks": 596,
+      "tokens": 186385,
+      "document_id": "eb2b71d5-8cc0-4da3-8f9a-f604eece10d3",
+      "document_key": "ANEXO E FOR-Template de Carga Planes y Posiciones REV 0",
+      "sha256": "a88b3bc96233"
+    },
+    {
+      "archivo": "ODS-N°1 FMECA MECANICO PTS DCH Rev.A.xlsx",
+      "estado": "active",
+      "chunks": 434,
+      "tokens": 185422,
+      "document_id": "c5e1f096-2e4c-459f-985f-1ea84e49e6ac",
+      "document_key": "ODS-N°1 FMECA MECANICO PTS DCH Rev.A",
+      "sha256": "de89543de33b"
+    },
+    {
+      "archivo": "FMECA AREA MECANICA Rev.1  PTS DCH ODS N°1 (Preliminar).xlsx",
+      "estado": "active",
+      "chunks": 440,
+      "tokens": 182089,
+      "document_id": "62e494b4-2ffc-4277-8838-724316a94fb5",
+      "document_key": "FMECA AREA MECANICA Rev.1  PTS DCH ODS N°1 (Preliminar)",
+      "sha256": "8610d3208453"
+    },
+    {
+      "archivo": "FMECA AREA MECANICA Rev.1  PTS DCH ODS N°1 .xlsx",
+      "estado": "active",
+      "chunks": 437,
+      "tokens": 181362,
+      "document_id": "593ab9ff-e0a7-44a6-bee6-4261c374419f",
+      "document_key": "FMECA AREA MECANICA Rev.1  PTS DCH ODS N°1",
+      "sha256": "a3847e634dcb"
+    },
+    {
+      "archivo": "ANEXO A CHECK LIST SIST ENFR CTS DCH REV 1_1.xlsx",
+      "estado": "active",
+      "chunks": 247,
+      "tokens": 178579,
+      "document_id": "1a33fb5e-17d9-493b-9dcd-dfa8f69499c2",
+      "document_key": "ANEXO A CHECK LIST SIST ENFR CTS DCH REV 1_1",
+      "sha256": "29e1ba101aaa"
+    },
+    {
+      "archivo": "AVANCE PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 11022025.xlsx",
+      "estado": "active",
+      "chunks": 579,
+      "tokens": 177059,
+      "document_id": "f87b160c-6d31-47a2-bed3-c8b6cbdddb2f",
+      "document_key": "AVANCE PAUTAS ELECT-INST REEMP SIST ENFR CTS DCH ODS 1 11022025",
+      "sha256": "abfd06dd0567"
+    },
+    {
+      "archivo": "ANEXO B FMECA MANEJO DE SOLUCIONES ODS21 REV B.xlsx",
+      "estado": "active",
+      "chunks": 411,
+      "tokens": 168472,
+      "document_id": "b7ed35d2-1262-407d-b984-deb68e9535ed",
+      "document_key": "ANEXO B FMECA MANEJO DE SOLUCIONES ODS21 REV B",
+      "sha256": "7350bea1dfa2"
+    },
+    {
+      "archivo": "ANEXO M FOR-TEMPLATE DE CARGA HOJA DE RUTA MRI REV 1.xlsx",
+      "estado": "active",
+      "chunks": 553,
+      "tokens": 164456,
+      "document_id": "39c6cac7-339e-42e6-a7d9-d5bdfa455bd2",
+      "document_key": "ANEXO M FOR-TEMPLATE DE CARGA HOJA DE RUTA MRI REV 1",
+      "sha256": "a7e5922700ee"
+    },
+    {
+      "archivo": "ANEXO A -ATM NUEVA SALA HIDRÁULICA N°2 REV B.xlsx",
+      "estado": "active",
+      "chunks": 502,
+      "tokens": 160128,
+      "document_id": "29beb2d5-d449-4a42-8f5e-042efbfe23c1",
+      "document_key": "ANEXO A -ATM NUEVA SALA HIDRÁULICA N°2 REV B",
+      "sha256": "f89b8d821d21"
+    },
+    {
+      "archivo": "Hoja de trabajo 2.xlsx",
+      "estado": "active",
+      "chunks": 247,
+      "tokens": 149563,
+      "document_id": "01a62662-69a5-482c-8bef-9b246922218d",
+      "document_key": "Hoja de trabajo 2",
+      "sha256": "5d4ef914d7a3"
+    },
+    {
+      "archivo": "ANEXO A CHECK LIST SIST ENFR CTS DCH REV 1.xlsx",
+      "estado": "active",
+      "chunks": 247,
+      "tokens": 149432,
+      "document_id": "d370e3b9-e0d4-4ea7-b3c8-0edec86915b1",
+      "document_key": "ANEXO A CHECK LIST SIST ENFR CTS DCH REV 1",
+      "sha256": "330279402208"
+    }
+  ],
+  "document_count": 1582,
+  "sources": {
+    "analysis_status": true,
+    "index_corpus_summary": true,
+    "plan_scan": true,
+    "ingestion_registry": true
+  }
+}

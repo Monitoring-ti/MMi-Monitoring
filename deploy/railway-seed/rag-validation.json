@@ -1,0 +1,165 @@
+{
+  "generated_at": "2026-09-01T19:57:18.845826+00:00",
+  "tenant": "monitoring",
+  "limit": 6,
+  "skip_ask": true,
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "search_ok": 10,
+    "ask_ok": null,
+    "pass_rate": 1.0
+  },
+  "cases": [
+    {
+      "id": "ncc-criticidad",
+      "category": "NCC30",
+      "query": "NCC-030 requisitos criticidad mantenibilidad confiabilidad",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.6725,
+        "top_titulo": "4600029050-06951-INFMC-00003_2 INFORME CON OBSERVACIONES.pdf",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "guigs-alcance",
+      "category": "NCC30",
+      "query": "SGP-07MYC-GUIGS-00001 Rev 6 alcance mantenibilidad confiabilidad proyectos",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 1.0683,
+        "top_titulo": "4600029050_ODS1-06951-INFMC-00010 ACCV  REV 1.docx",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "fmeca-enfriamiento",
+      "category": "FMECA",
+      "query": "FMECA modos falla efectos criticidad sistema enfriamiento torre DCH",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.8625,
+        "top_titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "fmeca-anexo-mec",
+      "category": "FMECA",
+      "query": "ANEXO A FMECA MEC REEMP SIST ENFR CTS DCH modos falla",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 1.0025,
+        "top_titulo": "4600029050-06951-INFMC-00005 INFORME CON OBSERVACIONES.pdf",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "matriz-mri",
+      "category": "Matrices",
+      "query": "matriz planes MRI mantenimiento preventivo ODS21",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 1.0025,
+        "top_titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "matriz-mso",
+      "category": "Matrices",
+      "query": "matriz planes MSO operación mantenimiento sistema",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.8225,
+        "top_titulo": "4502302986-70110-INFMC-00009 INFORME RCM ODS21 AMPL BOTADERO RIPIOS FASE IX REV 1.docx",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "checklist-mc",
+      "category": "Checklist",
+      "query": "check list reemplazo sistema enfriamiento M&C ODS1",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.8225,
+        "top_titulo": "INFORME CHECK LIST M&C REEMP SIST ENFR CTS ODS1 REV A.docx",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "rcm-plantilla",
+      "category": "RCM",
+      "query": "SGPD-07MYC-FRMGS-0036 RCM tareas mantenimiento recomendadas",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 1.1262,
+        "top_titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "atm-enfriamiento",
+      "category": "Enfriamiento",
+      "query": "ANEXO A ATM sistema enfriamiento torre DCH operación",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 0.5935,
+        "top_titulo": "4600029050-06951-INFMC-00007 INF ATM REV 0.docx",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    },
+    {
+      "id": "progs-etapas",
+      "category": "NCC30",
+      "query": "SGPD-07MYC-PROGS-0001 procedimiento mantenibilidad estudios proyectos pasos etapas",
+      "search": {
+        "ok": true,
+        "keyword_match": true,
+        "top_score": 1.0925,
+        "top_titulo": "SGPD-07MYC-PROGS-0001 Procedimiento de Mantenibilidad y Confiabilidad en Estudios y Proyectos.pdf",
+        "count": 6
+      },
+      "ask": {
+        "skipped": true
+      }
+    }
+  ]
+}

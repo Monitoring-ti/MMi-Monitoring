@@ -16,12 +16,4 @@ services:
       - ../out:/app/out:ro
     ports:
       - "127.0.0.1:8773:8773"
-    command:
-      - python
-      - -m
-      - mmi.tools.serve_local
-      - --port
-      - "8773"
-      - --host
-      - "0.0.0.0"
-      - --no-replace
+    # ENTRYPOINT = deploy/entrypoint.sh (mismo que Railway)

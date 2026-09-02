@@ -1,0 +1,29 @@
+.venv/
+venv/
+__pycache__/
+*.pyc
+.git/
+.cursor/
+node_modules/
+.next/
+app/
+lib/
+web/
+fixtures/
+docs/
+outputs/
+work/
+*.xlsx
+*.pdf
+*.docx
+*.pptx
+00 DOCUMENTOS NCC30/
+ODS1 TORR ENF DCH/
+.env
+.env.*
+!.env.example
+out/
+!deploy/railway-seed/
+Thumbs.db
+*.egg-info/
+src/mmi_by_monitoring.egg-info/

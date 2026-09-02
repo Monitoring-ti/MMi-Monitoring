@@ -1,0 +1,18 @@
+{
+  "lote": "ods1-full",
+  "index_summary": {
+    "total": 1331,
+    "indexados": 1096,
+    "chunks": 65336,
+    "tokens": 13133820,
+    "duplicados": 235,
+    "mismo_contenido": 0,
+    "needs_review": 0,
+    "errores": 0
+  },
+  "token_summary": {
+    "index_docs": 1096,
+    "index_chunks": 65336,
+    "index_tokens_fmt": "13.13M"
+  }
+}
