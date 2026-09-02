@@ -14,9 +14,9 @@ from mmi.analysis.data_report import _load_json
 from mmi.search.examples import _CATEGORIES, _TIPS, load_corpus_stats
 from mmi.web.vitrina_shell import metric_card, render_shell
 
-# Proyecto de análisis mostrado en la vitrina (corpus ODS1 / DCH).
-PROJECT_NAME = "Servicio de estudio M&C — Sist. enfriamiento DCH"
-PROJECT_SHORT = "M&C · Enfriamiento DCH"
+# Credenciales demo de la vitrina (también default en deploy/entrypoint.sh en Railway).
+DEMO_AUTH_USER = "Pruena Monitoring"
+DEMO_AUTH_PASSWORD = "202608v1"
 
 VITRINA_ROBOTS = "User-agent: *\nDisallow: /\n"
 
@@ -219,6 +219,30 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     </button>
   </div>
   <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-container rounded-full opacity-30 blur-2xl"></div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack-md">
+    <div class="flex items-start gap-stack-md min-w-0">
+      <div class="p-stack-sm bg-secondary-fixed rounded-xl text-on-secondary-fixed shrink-0">
+        <span class="material-symbols-outlined">key</span>
+      </div>
+      <div>
+        <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Acceso demo</p>
+        <p class="text-body-md text-on-surface-variant">El navegador pedirá estas credenciales para consultar el corpus (búsqueda y RAG).</p>
+      </div>
+    </div>
+    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-stack-sm sm:gap-stack-md shrink-0 w-full sm:w-auto">
+      <div class="rounded-lg bg-surface-container-low border border-outline/15 px-stack-md py-stack-sm">
+        <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Usuario</dt>
+        <dd class="text-body-lg font-semibold text-primary font-data-tabular break-all">{escape(DEMO_AUTH_USER)}</dd>
+      </div>
+      <div class="rounded-lg bg-surface-container-low border border-outline/15 px-stack-md py-stack-sm">
+        <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant">Contraseña</dt>
+        <dd class="text-body-lg font-semibold text-primary font-data-tabular">{escape(DEMO_AUTH_PASSWORD)}</dd>
+      </div>
+    </dl>
+  </div>
 </div>
 
 <dialog id="guide-dialog" class="guide-dialog w-[min(92vw,40rem)] max-h-[85vh] rounded-xl border border-outline/20 bg-surface-container-lowest p-0 shadow-xl backdrop:bg-primary/40 backdrop:backdrop-blur-sm open:flex open:flex-col">

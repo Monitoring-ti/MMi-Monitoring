@@ -67,40 +67,38 @@ Railway gestiona el certificado TLS.
 
 La vitrina **no debe** quedar pública con `/api/search` y `/api/ask` abiertos.
 
-### 4.1 Basic Auth (toda la app excepto healthcheck)
+### 4.1 Basic Auth + consultas (demo vitrina)
 
-En Railway → **Variables**:
-
-```env
-MMI_BASIC_AUTH_USER=monitoring
-MMI_BASIC_AUTH_PASSWORD=CLAVE_LARGA_AQUI
-```
-
-Tras redeploy, el navegador pedirá usuario/contraseña.  
-`/api/motor/health` queda libre para el healthcheck de Railway.
-
-### 4.2 Consultas al corpus (bloqueo por defecto)
-
-En Railway, **`MMI_VITRINA_LIVE_QUERIES` default = `0`**:
-
-| Valor | Efecto |
-|-------|--------|
-| `0` (default) | `/api/search`, `/api/ask`, `/api/ask-details` → **403** |
-| `1` | Consultas en vivo (solo con Basic Auth ya configurado) |
-
-Activar consultas solo cuando Basic Auth esté ON:
+En Railway el `entrypoint` activa por defecto:
 
 ```env
-MMI_BASIC_AUTH_USER=...
-MMI_BASIC_AUTH_PASSWORD=...
+MMI_BASIC_AUTH_USER=Pruena Monitoring
+MMI_BASIC_AUTH_PASSWORD=202608v1
 MMI_VITRINA_LIVE_QUERIES=1
 ```
 
-HTML de dashboard/pruebas/ejemplos sigue visible (con auth); el corpus indexado **no** se consulta hasta el unlock.
+Esas credenciales se muestran en el **inicio** de la vitrina (bloque Acceso demo).  
+Puedes sobreescribirlas en Railway → **Variables**.  
+`/api/motor/health` queda libre para el healthcheck.
+
+### 4.2 Consultas al corpus
+
+| Valor `MMI_VITRINA_LIVE_QUERIES` | Efecto |
+|-------|--------|
+| `1` (default Railway demo) | `/api/search`, `/api/ask`, `/api/ask-details` activos (con Basic Auth) |
+| `0` | Consultas → **403** |
+
+Para cerrar el corpus sin quitar la web:
+
+```env
+MMI_VITRINA_LIVE_QUERIES=0
+```
+
+HTML de dashboard/pruebas/ejemplos sigue visible (con auth).
 
 ### 4.3 Auth por usuario / empresa / corpus
 
-Basic Auth es **capa 0** (equipo). Autorización por tenant/empresa/corpus es **capa 1** (producto) — pendiente en roadmap; no basta con ocultar páginas.
+Basic Auth es **capa 0** (equipo / demo). Autorización por tenant/empresa/corpus es **capa 1** (producto) — pendiente en roadmap.
 
 ### 4.4 Revisar logs (consultas ya hechas)
 

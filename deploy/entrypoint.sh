@@ -4,8 +4,10 @@ set -eu
 PORT="${PORT:-8773}"
 if [ -n "${RAILWAY_ENVIRONMENT:-}" ]; then
   export MMI_DEPLOY_MODE=vitrina
-  # Corpus vivo bloqueado hasta MMI_VITRINA_LIVE_QUERIES=1 (+ Basic Auth)
-  export MMI_VITRINA_LIVE_QUERIES="${MMI_VITRINA_LIVE_QUERIES:-0}"
+  # Demo vitrina: Basic Auth + consultas al corpus (sobreescribible en Variables)
+  export MMI_BASIC_AUTH_USER="${MMI_BASIC_AUTH_USER:-Pruena Monitoring}"
+  export MMI_BASIC_AUTH_PASSWORD="${MMI_BASIC_AUTH_PASSWORD:-202608v1}"
+  export MMI_VITRINA_LIVE_QUERIES="${MMI_VITRINA_LIVE_QUERIES:-1}"
 else
   export MMI_DEPLOY_MODE="${MMI_DEPLOY_MODE:-vitrina}"
 fi
@@ -27,7 +29,7 @@ fi
 
 echo "MMI Railway · mode=$MMI_DEPLOY_MODE · live_queries=${MMI_VITRINA_LIVE_QUERIES:-unset} · port=$PORT"
 if [ -n "${MMI_BASIC_AUTH_USER:-}" ] && [ -n "${MMI_BASIC_AUTH_PASSWORD:-}" ]; then
-  echo "MMI Railway · Basic Auth ON"
+  echo "MMI Railway · Basic Auth ON (user=${MMI_BASIC_AUTH_USER})"
 else
   echo "MMI Railway · Basic Auth OFF (definir MMI_BASIC_AUTH_USER/PASSWORD)"
 fi
