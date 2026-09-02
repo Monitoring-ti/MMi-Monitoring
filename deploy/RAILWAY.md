@@ -70,38 +70,36 @@ Railway gestiona el certificado TLS.
 
 La vitrina **no debe** quedar pública con `/api/search` y `/api/ask` abiertos.
 
-### 4.1 Basic Auth + consultas (demo vitrina)
+### 4.1 Acceso (demo abierta)
 
-En Railway el `entrypoint` activa por defecto:
+Por defecto la vitrina va **sin login** (`MMI_VITRINA_OPEN=1`) y con consultas al corpus activas:
 
 ```env
-MMI_BASIC_AUTH_USER=Prueba Monitoring
-MMI_BASIC_AUTH_PASSWORD=202608v1
+MMI_VITRINA_OPEN=1
 MMI_VITRINA_LIVE_QUERIES=1
 ```
 
-Esas credenciales se muestran en el **inicio** (`/` y `/index.html`), que es **público** (sin auth) para que el visitante vea qué escribir.  
-El resto de páginas y las APIs de consulta piden Basic Auth.  
+Para cerrar de nuevo con Basic Auth:
+
+```env
+MMI_VITRINA_OPEN=0
+MMI_BASIC_AUTH_USER=...
+MMI_BASIC_AUTH_PASSWORD=...
+MMI_VITRINA_LIVE_QUERIES=1
+```
+
 `/api/motor/health` queda libre para el healthcheck.
 
 ### 4.2 Consultas al corpus
 
 | Valor `MMI_VITRINA_LIVE_QUERIES` | Efecto |
 |-------|--------|
-| `1` (default Railway demo) | `/api/search`, `/api/ask`, `/api/ask-details` activos (con Basic Auth) |
+| `1` (default Railway demo) | `/api/search`, `/api/ask`, `/api/ask-details` activos |
 | `0` | Consultas → **403** |
-
-Para cerrar el corpus sin quitar la web:
-
-```env
-MMI_VITRINA_LIVE_QUERIES=0
-```
-
-HTML de dashboard/pruebas/ejemplos sigue visible (con auth).
 
 ### 4.3 Auth por usuario / empresa / corpus
 
-Basic Auth es **capa 0** (equipo / demo). Autorización por tenant/empresa/corpus es **capa 1** (producto) — pendiente en roadmap.
+Basic Auth es opcional (capa 0). Autorización por tenant/empresa/corpus es **capa 1** — pendiente en roadmap.
 
 ### 4.4 Revisar logs (consultas ya hechas)
 

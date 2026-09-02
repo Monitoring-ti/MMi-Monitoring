@@ -15,10 +15,13 @@ fi
 PORT="${PORT:-8773}"
 if [ -n "${RAILWAY_ENVIRONMENT:-}" ]; then
   export MMI_DEPLOY_MODE=vitrina
-  # Demo vitrina: Basic Auth + consultas al corpus (sobreescribible en Variables)
-  export MMI_BASIC_AUTH_USER="${MMI_BASIC_AUTH_USER:-Prueba Monitoring}"
-  export MMI_BASIC_AUTH_PASSWORD="${MMI_BASIC_AUTH_PASSWORD:-202608v1}"
+  # Demo abierta por defecto: sin login. Cerrar con MMI_VITRINA_OPEN=0 + Basic Auth.
+  export MMI_VITRINA_OPEN="${MMI_VITRINA_OPEN:-1}"
   export MMI_VITRINA_LIVE_QUERIES="${MMI_VITRINA_LIVE_QUERIES:-1}"
+  if [ "$MMI_VITRINA_OPEN" = "1" ] || [ "$MMI_VITRINA_OPEN" = "true" ]; then
+    unset MMI_BASIC_AUTH_USER || true
+    unset MMI_BASIC_AUTH_PASSWORD || true
+  fi
 else
   export MMI_DEPLOY_MODE="${MMI_DEPLOY_MODE:-vitrina}"
 fi
@@ -38,11 +41,11 @@ if [ -d "$APP_ROOT/deploy/railway-seed" ]; then
   done
 fi
 
-echo "MMI Railway · root=$APP_ROOT · mode=$MMI_DEPLOY_MODE · live_queries=${MMI_VITRINA_LIVE_QUERIES:-unset} · port=$PORT"
+echo "MMI Railway · root=$APP_ROOT · mode=$MMI_DEPLOY_MODE · live_queries=${MMI_VITRINA_LIVE_QUERIES:-unset} · open=${MMI_VITRINA_OPEN:-unset} · port=$PORT"
 if [ -n "${MMI_BASIC_AUTH_USER:-}" ] && [ -n "${MMI_BASIC_AUTH_PASSWORD:-}" ]; then
   echo "MMI Railway · Basic Auth ON (user=${MMI_BASIC_AUTH_USER})"
 else
-  echo "MMI Railway · Basic Auth OFF (definir MMI_BASIC_AUTH_USER/PASSWORD)"
+  echo "MMI Railway · Basic Auth OFF (vitrina abierta)"
 fi
 
 # Regenerar HTML siempre (evita out/ viejo en volumen / caché de imagen)

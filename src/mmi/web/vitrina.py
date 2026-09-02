@@ -226,34 +226,16 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
 </div>
 
 <div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
-  <div class="flex flex-col gap-stack-md">
-    <div class="flex items-start gap-stack-md min-w-0">
-      <div class="p-stack-sm bg-secondary-fixed rounded-xl text-on-secondary-fixed shrink-0">
-        <span class="material-symbols-outlined">login</span>
-      </div>
-      <div>
-        <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Ejemplo de acceso</p>
-        <p class="text-body-md text-on-surface-variant">
-          Esta pantalla es pública. Al abrir secciones protegidas verá la <strong class="text-on-surface">verificación de acceso</strong> con un modal de apoyo (usuario y contraseña).
-        </p>
-      </div>
+  <div class="flex items-start gap-stack-md">
+    <div class="p-stack-sm bg-secondary-fixed rounded-xl text-on-secondary-fixed shrink-0">
+      <span class="material-symbols-outlined">lock_open</span>
     </div>
-    <div class="rounded-xl border border-primary/20 bg-primary-fixed/15 p-stack-md space-y-stack-md">
-      <p class="text-label-sm font-semibold text-primary uppercase tracking-wider">Copie y pegue en el cuadro de inicio de sesión</p>
-      <dl class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
-        <div class="rounded-lg bg-surface-container-lowest border border-outline/15 px-stack-md py-stack-sm">
-          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-base">Campo usuario → escriba</dt>
-          <dd class="text-body-lg font-semibold text-primary break-all select-all">{escape(DEMO_AUTH_USER)}</dd>
-        </div>
-        <div class="rounded-lg bg-surface-container-lowest border border-outline/15 px-stack-md py-stack-sm">
-          <dt class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-base">Campo contraseña → escriba</dt>
-          <dd class="text-body-lg font-semibold text-primary font-data-tabular select-all">{escape(DEMO_AUTH_PASSWORD)}</dd>
-        </div>
-      </dl>
-      <a href="/acceso.html?next=/ejemplos.html" class="inline-flex items-center gap-stack-sm text-label-sm font-bold uppercase tracking-wider text-primary hover:underline">
-        Abrir pantalla de verificación
-        <span class="material-symbols-outlined text-base">arrow_forward</span>
-      </a>
+    <div class="min-w-0 space-y-stack-sm">
+      <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant">Vitrina abierta</p>
+      <p class="text-body-md text-on-surface-variant">
+        Sin login. Use <strong class="text-on-surface">Ejemplos</strong>, <strong class="text-on-surface">Búsqueda</strong> o <strong class="text-on-surface">Consulta RAG</strong> directamente.
+        Tras pulsar un ejemplo espere <strong class="text-on-surface">Analizando…</strong>.
+      </p>
     </div>
   </div>
 </div>
@@ -630,7 +612,6 @@ def write_vitrina_pages(out_dir: Path) -> dict[str, Path]:
             "index": out_dir / "index.html",
             "pruebas": out_dir / "pruebas.html",
             "ejemplos": out_dir / "ejemplos.html",
-            "acceso": out_dir / "acceso.html",
             "search": out_dir / "search.html",
             "rag": out_dir / "rag.html",
             "robots": out_dir / "robots.txt",
@@ -639,9 +620,6 @@ def write_vitrina_pages(out_dir: Path) -> dict[str, Path]:
         paths["index"].write_text(render_vitrina_index(report), encoding="utf-8")
         paths["pruebas"].write_text(render_pruebas_html(report), encoding="utf-8")
         paths["ejemplos"].write_text(render_ejemplos_html(out_dir), encoding="utf-8")
-        from mmi.web.acceso import render_acceso_html
-
-        paths["acceso"].write_text(render_acceso_html(), encoding="utf-8")
         paths["robots"].write_text(VITRINA_ROBOTS, encoding="utf-8")
         paths["json"].write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
 
