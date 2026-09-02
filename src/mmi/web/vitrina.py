@@ -191,6 +191,10 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     recall5 = golden_s.get("recall@5")
     recall_txt = f"{float(recall5):.0%}" if isinstance(recall5, (int, float)) and recall5 <= 1 else str(recall5 or "—")
 
+    p95 = report.get("load_test_p95_ms")
+    p95_txt = f"{float(p95):.0f} ms" if isinstance(p95, (int, float)) else "—"
+    golden_cases = (report.get("golden") or {}).get("case_count") or "—"
+
     metrics = f"""
 <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
   {metric_card(icon="folder_open", badge="CORPUS", title="Documentos indexados", value=str(docs), subtitle="en Qdrant + Supabase", icon_bg="bg-secondary-fixed", icon_color="text-on-secondary-fixed")}
@@ -203,10 +207,100 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
   <div class="relative z-10 max-w-3xl">
     <p class="text-label-sm uppercase tracking-wider opacity-80 mb-base">Proyecto de análisis</p>
     <h2 class="text-headline-md font-semibold mb-stack-sm">{escape(PROJECT_NAME)}</h2>
-    <p class="text-body-md opacity-90">Esta vitrina corresponde al análisis documental del servicio de estudio de mantenibilidad y confiabilidad (M&amp;C) del sistema de enfriamiento DCH. Muestra resultados de pruebas y consultas sobre el corpus indexado · lote {escape(lote)} · {escape(str(docs))} documentos.</p>
+    <p class="text-body-md opacity-90 mb-stack-md">Esta vitrina corresponde al análisis documental del servicio de estudio de mantenibilidad y confiabilidad (M&amp;C) del sistema de enfriamiento DCH. Muestra resultados de pruebas y consultas sobre el corpus indexado · lote {escape(lote)} · {escape(str(docs))} documentos.</p>
+    <button type="button" id="guide-open" class="inline-flex items-center gap-stack-sm bg-on-primary text-primary px-stack-md py-stack-sm rounded-lg text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity shadow-sm">
+      <span class="material-symbols-outlined" style="font-size:18px">menu_book</span>
+      Significados y logros
+    </button>
   </div>
   <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-container rounded-full opacity-30 blur-2xl"></div>
-</div>"""
+</div>
+
+<dialog id="guide-dialog" class="guide-dialog w-[min(92vw,40rem)] max-h-[85vh] rounded-xl border border-outline/20 bg-surface-container-lowest p-0 shadow-xl backdrop:bg-primary/40 backdrop:backdrop-blur-sm open:flex open:flex-col">
+  <div class="flex items-start justify-between gap-stack-md p-stack-lg border-b border-outline/15 bg-surface">
+    <div>
+      <p class="text-label-sm uppercase tracking-wider text-on-surface-variant mb-base">Guía rápida</p>
+      <h2 class="text-headline-md font-semibold text-primary">Qué es esto y qué logramos</h2>
+      <p class="text-body-md text-on-surface-variant mt-base">{escape(PROJECT_SHORT)} · lote {escape(lote)}</p>
+    </div>
+    <button type="button" id="guide-close" class="shrink-0 w-10 h-10 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center justify-center" aria-label="Cerrar">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+  <div class="overflow-y-auto p-stack-lg space-y-stack-md flex-1">
+    <details class="metric-explain group bg-surface-container-low rounded-xl border border-outline/15 open:border-primary/30 open:bg-primary-fixed/20" open>
+      <summary class="list-none cursor-pointer flex items-center justify-between gap-stack-sm px-stack-md py-stack-md select-none">
+        <span class="inline-flex items-center gap-stack-sm text-body-lg font-semibold text-primary">
+          <span class="material-symbols-outlined text-secondary">flag</span>
+          Qué es esta vitrina
+        </span>
+        <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <div class="px-stack-md pb-stack-md text-body-md text-on-surface-variant leading-relaxed space-y-stack-sm">
+        <p>MMI (Monitoring Document Intelligence) indexa el corpus del estudio M&amp;C del sistema de enfriamiento DCH y permite <strong class="text-on-surface">buscar</strong> y <strong class="text-on-surface">consultar con RAG</strong> (respuesta con citas al documento fuente).</p>
+        <p>Esta web es una <strong class="text-on-surface">vitrina operativa</strong>: muestra calidad de recuperación y ejemplos listos, sin herramientas de ingesta ni revisión interna.</p>
+      </div>
+    </details>
+
+    <details class="metric-explain group bg-surface-container-low rounded-xl border border-outline/15 open:border-primary/30">
+      <summary class="list-none cursor-pointer flex items-center justify-between gap-stack-sm px-stack-md py-stack-md select-none">
+        <span class="inline-flex items-center gap-stack-sm text-body-lg font-semibold text-primary">
+          <span class="material-symbols-outlined text-secondary">dictionary</span>
+          Significados
+        </span>
+        <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <dl class="px-stack-md pb-stack-md space-y-stack-md text-body-md text-on-surface-variant">
+        <div>
+          <dt class="font-semibold text-on-surface">Corpus</dt>
+          <dd>Documentos del proyecto ya chunked e indexados en Qdrant (vectores) + Supabase (metadatos / FTS).</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-on-surface">Smoke</dt>
+          <dd>Prueba rápida de humo: pocas consultas ancla (códigos, normas, equipos). Si pasan, la búsqueda híbrida está viva.</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-on-surface">Golden / MRR</dt>
+          <dd>Set dorado de consultas con respuesta esperada. MRR (Mean Reciprocal Rank) mide qué tan arriba aparece el documento correcto (cerca de 1.0 = excelente).</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-on-surface">Recall@5</dt>
+          <dd>Proporción de casos en que el documento correcto está entre los 5 primeros resultados.</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-on-surface">RAG</dt>
+          <dd>Retrieval-Augmented Generation: el modelo responde usando fragmentos recuperados y debe citar la evidencia.</dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-on-surface">Latencia p95</dt>
+          <dd>En prueba de carga, el 95 % de las búsquedas respondió en ese tiempo o menos.</dd>
+        </div>
+      </dl>
+    </details>
+
+    <details class="metric-explain group bg-surface-container-low rounded-xl border border-outline/15 open:border-primary/30">
+      <summary class="list-none cursor-pointer flex items-center justify-between gap-stack-sm px-stack-md py-stack-md select-none">
+        <span class="inline-flex items-center gap-stack-sm text-body-lg font-semibold text-primary">
+          <span class="material-symbols-outlined text-secondary">emoji_events</span>
+          Lo que logramos
+        </span>
+        <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <ul class="px-stack-md pb-stack-md space-y-stack-sm text-body-md text-on-surface-variant list-none">
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">{escape(str(docs))} documentos</strong> indexados del lote {escape(lote)} (Qdrant + Supabase).</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">Smoke {escape(smoke_txt)}</strong> — consultas ancla de búsqueda híbrida en verde.</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">MRR {escape(mrr_txt)}</strong> y recall@5 {escape(recall_txt)} sobre {escape(str(golden_cases))} casos golden.</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">Validación RAG {escape(rag_txt)}</strong> — batería ampliada con citas.</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">Latencia p95 {escape(p95_txt)}</strong> en búsqueda directa (referencia de carga).</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span>Vitrina pública con ejemplos, búsqueda y consulta RAG listos para demostrar el análisis M&amp;C · Enfriamiento DCH.</span></li>
+      </ul>
+    </details>
+  </div>
+  <div class="p-stack-md border-t border-outline/15 bg-surface flex flex-wrap gap-stack-sm justify-end">
+    <a href="{_href('pruebas.html')}" class="px-stack-md py-stack-sm rounded-lg text-label-sm font-semibold text-primary hover:bg-primary-fixed/40 transition-colors">Ver pruebas</a>
+    <button type="button" id="guide-close-2" class="px-stack-md py-stack-sm rounded-lg bg-primary text-on-primary text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity">Entendido</button>
+  </div>
+</dialog>"""
 
     thead = "".join(_th(x) for x in ("Caso", "Categoría", "Consulta", "Estado", "Score"))
     activity = _data_table(
@@ -244,12 +338,34 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
 </div>"""
 
     content = notice + metrics + activity + quick + steps
+    guide_script = """
+<script>
+(function () {
+  var dlg = document.getElementById('guide-dialog');
+  if (!dlg) return;
+  function openGuide() { if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', ''); }
+  function closeGuide() { if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open'); }
+  var openBtn = document.getElementById('guide-open');
+  if (openBtn) openBtn.addEventListener('click', openGuide);
+  ['guide-close', 'guide-close-2'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('click', closeGuide);
+  });
+  dlg.addEventListener('click', function (e) { if (e.target === dlg) closeGuide(); });
+})();
+</script>"""
     return render_shell(
         active="home",
         title="Dashboard MMI",
         header_subtitle=f"{PROJECT_SHORT} · lote {lote} · {docs} documentos",
         content=content,
         corpus_lote=PROJECT_SHORT,
+        footer_scripts=guide_script,
+        extra_head="""
+<style>
+  dialog.guide-dialog::backdrop { background: rgba(11, 37, 69, 0.45); backdrop-filter: blur(2px); }
+  dialog.guide-dialog[open] { display: flex; flex-direction: column; margin: auto; }
+</style>""",
     )
 
 
