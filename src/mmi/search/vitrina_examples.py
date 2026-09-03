@@ -16,9 +16,11 @@ def vitrina_example_card(cat: dict[str, Any]) -> str:
             else "bg-primary-fixed/30 text-primary border-primary-fixed hover:bg-primary-fixed/50"
         )
         action_attr = ' data-action="search"' if search_only else ""
+        mode = "solo búsqueda" if search_only else "Consulta RAG"
         chips.append(
             f'<button type="button"{action_attr} data-q="{escape(ex["query"], quote=True)}" '
             f'title="{escape(ex["query"])}" '
+            f'aria-label="{escape(ex["label"])}: {escape(mode)}" '
             f'class="inline-flex items-center px-stack-sm py-1 rounded-lg border text-label-sm font-semibold {chip_cls} transition-colors">'
             f"{escape(ex['label'])}</button>"
         )

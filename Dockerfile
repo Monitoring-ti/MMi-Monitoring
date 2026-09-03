@@ -1,4 +1,5 @@
 # Railway / Docker — vitrina MMI (raíz del repo para auto-detección)
+# CSS de producción: public/vitrina.css (generar con npm run build:vitrina-css)
 FROM python:3.12-slim-bookworm
 
 WORKDIR /app
@@ -17,6 +18,7 @@ RUN pip install --no-cache-dir -e . \
     && chmod +x /app/deploy/entrypoint.sh \
     && mkdir -p /app/out \
     && cp /app/deploy/railway-seed/*.json /app/out/ \
+    && test -f /app/public/vitrina.css \
     && MMI_DEPLOY_MODE=vitrina python -m mmi.tools.vitrina
 
 ENV PYTHONUNBUFFERED=1

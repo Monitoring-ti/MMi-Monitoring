@@ -169,6 +169,7 @@ def _ejemplo_card(cat: dict[str, Any]) -> str:
             f'<button type="button" data-ejemplo-go data-page="{escape(page)}" '
             f'data-q="{escape(ex["query"], quote=True)}" '
             f'title="{escape(ex["query"])} · {escape(mode_label)}" '
+            f'aria-label="{escape(ex["label"])}: {escape(mode_label)}" '
             f'class="inline-flex items-center px-stack-sm py-1 rounded-lg border text-label-sm font-semibold {chip_cls} transition-colors">'
             f"{escape(ex['label'])}</button>"
         )
@@ -218,7 +219,7 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     <h2 class="text-headline-md font-semibold mb-stack-sm">{escape(PROJECT_NAME)}</h2>
     <p class="text-body-md opacity-90 mb-stack-md">Escaparate del corpus ya indexado (lote {escape(lote)} · {escape(str(docs))} documentos). La <strong class="text-on-primary">ingesta es interna</strong> de Monitoring; aquí solo ve resultados de pruebas y puede probar consultas.</p>
     <button type="button" id="guide-open" class="inline-flex items-center gap-stack-sm bg-on-primary text-primary px-stack-md py-stack-sm rounded-lg text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity shadow-sm">
-      <span class="material-symbols-outlined" style="font-size:18px">menu_book</span>
+      <span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">menu_book</span>
       Significados y logros
     </button>
   </div>
@@ -237,8 +238,8 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
       <h2 class="text-headline-md font-semibold text-primary">Qué es esto y qué logramos</h2>
       <p class="text-body-md text-on-surface-variant mt-base">{escape(PROJECT_SHORT)} · lote {escape(lote)}</p>
     </div>
-    <button type="button" id="guide-close" class="shrink-0 w-10 h-10 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center justify-center" aria-label="Cerrar">
-      <span class="material-symbols-outlined">close</span>
+    <button type="button" id="guide-close" class="shrink-0 w-10 h-10 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center justify-center" aria-label="Cerrar guía">
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
     </button>
   </div>
   <div class="overflow-y-auto p-stack-lg space-y-stack-md flex-1">
@@ -382,6 +383,11 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
         content=content,
         corpus_lote=PROJECT_SHORT,
         footer_scripts=guide_script,
+        document_title="MMI | Análisis M&C - Sistema de Enfriamiento DCH",
+        meta_description=(
+            "Vitrina operativa de MMI: análisis documental de mantenibilidad y confiabilidad "
+            "(M&C) del sistema de enfriamiento DCH."
+        ),
         extra_head="""
 <style>
   dialog.guide-dialog::backdrop { background: rgba(11, 37, 69, 0.45); backdrop-filter: blur(2px); }
@@ -493,6 +499,7 @@ def render_pruebas_html(report: dict[str, Any]) -> str:
         header_subtitle=f"{PROJECT_SHORT} · informe {report.get('generated_at', '')[:10]}",
         content=content,
         corpus_lote=PROJECT_SHORT,
+        document_title="MMI | Resultados de pruebas · M&C Enfriamiento DCH",
     )
 
 
@@ -590,6 +597,7 @@ def render_ejemplos_html(out_dir: Path | None = None) -> str:
         content=content,
         corpus_lote=PROJECT_SHORT,
         footer_scripts=scripts,
+        document_title="MMI | Ejemplos de consulta · M&C Enfriamiento DCH",
     )
 
 

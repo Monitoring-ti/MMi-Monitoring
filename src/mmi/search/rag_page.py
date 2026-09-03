@@ -404,6 +404,7 @@ async function runAsk() {
         extra_head=extra_head,
         footer_scripts=scripts,
         show_fab=False,
+        document_title="MMI | Consulta RAG · M&C Enfriamiento DCH",
     )
 
 

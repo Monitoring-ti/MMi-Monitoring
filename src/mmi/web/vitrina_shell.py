@@ -8,7 +8,14 @@ from typing import Any
 # Logos locales: reemplazar SVG en public/ (se copian a out/ al generar vitrina).
 LOGO_SIDEBAR = "/monitoring-logo-horizontal.svg"
 LOGO_HEADER = "/monitoring-logo-horizontal.svg"
+VITRINA_CSS = "/vitrina.css"
 FOOTER_CREDIT = "Desarrollado por P.H.R. para Monitoring · sep 26 · v0.1"
+
+DEFAULT_DOCUMENT_TITLE = "MMI | Análisis M&C - Sistema de Enfriamiento DCH"
+DEFAULT_META_DESCRIPTION = (
+    "Vitrina de ingesta MMI: análisis documental de mantenibilidad y confiabilidad "
+    "(M&C) del sistema de enfriamiento DCH. Resultados de pruebas y consultas al corpus indexado."
+)
 
 NAV_ITEMS: tuple[tuple[str, str, str, str], ...] = (
     ("home", "index.html", "dashboard", "Inicio"),
@@ -17,64 +24,6 @@ NAV_ITEMS: tuple[tuple[str, str, str, str], ...] = (
     ("search", "search.html", "search", "Búsqueda"),
     ("rag", "rag.html", "psychology", "Consulta RAG"),
 )
-
-TAILWIND_CONFIG = """
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        "on-primary": "#ffffff",
-        "on-error-container": "#93000a",
-        "secondary-fixed": "#ffdcbd",
-        "secondary-container": "#fc9912",
-        "on-background": "#1a1c1c",
-        "tertiary-fixed": "#e1e2e6",
-        "outline": "#747782",
-        "on-surface": "#1a1c1c",
-        "on-primary-fixed": "#001946",
-        "error-container": "#ffdad6",
-        "secondary": "#8a5100",
-        "on-primary-container": "#92b1ff",
-        "on-tertiary": "#ffffff",
-        "tertiary-fixed-dim": "#c5c6ca",
-        "tertiary": "#2c2f32",
-        "surface-variant": "#e2e2e2",
-        "on-tertiary-container": "#b1b2b6",
-        "on-secondary-container": "#643900",
-        "surface-bright": "#f9f9f9",
-        "primary-fixed-dim": "#b1c5ff",
-        "on-error": "#ffffff",
-        "primary-container": "#1a418c",
-        "surface": "#f9f9f9",
-        "inverse-primary": "#b1c5ff",
-        "primary-fixed": "#dae2ff",
-        "primary": "#002a6d",
-        "tertiary-container": "#434548",
-        "background": "#f9f9f9",
-        "surface-container": "#eeeeee",
-        "surface-container-highest": "#e2e2e2",
-        "on-secondary-fixed": "#2c1600",
-        "inverse-surface": "#2f3131",
-        "surface-tint": "#395ba8",
-        "on-secondary": "#ffffff",
-        "error": "#ba1a1a",
-        "surface-container-lowest": "#ffffff",
-        "surface-container-high": "#e8e8e8",
-        "on-surface-variant": "#434651",
-        "inverse-on-surface": "#f0f1f1",
-        "surface-dim": "#dadada",
-      },
-      borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
-      spacing: {
-        "stack-md": "16px", "margin-mobile": "16px", "margin-desktop": "40px",
-        "base": "4px", "stack-sm": "8px", "gutter": "24px", "stack-lg": "32px",
-      },
-      fontFamily: { sans: ["Montserrat", "system-ui", "sans-serif"] },
-    },
-  },
-};
-"""
 
 
 def _href(page: str) -> str:
@@ -95,7 +44,7 @@ def _nav_link(key: str, page: str, icon: str, label: str, active: str) -> str:
         )
     return (
         f'<li><a href="{_href(page)}" class="{cls}">'
-        f'<span class="material-symbols-outlined">{escape(icon)}</span>'
+        f'<span class="material-symbols-outlined" aria-hidden="true">{escape(icon)}</span>'
         f'<span class="text-body-md font-medium">{escape(label)}</span></a></li>'
     )
 
@@ -107,8 +56,8 @@ def _mobile_nav(key: str, page: str, icon: str, label: str, active: str) -> str:
     else:
         wrap = "flex flex-col items-center justify-center text-on-surface-variant"
     return (
-        f'<a href="{_href(page)}" class="{wrap}">'
-        f'<span class="material-symbols-outlined">{escape(icon)}</span>'
+        f'<a href="{_href(page)}" class="{wrap}" aria-label="{escape(label)}">'
+        f'<span class="material-symbols-outlined" aria-hidden="true">{escape(icon)}</span>'
         f'<span class="text-label-sm font-semibold">{escape(label)}</span></a>'
     )
 
@@ -138,17 +87,17 @@ def metric_card(
 <details class="metric-explain group mt-stack-md border-t border-outline/10 pt-stack-sm">
   <summary class="list-none cursor-pointer flex items-center justify-between gap-stack-sm text-label-sm font-semibold text-primary select-none hover:opacity-80 transition-opacity">
     <span class="inline-flex items-center gap-base">
-      <span class="material-symbols-outlined text-outline" style="font-size:18px">info</span>
+      <span class="material-symbols-outlined text-outline" style="font-size:18px" aria-hidden="true">info</span>
       ¿Qué significa?
     </span>
-    <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform" style="font-size:18px">expand_more</span>
+    <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform" style="font-size:18px" aria-hidden="true">expand_more</span>
   </summary>
   <p class="mt-stack-sm text-body-md text-on-surface-variant leading-relaxed">{escape(explanation)}</p>
 </details>"""
     return f"""
 <div class="bg-surface-container-lowest p-stack-lg rounded-lg border border-outline/20 shadow-sm hover:shadow-md transition-shadow">
   <div class="flex justify-between items-start mb-stack-md">
-    <div class="p-stack-sm {icon_bg} rounded-xl {icon_color}">
+    <div class="p-stack-sm {icon_bg} rounded-xl {icon_color}" aria-hidden="true">
       <span class="material-symbols-outlined">{escape(icon)}</span>
     </div>
     <span class="text-on-surface-variant text-label-sm font-semibold uppercase">{escape(badge)}</span>
@@ -175,14 +124,18 @@ def render_shell(
     extra_head: str = "",
     footer_scripts: str = "",
     show_fab: bool = True,
+    document_title: str | None = None,
+    meta_description: str | None = None,
 ) -> str:
     nav = "".join(_nav_link(k, p, i, l, active) for k, p, i, l in NAV_ITEMS)
     mobile = "".join(_mobile_nav(k, p, i, l, active) for k, p, i, l in NAV_ITEMS)
+    doc_title = document_title or f"{title} · {DEFAULT_DOCUMENT_TITLE}"
+    description = meta_description or DEFAULT_META_DESCRIPTION
     fab_html = ""
     if show_fab:
         fab_html = f"""
-  <a href="{_href('rag.html')}" class="fixed bottom-20 md:bottom-margin-desktop right-margin-mobile w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all z-40" title="Consulta RAG">
-    <span class="material-symbols-outlined" style="font-size:28px;font-variation-settings:'FILL' 1">psychology</span>
+  <a href="{_href('rag.html')}" class="fixed bottom-20 md:bottom-margin-desktop right-margin-mobile w-14 h-14 bg-secondary-container text-on-secondary-container rounded-full flex items-center justify-center shadow-lg hover:scale-105 transition-all z-40" title="Consulta RAG" aria-label="Abrir Consulta RAG">
+    <span class="material-symbols-outlined" style="font-size:28px;font-variation-settings:'FILL' 1" aria-hidden="true">psychology</span>
   </a>"""
     subtitle_html = (
         f'<p class="text-body-md text-on-surface-variant mt-1">{escape(header_subtitle)}</p>'
@@ -196,21 +149,19 @@ def render_shell(
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
-<title>{escape(title)}</title>
+<meta name="description" content="{escape(description)}"/>
+<title>{escape(doc_title)}</title>
+<link rel="stylesheet" href="{VITRINA_CSS}"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">try{{{TAILWIND_CONFIG}}}catch(_e){{}}</script>
 <style>
-  body {{ font-family: Montserrat, system-ui, sans-serif; }}
-  .material-symbols-outlined {{ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }}
   details.metric-explain > summary {{-webkit-details-marker: none;}}
   details.metric-explain > summary::-webkit-details-marker {{ display: none; }}
 </style>
 {extra_head}
 </head>
 <body class="flex min-h-screen text-on-surface bg-background">
-<aside class="hidden md:flex flex-col w-64 bg-primary text-on-primary fixed h-full z-50">
+<aside class="hidden md:flex flex-col w-64 bg-primary text-on-primary fixed h-full z-50" aria-label="Navegación principal">
   <div class="p-stack-lg flex items-center gap-base">
     <div class="w-full bg-white rounded-lg p-stack-sm shadow-sm">
       <img src="{LOGO_SIDEBAR}" alt="Monitoring" class="w-full h-auto object-contain"/>
@@ -222,7 +173,7 @@ def render_shell(
       <p class="text-label-sm text-on-primary-container opacity-80 uppercase mb-base tracking-wider">Proyecto</p>
       <div class="flex items-center justify-between gap-stack-sm">
         <span class="text-body-md font-bold">{escape(corpus_lote)}</span>
-        <span class="material-symbols-outlined text-secondary-container">verified</span>
+        <span class="material-symbols-outlined text-secondary-container" aria-hidden="true">verified</span>
       </div>
       <p class="text-label-sm text-on-primary-container opacity-70 mt-base">MMI · vitrina de ingesta</p>
     </div>
@@ -241,7 +192,7 @@ def render_shell(
     </div>
     <div class="flex items-center gap-stack-md shrink-0">
       <a href="{_href('rag.html')}" class="hidden sm:flex items-center gap-base bg-surface-container-low px-stack-md py-2 rounded-full border border-outline/30 text-body-md text-on-surface-variant hover:border-primary transition-colors">
-        <span class="material-symbols-outlined text-outline" style="font-size:20px">search</span>
+        <span class="material-symbols-outlined text-outline" style="font-size:20px" aria-hidden="true">search</span>
         <span>Consultar</span>
       </a>
       <a href="/api/motor/health" class="text-label-sm text-on-surface-variant hover:text-primary hidden lg:inline">API</a>
@@ -255,6 +206,6 @@ def render_shell(
   </footer>
 {fab_html}
 </main>
-<nav class="md:hidden fixed bottom-0 w-full bg-surface flex justify-around items-center py-2 px-margin-mobile shadow-lg border-t border-outline/20 z-50">{mobile}</nav>
+<nav class="md:hidden fixed bottom-0 w-full bg-surface flex justify-around items-center py-2 px-margin-mobile shadow-lg border-t border-outline/20 z-50" aria-label="Navegación móvil">{mobile}</nav>
 {footer_scripts}
 </body></html>"""

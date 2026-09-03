@@ -7,7 +7,7 @@ from html import escape
 
 from mmi.web.access_control import basic_auth_credentials
 from mmi.web.vitrina import DEMO_AUTH_PASSWORD, DEMO_AUTH_USER, PROJECT_SHORT
-from mmi.web.vitrina_shell import LOGO_HEADER, TAILWIND_CONFIG
+from mmi.web.vitrina_shell import LOGO_HEADER, VITRINA_CSS
 
 
 def demo_credentials_for_display() -> tuple[str, str]:
@@ -36,14 +36,12 @@ def render_acceso_html(*, next_path: str = "/ejemplos.html") -> str:
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
-<title>Verificación de acceso · MMI</title>
+<title>Verificación de acceso · MMI | Análisis M&C - Sistema de Enfriamiento DCH</title>
+<meta name="description" content="Acceso a la vitrina MMI de análisis documental M&C del sistema de enfriamiento DCH."/>
+<link rel="stylesheet" href="{VITRINA_CSS}"/>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">try{{{TAILWIND_CONFIG}}}catch(_e){{}}</script>
 <style>
-  body {{ font-family: Montserrat, system-ui, sans-serif; }}
-  .material-symbols-outlined {{ font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }}
   dialog.auth-dialog::backdrop {{ background: rgba(11, 37, 69, 0.55); backdrop-filter: blur(3px); }}
   dialog.auth-dialog[open] {{ display: flex; flex-direction: column; margin: auto; }}
 </style>
@@ -62,7 +60,7 @@ def render_acceso_html(*, next_path: str = "/ejemplos.html") -> str:
 <main class="flex-1 flex items-center justify-center p-margin-mobile md:p-margin-desktop">
   <div class="w-full max-w-lg bg-surface-container-lowest rounded-xl border border-outline/20 shadow-sm p-stack-lg text-center space-y-stack-md">
     <div class="mx-auto w-14 h-14 rounded-full bg-primary-fixed text-on-primary-fixed flex items-center justify-center">
-      <span class="material-symbols-outlined" style="font-size:28px">verified_user</span>
+      <span class="material-symbols-outlined" style="font-size:28px" aria-hidden="true">verified_user</span>
     </div>
     <h2 class="text-headline-md font-semibold text-primary">Se requiere autenticación</h2>
     <p class="text-body-md text-on-surface-variant">
@@ -71,7 +69,7 @@ def render_acceso_html(*, next_path: str = "/ejemplos.html") -> str:
     </p>
     <button type="button" id="open-auth-modal"
       class="inline-flex items-center justify-center gap-stack-sm w-full sm:w-auto bg-primary text-on-primary px-stack-lg py-stack-md rounded-lg text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity">
-      <span class="material-symbols-outlined" style="font-size:18px">key</span>
+      <span class="material-symbols-outlined" style="font-size:18px" aria-hidden="true">key</span>
       Ver credenciales e ingresar
     </button>
     <p class="text-label-sm text-on-surface-variant">
@@ -87,7 +85,7 @@ def render_acceso_html(*, next_path: str = "/ejemplos.html") -> str:
       <h2 class="text-headline-md font-semibold text-primary">Credenciales de acceso</h2>
     </div>
     <button type="button" id="close-auth-modal" class="shrink-0 w-10 h-10 rounded-lg bg-surface-container-low text-on-surface-variant hover:text-primary flex items-center justify-center" aria-label="Cerrar">
-      <span class="material-symbols-outlined">close</span>
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
     </button>
   </div>
   <div class="p-stack-lg space-y-stack-md">

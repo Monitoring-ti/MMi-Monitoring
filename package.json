@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:vitrina-css": "cd web/vitrina && npx --yes tailwindcss@3.4.17 -c ./tailwind.config.js -i ./input.css -o ../../public/vitrina.css --minify"
   },
   "dependencies": {
     "lucide-react": "^1.31.0",

@@ -260,4 +260,5 @@ function esc(s) {
         content=content,
         corpus_lote=PROJECT_SHORT,
         footer_scripts=scripts,
+        document_title="MMI | Búsqueda híbrida · M&C Enfriamiento DCH",
     )
