@@ -1,12 +1,15 @@
-# Plan — Vitrina de ingesta MMI (`mmi.monitoring.lat`)
+# Plan — Vitrina MMI (`mmi.monitoring.lat`)
 
-**Fecha:** 2026-09-03 (actualizado)  
+**Fecha:** 2026-09-03  
 **Rama:** `feature/mmi-operational-web`  
 **Dominio:** `https://mmi.monitoring.lat`  
-**Relacionado:** [`plan.md`](plan.md) · [`plan-integracion-ui.md`](plan-integracion-ui.md) · [`deploy/RAILWAY.md`](../deploy/RAILWAY.md)
+**Relacionado:** [`plan.md`](plan.md) · [`deploy/RAILWAY.md`](../deploy/RAILWAY.md)
 
-> **Nombre:** *vitrina de ingesta* = escaparate público del **resultado** de la ingesta  
-> (corpus indexado + pruebas + ejemplos). **No** es el panel de administrar/cargar documentos.
+> **Alcance v1 (este plan):** HTML estático + API Python en Railway.  
+> **Fuera de este plan:** capa Next.js / monorepo comercial (`plan-integracion-ui.md`) — idea aparcada; no es la vitrina pública.
+
+> **Qué es:** escaparate del **resultado** de la ingesta (corpus indexado + pruebas + ejemplos).  
+> **Qué no es:** panel de cargar/revisar documentos, ni demo Next del motor.
 
 ---
 
@@ -67,7 +70,7 @@ Sin perfiles en v1 · sin indexar en Google · demo abierta (`MMI_VITRINA_OPEN=1
 | 4 | Consulta en vivo (ejemplos + caja libre) en search/rag |
 | 5 | Nota visible: **la ingesta se gestiona internamente** por Monitoring |
 
-**Fuera de alcance v1:** tabla completa de docs, review hub, corpus picker, motor diagnóstico completo, mapa, portal dev, formularios de carga.
+**Fuera de alcance v1:** tabla completa de docs, review hub, corpus picker, motor diagnóstico completo, mapa, portal dev, formularios de carga, **Next.js / app comercial**.
 
 ---
 
@@ -522,9 +525,9 @@ Guía: [`deploy/RAILWAY.md`](../deploy/RAILWAY.md) · alternativa VPS: [`deploy/
 | # | Pregunta | Opciones |
 |---|----------|----------|
 | D1 | ¿Mapa en v1 operativa? | Sí / No / Solo lectura sin graph ask |
-| D2 | ¿Demo comercial `app.html` en subruta? | `/demo` privado / omitir en v1 |
-| D3 | ¿Basic Auth global o solo `/api/`? | Global recomendado |
-| D4 | ¿Frecuencia sync stats? | Manual / semanal / post-lote |
+| D2 | ¿Demo comercial Next.js / `app.html`? | **Aparcada** — no es la vitrina; ver `plan-integracion-ui.md` si se retoma |
+| D3 | ¿Basic Auth? | Demo abierta (`MMI_VITRINA_OPEN=1`); auth opcional al cerrar |
+| D4 | ¿Frecuencia sync stats? | Manual / post-lote → `deploy/railway-seed` |
 | D5 | ¿Multi-corpus en web? | Un solo tenant `monitoring` en v1 |
 
 ---
