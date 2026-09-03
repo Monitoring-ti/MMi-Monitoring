@@ -224,7 +224,7 @@ def render_shell(
         <span class="text-body-md font-bold">{escape(corpus_lote)}</span>
         <span class="material-symbols-outlined text-secondary-container">verified</span>
       </div>
-      <p class="text-label-sm text-on-primary-container opacity-70 mt-base">MMI · análisis documental</p>
+      <p class="text-label-sm text-on-primary-container opacity-70 mt-base">MMI · vitrina de ingesta</p>
     </div>
   </div>
 </aside>

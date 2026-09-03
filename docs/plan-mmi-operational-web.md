@@ -1,9 +1,12 @@
-# Plan — Web vitrina MMI (`mmi.monitoring.lat`)
+# Plan — Vitrina de ingesta MMI (`mmi.monitoring.lat`)
 
-**Fecha:** 2026-09-02  
+**Fecha:** 2026-09-03 (actualizado)  
 **Rama:** `feature/mmi-operational-web`  
 **Dominio:** `https://mmi.monitoring.lat`  
-**Relacionado:** [`plan.md`](plan.md) · [`plan-integracion-ui.md`](plan-integracion-ui.md) · [`deploy/VPS-N8N.md`](../deploy/VPS-N8N.md)
+**Relacionado:** [`plan.md`](plan.md) · [`plan-integracion-ui.md`](plan-integracion-ui.md) · [`deploy/RAILWAY.md`](../deploy/RAILWAY.md)
+
+> **Nombre:** *vitrina de ingesta* = escaparate público del **resultado** de la ingesta  
+> (corpus indexado + pruebas + ejemplos). **No** es el panel de administrar/cargar documentos.
 
 ---
 
@@ -26,7 +29,7 @@
                                 ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │  C · EJEMPLOS SIMPLES (web — consulta guiada)                   │
-│  Consultas predefinidas del corpus ODS1 · búsqueda / RAG        │
+│  Consultas predefinidas del corpus · búsqueda / RAG             │
 │  Sin motor complejo ni tablas de 1500 documentos                │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -37,20 +40,20 @@
 | **B Pruebas** | `mmi.monitoring.lat` | “Estas pruebas pasaron” + métricas |
 | **C Ejemplos** | `mmi.monitoring.lat` | Botones con consultas ejemplo → search/rag |
 
-**La web no administra corpus.** Solo muestra evidencia de que las pruebas corrieron bien y permite probar consultas acotadas.
+**La web no administra corpus.** Solo muestra evidencia de que la ingesta y las pruebas corrieron bien, y permite probar consultas acotadas.
 
 ---
 
 ## 1. Idea central (alcance v1)
 
 La ingesta **ya está OK** y permanece en local.  
-`mmi.monitoring.lat` es una **vitrina operativa**:
+`mmi.monitoring.lat` es la **vitrina de ingesta**:
 
-1. Explicar qué hay desplegado (corpus ODS1 indexado en Qdrant/Supabase).
+1. Explicar qué quedó indexado (corpus del proyecto en Qdrant/Supabase).
 2. Mostrar **resultados de pruebas** (informes estáticos).
 3. Ofrecer **ejemplos simples** de consulta (no un panel de ingesta ni revisión de manifest).
 
-Sin perfiles en v1 · sin indexar en Google · acceso con Basic Auth.
+Sin perfiles en v1 · sin indexar en Google · demo abierta (`MMI_VITRINA_OPEN=1`); Basic Auth opcional si se cierra.
 
 ---
 
@@ -58,13 +61,13 @@ Sin perfiles en v1 · sin indexar en Google · acceso con Basic Auth.
 
 | # | Objetivo |
 |---|----------|
-| 1 | Landing clara: qué es MMI, qué está operativo, cómo usar un ejemplo |
+| 1 | Landing clara: vitrina de ingesta, qué está operativo, cómo usar un ejemplo |
 | 2 | Página **Pruebas** con resumen smoke + golden + validación RAG |
-| 3 | Página **Ejemplos** (o sección en search/rag) con consultas del corpus ODS1 |
-| 4 | Consulta en vivo limitada a esos ejemplos + caja libre en search/rag |
-| 5 | Nota visible: ingesta gestionada internamente por Monitoring |
+| 3 | Página **Ejemplos** con consultas del corpus del proyecto |
+| 4 | Consulta en vivo (ejemplos + caja libre) en search/rag |
+| 5 | Nota visible: **la ingesta se gestiona internamente** por Monitoring |
 
-**Fuera de alcance v1:** tabla de 1582 docs, review hub, corpus picker, motor diagnóstico completo, mapa, portal dev.
+**Fuera de alcance v1:** tabla completa de docs, review hub, corpus picker, motor diagnóstico completo, mapa, portal dev, formularios de carga.
 
 ---
 
@@ -254,18 +257,18 @@ Las **consultas RAG** no dependen de esos JSON; usan Qdrant/Supabase en tiempo r
 
 ---
 
-### 5.1 Landing (`/`) — vitrina, no ingesta
+### 5.1 Landing (`/`) — vitrina de ingesta (no panel de carga)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  MMI · Memoria técnica indexada · Monitoring                │
+│  MMI · Vitrina de ingesta · Monitoring                      │
 ├─────────────────────────────────────────────────────────────┤
-│  Corpus ODS1 activo en nube · última prueba: 2026-09-02     │
-│  La ingesta es interna Monitoring — aquí solo consultas.    │
+│  Corpus indexado en nube · pruebas del lote                 │
+│  La ingesta es interna Monitoring — aquí solo resultados.   │
 ├─────────────────────────────────────────────────────────────┤
 │  ┌─────────────────────┐  ┌─────────────────────┐          │
 │  │  Resultados pruebas │  │  Ejemplos consulta  │          │
-│  │  Smoke 3/3 · MRR    │  │  NCC · FMECA · GUIGS│          │
+│  │  Smoke · MRR · RAG  │  │  NCC · FMECA · GUIGS│          │
 │  │  Ver informe →      │  │  Probar ejemplo →   │          │
 │  └─────────────────────┘  └─────────────────────┘          │
 ├─────────────────────────────────────────────────────────────┤
@@ -470,28 +473,31 @@ Automatizable con GitHub Action o n8n en el VPS.
 - [x] `serve_local` bloquea `ingestion-action` en vitrina
 
 ### Fase O3 — Backend read-only
-- [ ] Bloqueo `ingestion-action` y rutas dev en modo operational
-- [ ] CORS restringido por env
-- [ ] Health endpoint con `deploy_mode` y `corpus_lote`
+- [x] Bloqueo `ingestion-action` en modo vitrina
+- [x] CORS cerrado en vitrina (mismo origen)
+- [x] Health `/api/motor/health` + diag `/api/vitrina/diag`
+- [x] Live queries controladas (`MMI_VITRINA_LIVE_QUERIES`)
 
-### Fase O4 — Despliegue VPS (+ n8n coexistiendo)
+### Fase O4 — Despliegue (Railway)
 
-Guía paso a paso: [`deploy/VPS-N8N.md`](../deploy/VPS-N8N.md)
+Guía: [`deploy/RAILWAY.md`](../deploy/RAILWAY.md) · alternativa VPS: [`deploy/VPS-N8N.md`](../deploy/VPS-N8N.md)
 
-- [x] `Dockerfile` + `docker-compose.mmi.yml` (solo MMI, no n8n)
-- [ ] nginx sitio `mmi.monitoring.lat` con TLS, auth, noindex
-- [ ] DNS `mmi.monitoring.lat` → VPS
-- [ ] systemd o Docker `mmi-api` en `127.0.0.1:8773`
-- [ ] Script sync stats local → VPS
+- [x] `Dockerfile` (raíz) + `entrypoint.sh` + `railway.toml`
+- [x] Seed JSON de pruebas en imagen
+- [x] Demo abierta por defecto (`MMI_VITRINA_OPEN=1`)
+- [ ] DNS `mmi.monitoring.lat` → Railway
+- [ ] Sync stats local → seed/volumen (post-lote)
 
 ### Fase O5 — Copy y guía de uso
-- [ ] Textos en landing: qué es operativo, cómo consultar
-- [ ] Tooltips en `rag.html` / `motor.html` (modo operational)
-- [ ] Validación con usuario piloto en planta
+- [x] Landing: vitrina de ingesta, pruebas, ejemplos, guía
+- [x] Explicaciones de métricas en `/pruebas.html`
+- [x] “Analizando…” en ejemplos / search / rag
+- [ ] Validación con usuario piloto
 
 ### Fase O6 — (Futuro) Perfiles
 - Supabase Auth o SSO Monitoring
 - Auditoría de consultas por usuario
+- Basic Auth opcional si se cierra la demo (`MMI_VITRINA_OPEN=0`)
 
 ---
 
@@ -499,14 +505,15 @@ Guía paso a paso: [`deploy/VPS-N8N.md`](../deploy/VPS-N8N.md)
 
 | # | Criterio |
 |---|----------|
-| A1 | Landing con 2 tarjetas: Pruebas + Ejemplos (sin ingesta) |
+| A1 | Landing con 2 tarjetas: Pruebas + Ejemplos (sin panel de carga) |
 | A2 | `/pruebas.html` muestra smoke, golden y validación RAG |
-| A3 | `/ejemplos.html` enlaza consultas predefinidas ODS1 |
+| A3 | `/ejemplos.html` enlaza consultas predefinidas del corpus |
 | A4 | search/rag responden contra índice en nube |
-| A5 | Sin enlaces a review, ingesta ni tabla de 1500 docs |
+| A5 | Sin enlaces a review, ingesta admin ni tabla completa de docs |
 | A6 | `robots.txt` + headers bloquean indexación |
-| A7 | Acceso requiere credencial (Basic Auth) |
+| A7 | Demo abierta o Basic Auth opcional (`MMI_VITRINA_OPEN`) |
 | A8 | Ingesta local no se ve afectada; sync es unidireccional |
+| A9 | Copy: “vitrina de ingesta” / ingesta interna Monitoring |
 
 ---
 

@@ -214,9 +214,9 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     notice = f"""
 <div class="bg-primary text-on-primary p-stack-lg rounded-xl relative overflow-hidden">
   <div class="relative z-10 max-w-3xl">
-    <p class="text-label-sm uppercase tracking-wider opacity-80 mb-base">Proyecto de análisis</p>
+    <p class="text-label-sm uppercase tracking-wider opacity-80 mb-base">Vitrina de ingesta · Monitoring</p>
     <h2 class="text-headline-md font-semibold mb-stack-sm">{escape(PROJECT_NAME)}</h2>
-    <p class="text-body-md opacity-90 mb-stack-md">Esta vitrina corresponde al análisis documental del servicio de estudio de mantenibilidad y confiabilidad (M&amp;C) del sistema de enfriamiento DCH. Muestra resultados de pruebas y consultas sobre el corpus indexado · lote {escape(lote)} · {escape(str(docs))} documentos.</p>
+    <p class="text-body-md opacity-90 mb-stack-md">Escaparate del corpus ya indexado (lote {escape(lote)} · {escape(str(docs))} documentos). La <strong class="text-on-primary">ingesta es interna</strong> de Monitoring; aquí solo ve resultados de pruebas y puede probar consultas.</p>
     <button type="button" id="guide-open" class="inline-flex items-center gap-stack-sm bg-on-primary text-primary px-stack-md py-stack-sm rounded-lg text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity shadow-sm">
       <span class="material-symbols-outlined" style="font-size:18px">menu_book</span>
       Significados y logros
@@ -225,19 +225,9 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
   <div class="absolute -bottom-8 -right-8 w-32 h-32 bg-primary-container rounded-full opacity-30 blur-2xl"></div>
 </div>
 
-<div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg shadow-sm">
-  <div class="flex items-start gap-stack-md">
-    <div class="p-stack-sm bg-secondary-fixed rounded-xl text-on-secondary-fixed shrink-0">
-      <span class="material-symbols-outlined">lock_open</span>
-    </div>
-    <div class="min-w-0 space-y-stack-sm">
-      <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant">Vitrina abierta</p>
-      <p class="text-body-md text-on-surface-variant">
-        Sin login. Use <strong class="text-on-surface">Ejemplos</strong>, <strong class="text-on-surface">Búsqueda</strong> o <strong class="text-on-surface">Consulta RAG</strong> directamente.
-        Tras pulsar un ejemplo espere <strong class="text-on-surface">Analizando…</strong>.
-      </p>
-    </div>
-  </div>
+<div class="bg-surface-container-low rounded-xl border border-outline/20 p-stack-md text-body-md text-on-surface-variant">
+  <strong class="text-on-surface">No es un panel de carga.</strong>
+  No hay manifest, OCR ni revisión de documentos en esta web — solo la vitrina de lo ya ingerido.
 </div>
 
 <dialog id="guide-dialog" class="guide-dialog w-[min(92vw,40rem)] max-h-[85vh] rounded-xl border border-outline/20 bg-surface-container-lowest p-0 shadow-xl backdrop:bg-primary/40 backdrop:backdrop-blur-sm open:flex open:flex-col">
@@ -261,8 +251,8 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
         <span class="material-symbols-outlined text-outline group-open:rotate-180 transition-transform">expand_more</span>
       </summary>
       <div class="px-stack-md pb-stack-md text-body-md text-on-surface-variant leading-relaxed space-y-stack-sm">
-        <p>MMI (Monitoring Document Intelligence) indexa el corpus del estudio M&amp;C del sistema de enfriamiento DCH y permite <strong class="text-on-surface">buscar</strong> y <strong class="text-on-surface">consultar con RAG</strong> (respuesta con citas al documento fuente).</p>
-        <p>Esta web es una <strong class="text-on-surface">vitrina operativa</strong>: muestra calidad de recuperación y ejemplos listos, sin herramientas de ingesta ni revisión interna.</p>
+        <p>MMI indexa el corpus del estudio M&amp;C del sistema de enfriamiento DCH. Esta web es la <strong class="text-on-surface">vitrina de ingesta</strong>: muestra que el lote quedó indexado, que las pruebas pasaron, y permite consultas de ejemplo con citas.</p>
+        <p>La <strong class="text-on-surface">carga y revisión de documentos</strong> sigue siendo interna (equipo Monitoring). Aquí no se administra el corpus.</p>
       </div>
     </details>
 
@@ -316,7 +306,7 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
         <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">MRR {escape(mrr_txt)}</strong> y recall@5 {escape(recall_txt)} sobre {escape(str(golden_cases))} casos golden.</span></li>
         <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">Validación RAG {escape(rag_txt)}</strong> — batería ampliada con citas.</span></li>
         <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span><strong class="text-on-surface">Latencia p95 {escape(p95_txt)}</strong> en búsqueda directa (referencia de carga).</span></li>
-        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span>Vitrina pública con ejemplos, búsqueda y consulta RAG listos para demostrar el análisis M&amp;C · Enfriamiento DCH.</span></li>
+        <li class="flex gap-stack-sm"><span class="material-symbols-outlined text-primary shrink-0" style="font-size:20px">check_circle</span><span>Vitrina de ingesta lista: pruebas + ejemplos + búsqueda/RAG sobre M&amp;C · Enfriamiento DCH.</span></li>
       </ul>
     </details>
   </div>
@@ -336,32 +326,39 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
     )
 
     quick = f"""
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
-  <a href="{_href('ejemplos.html')}" class="lg:col-span-2 bg-surface-container-lowest p-stack-lg rounded-xl border border-outline/20 shadow-sm hover:border-primary transition-colors block">
-    <h3 class="text-body-lg font-bold text-primary mb-stack-sm">Ejemplos de consulta</h3>
-    <p class="text-body-md text-on-surface-variant mb-stack-md">NCC-030 · FMECA · GUIGS · matrices MRI — un clic abre búsqueda o RAG con citas.</p>
-    <span class="inline-flex items-center gap-base text-secondary font-semibold text-label-sm">Explorar ejemplos <span class="material-symbols-outlined text-base">arrow_forward</span></span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+  <a href="{_href('pruebas.html')}" class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline/20 shadow-sm hover:border-primary transition-colors block">
+    <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Resultados</p>
+    <h3 class="text-headline-md font-semibold text-primary mb-stack-sm">Pruebas</h3>
+    <p class="text-body-md text-on-surface-variant mb-stack-md">Smoke {escape(smoke_txt)} · MRR {escape(mrr_txt)} · RAG {escape(rag_txt)}. Informe estático del lote ingerido.</p>
+    <span class="inline-flex items-center gap-base text-secondary font-semibold text-label-sm">Ver informe <span class="material-symbols-outlined text-base">arrow_forward</span></span>
   </a>
-  <div class="bg-secondary-container text-on-secondary-container p-stack-lg rounded-xl flex flex-col justify-between">
-    <div>
-      <h3 class="text-headline-md font-semibold mb-stack-sm">Consulta libre</h3>
-      <p class="text-body-md opacity-90">Escriba su pregunta. Revise siempre las citas documentales.</p>
-    </div>
-    <a href="{_href('rag.html')}" class="mt-stack-md w-full py-stack-md bg-primary text-on-primary rounded-lg text-label-sm font-bold uppercase tracking-wider text-center hover:opacity-95 transition-opacity">Abrir Consulta RAG</a>
+  <a href="{_href('ejemplos.html')}" class="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline/20 shadow-sm hover:border-primary transition-colors block">
+    <p class="text-label-sm font-bold uppercase tracking-wider text-on-surface-variant mb-base">Consulta guiada</p>
+    <h3 class="text-headline-md font-semibold text-primary mb-stack-sm">Ejemplos</h3>
+    <p class="text-body-md text-on-surface-variant mb-stack-md">NCC-030 · FMECA · GUIGS · matrices MRI. Un clic abre búsqueda o RAG (espere Analizando…).</p>
+    <span class="inline-flex items-center gap-base text-secondary font-semibold text-label-sm">Probar ejemplo <span class="material-symbols-outlined text-base">arrow_forward</span></span>
+  </a>
+</div>
+<div class="bg-secondary-container text-on-secondary-container p-stack-lg rounded-xl flex flex-col sm:flex-row sm:items-center sm:justify-between gap-stack-md">
+  <div>
+    <h3 class="text-body-lg font-semibold mb-base">Consulta libre</h3>
+    <p class="text-body-md opacity-90">Escriba su pregunta sobre el corpus ingerido. Revise siempre las citas.</p>
   </div>
+  <a href="{_href('rag.html')}" class="shrink-0 inline-flex justify-center py-stack-md px-stack-lg bg-primary text-on-primary rounded-lg text-label-sm font-bold uppercase tracking-wider hover:opacity-95 transition-opacity">Abrir Consulta RAG</a>
 </div>"""
 
     steps = """
 <div class="bg-surface-container-lowest rounded-xl border border-outline/20 p-stack-lg">
-  <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Cómo usar</h2>
+  <h2 class="text-headline-md font-semibold text-primary mb-stack-md">Cómo consultar</h2>
   <ol class="space-y-stack-md text-body-md text-on-surface-variant list-decimal list-inside">
-    <li><strong class="text-on-surface">Revise las pruebas</strong> — confirme smoke y golden set.</li>
+    <li><strong class="text-on-surface">Revise las pruebas</strong> — confirme que el índice responde (smoke / golden).</li>
     <li><strong class="text-on-surface">Elija un ejemplo</strong> — o use Búsqueda / Consulta RAG.</li>
     <li><strong class="text-on-surface">Verifique la cita</strong> — el documento fuente es la evidencia.</li>
   </ol>
 </div>"""
 
-    content = notice + metrics + activity + quick + steps
+    content = notice + metrics + quick + activity + steps
     guide_script = """
 <script>
 (function () {
@@ -380,7 +377,7 @@ def render_vitrina_index(report: dict[str, Any]) -> str:
 </script>"""
     return render_shell(
         active="home",
-        title="Dashboard MMI",
+        title="Vitrina de ingesta",
         header_subtitle=f"{PROJECT_SHORT} · lote {lote} · {docs} documentos",
         content=content,
         corpus_lote=PROJECT_SHORT,
